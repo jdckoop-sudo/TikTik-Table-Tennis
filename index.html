@@ -117,6 +117,10 @@
   .g-ster{--tile-bg:#fff1c2;--tile-fg:#a07800}
   .g-extra{--tile-bg:#e7e9f2;--tile-fg:#4b5875}
   .foot{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+  .devpw{display:flex;gap:6px;align-items:center;flex-wrap:wrap;width:100%}
+  .devpw[hidden]{display:none}
+  .devpw input{font-family:var(--vt);font-size:20px;padding:4px 8px;border:2px solid #000;background:#070b33;color:#fff;width:150px;min-width:0}
+  .devpw-err{font-family:var(--px);font-size:8px;color:#ff8a8a}
   .btn{all:unset;box-sizing:border-box;font-size:13px;font-weight:600;padding:7px 12px;border-radius:8px;border:1px solid var(--edge);background:var(--card);cursor:pointer}
   .btn:focus-visible{outline:2px solid var(--table);outline-offset:2px}
   .btn.danger.armed{background:var(--rubber);color:#fff;border-color:var(--rubber)}
@@ -236,6 +240,9 @@
   .bb-fill{height:100%;width:0;background:linear-gradient(#ff8a8a,#d8262b 60%,#8a0f14)}
   .bossbar.charge .bb-name{color:var(--ps-yellow)}
   .bossbar.charge .bb-fill{background:linear-gradient(#fff08a,#ffc21a 60%,#b8700a)}
+  .newball{all:unset;position:absolute;right:14px;bottom:62px;z-index:7;cursor:pointer;font-family:var(--px);font-size:8px;padding:9px 10px;color:#10143a;
+    background:linear-gradient(#f1f2f8,#9ea3b8);box-shadow:inset 2px 2px 0 #fff, inset -2px -2px 0 #5f6376, 2px 2px 0 #000}
+  .newball:hover,.newball:focus-visible{background:linear-gradient(#fff08a,#ffc21a 55%,#f08a0c);outline:none}
   .lift{position:absolute;right:14px;top:140px;bottom:60px;display:flex;flex-direction:column;gap:4px;z-index:7;overflow:auto;justify-content:flex-start;scrollbar-width:none}
   .lift button{all:unset;box-sizing:border-box;width:46px;text-align:center;font-family:var(--px);font-size:9px;padding:7px 0;cursor:pointer;color:#10143a;
     background:linear-gradient(#f1f2f8,#9ea3b8);box-shadow:inset 2px 2px 0 #fff, inset -2px -2px 0 #5f6376, 2px 2px 0 #000}
@@ -327,6 +334,42 @@
   .cell.neg{background:#5a1022}
   .cell.moon{background:linear-gradient(#fff08a,#ffc21a 55%,#c98a00);color:#2a1300}
   .cell.moon .cell-n{color:#2a1300}
+  @keyframes rbw{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(360deg)}}
+  @keyframes rbg{from{background-position:0 0}to{background-position:400% 0}}
+  .rainbow-bg{background:linear-gradient(90deg,#ff3d6e,#ffb43d,#fff23d,#3dff6a,#3dc8ff,#8a4fd6,#ff3d6e);background-size:400% 100%;animation:rbg 2.4s linear infinite}
+  .cell.hat{background:linear-gradient(90deg,#ff3d6e,#ffb43d,#fff23d,#3dff6a,#3dc8ff,#8a4fd6,#ff3d6e);background-size:400% 100%;animation:rbg 2.4s linear infinite;color:#1a0a2a}
+  .cell.hat .cell-n{color:#1a0a2a;text-shadow:1px 1px 0 #fff}
+  .hatspin{z-index:9;background:rgba(3,5,20,.55)}
+  .hatspin::before{content:"";position:absolute;inset:0;opacity:.35;pointer-events:none;background:repeating-conic-gradient(from 0deg,#ff3d6e 0 15deg,#ffb43d 15deg 30deg,#fff23d 30deg 45deg,#3dff6a 45deg 60deg,#3dc8ff 60deg 75deg,#8a4fd6 75deg 90deg);animation:rbw 3s linear infinite}
+  .hatspin .choice-box{position:relative;border-image:linear-gradient(90deg,#ff3d6e,#ffb43d,#fff23d,#3dff6a,#3dc8ff,#8a4fd6) 1;animation:hsbob 1.6s ease-in-out infinite}
+  @keyframes hsbob{0%,100%{transform:translateY(0) rotate(-.4deg)}50%{transform:translateY(-4px) rotate(.4deg)}}
+  .hs-kick{font-family:var(--px);font-size:14px;text-align:center;margin:0 0 12px;color:#fff;text-shadow:3px 3px 0 #000}
+  .hs-kick.rb{background:linear-gradient(90deg,#ff3d6e,#ffb43d,#fff23d,#3dff6a,#3dc8ff,#8a4fd6,#ff3d6e);background-size:400% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:rbg 2.4s linear infinite;text-shadow:none}
+  .hc{flex:none;width:78px;height:78px;box-sizing:border-box;border:4px solid #9aa0b4;background:#0a0f3c;display:grid;place-items:center;position:relative}
+  .hc canvas{width:70px;height:70px;image-rendering:pixelated}
+  .r-basic{border-color:#9aa0b4}.r-rare{border-color:#2f6fe0;background:#0c1a52}.r-epic{border-color:#ff8a1f;background:#3a1a06}
+  .r-leg{border-color:#ff3d6e;background:#2a0a3a;animation:rbw 1.2s linear infinite}
+  .hc.win{transform:scale(1.12);box-shadow:0 0 0 3px #fff,0 0 26px #fff}
+  .hs-res{text-align:center;margin-top:12px}
+  .hs-rar{display:inline-block;font-family:var(--px);font-size:9px;padding:6px 10px;color:#fff;border:2px solid #000;text-shadow:2px 2px 0 #000}
+  .hs-rar.basic{background:#6d7388}.hs-rar.rare{background:#2f6fe0}.hs-rar.epic{background:#ff8a1f}
+  .hs-rar.legendary{background:linear-gradient(90deg,#ff3d6e,#ffb43d,#fff23d,#3dff6a,#3dc8ff,#8a4fd6,#ff3d6e);background-size:400% 100%;animation:rbg 1.2s linear infinite}
+  .hs-res h3{font-family:var(--px);font-size:13px;color:#fff;margin:10px 0 6px;text-shadow:3px 3px 0 #000}
+  .hs-res p{font-family:var(--vt);font-size:20px;color:#fff;margin:0 0 12px}
+  .hs-res .big{display:block;margin:0 auto 6px;width:120px;height:120px;image-rendering:pixelated}
+  .hs-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .confetti{position:absolute;top:-10px;width:8px;height:12px;pointer-events:none;z-index:4;animation:cf linear forwards}
+  @keyframes cf{to{transform:translateY(110vh) rotate(720deg)}}
+  .hat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(46px,1fr));gap:5px}
+  .hg{all:unset;box-sizing:border-box;aspect-ratio:1;border:3px solid #3a4070;background:#0a0f3c;display:grid;place-items:center;cursor:pointer;position:relative}
+  .hg canvas{width:100%;height:100%;image-rendering:pixelated}
+  .hg.none{cursor:default;color:#3a4070;font-family:var(--px);font-size:10px}
+  .hg.on{box-shadow:0 0 0 2px #fff;background:#1c2a9c}
+  .hg.on::before{content:"✔";position:absolute;left:2px;top:0;font-size:10px;color:#7dffb0;text-shadow:1px 1px 0 #000}
+  .hg b{position:absolute;right:1px;bottom:0;font-family:var(--px);font-size:7px;color:#fff;text-shadow:1px 1px 0 #000}
+  .hat-btns{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 8px}
+  .hat-btns .btn{font-size:8px;padding:7px 8px}
+  .hat-info{font-family:var(--vt);font-size:17px;color:#cfd6ff;margin:0 0 8px}
   .res-desc{font-family:var(--vt);font-size:20px;line-height:1.1;color:#fff}
   .end-stats div{border-radius:0;background:#070b33;border:2px solid var(--ps-line);font-family:var(--px);font-size:7px;letter-spacing:0;color:var(--ps-yellow)}
   .end-stats b{font-family:var(--vt);font-size:28px;font-weight:400;color:#7dffb0}
@@ -411,6 +454,7 @@
     </div>
     <div class="hint" id="hint"></div>
     <div class="lift" id="lift" aria-label="Floors"></div>
+    <button class="newball" id="newBall" type="button" title="Remove all balls and drop a fresh one (N)">New ball (N)</button>
     <div class="moondist" id="moondist" aria-live="off"></div>
     <div class="showerbar" id="showerbar">
       <span class="sb-ic" id="sbIc"></span>
@@ -434,6 +478,24 @@
         </div>
       </div>
     </div>
+    <div class="choice hatspin" id="hatSpin" hidden>
+      <div class="choice-box" role="dialog" aria-labelledby="hsKick">
+        <div class="hs-kick rb" id="hsKick">HAT ROULETTE!</div>
+        <div class="reel" id="hsReel"><div class="reel-track" id="hsTrack"></div><div class="reel-marker"></div></div>
+        <div class="reel-legend"><span><i style="background:#9aa0b4"></i>Basic</span><span><i style="background:#2f6fe0"></i>Rare</span><span><i style="background:#ff8a1f"></i>Epic</span><span><i class="rainbow-bg"></i>Legendary</span></div>
+        <div class="hs-res" id="hsRes" hidden>
+          <canvas class="big" id="hsBig" width="120" height="120"></canvas>
+          <span class="hs-rar" id="hsRar"></span>
+          <h3 id="hsName"></h3>
+          <p id="hsNote"></p>
+          <div class="hs-btns">
+            <button class="btn res-go" id="hsWear" type="button">Wear it</button>
+            <button class="btn" id="hsRespin" type="button">Re-spin duplicate</button>
+            <button class="btn" id="hsDone" type="button">Keep playing</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="choice" id="choice" hidden>
       <div class="choice-box" role="dialog" aria-labelledby="choiceTitle">
         <div id="choicePick">
@@ -445,7 +507,7 @@
         <div id="choiceResult" hidden>
           <div class="choice-kicker" id="resKicker">Gambling</div>
           <div class="reel" id="reel"><div class="reel-track" id="reelTrack"></div><div class="reel-marker"></div></div>
-          <div class="reel-legend"><span><i style="background:#1c2a9c"></i>Power</span><span><i style="background:#5a1022"></i>Negative power</span><span><i style="background:#ffc21a"></i>Moonshot</span></div>
+          <div class="reel-legend"><span><i style="background:#1c2a9c"></i>Power</span><span><i style="background:#5a1022"></i>Negative power</span><span><i style="background:#ffc21a"></i>Moonshot</span><span><i class="rainbow-bg"></i>Hat</span></div>
           <div class="res-body" id="resBody" hidden>
             <div class="res-head"><span class="opt-ic" id="resIc"></span><h3 id="resName"></h3><span class="opt-tag" id="resTag"></span></div>
             <p class="res-desc" id="resDesc"></p>
@@ -497,14 +559,25 @@
       <div class="sk-grid" id="skChars"></div>
       <div class="sk-sub">Skin tone</div>
       <div class="sk-tones" id="skTones"></div>
+      <div class="sk-sub">Ball</div>
+      <div class="sk-grid" id="skBalls"></div>
       <div class="sk-sub">Paddle</div>
       <div class="sk-grid" id="skPads"></div>
+      <div class="sk-sub">Hats <span id="hatCount"></span></div>
+      <p class="hat-info">Win hats from the star roulette. Tap a hat to put it on or take it off; you can wear them all at once.</p>
+      <div class="hat-btns">
+        <button class="btn" id="hatAll" type="button">Wear all</button>
+        <button class="btn" id="hatNone" type="button">Take all off</button>
+        <button class="btn res-go" id="hatTrade" type="button">Trade 3 duplicates: spin</button>
+      </div>
+      <div class="hat-grid" id="skHats"></div>
     </div>
     <p class="spec">Match ball: 40 mm, 2.7 grams. This one bounces a little more forgivingly.</p>
     <div class="dev" id="devTools" hidden>
       <div class="dev-head"><b>Developer mode</b><span>Infinite points, everything is free</span></div>
       <div class="dev-btns">
         <button class="btn" id="devStar" type="button">Star now</button>
+        <button class="btn" id="devHat" type="button">Hat spin</button>
         <button class="btn" id="devMoon" type="button">Give Moonshot</button>
         <button class="btn" id="devFloor" type="button">Floor +1</button>
         <button class="btn" id="devBoss" type="button">Boss now</button>
@@ -515,6 +588,11 @@
     <div class="foot">
       <button class="btn" id="openMenu" type="button">Menu (Esc)</button>
       <button class="btn" id="dev" type="button">Developer mode: off</button>
+      <div class="devpw" id="devPw" hidden>
+        <input type="password" id="devPwIn" placeholder="Password" aria-label="Developer mode password" autocomplete="off">
+        <button class="btn" id="devPwOk" type="button">OK</button>
+        <span class="devpw-err" id="devPwErr" hidden>Wrong password</span>
+      </div>
       <button class="btn" id="retro" type="button">Retro look: on</button>
       <button class="btn" id="sound" type="button">Sound: on</button>
       <button class="btn danger" id="reset" type="button">Start over</button>
@@ -594,12 +672,13 @@
     portal:'<ellipse cx="7" cy="12" rx="3.5" ry="7.5"/><ellipse cx="17" cy="12" rx="3.5" ry="7.5"/><path d="M10.5 12h3" stroke-dasharray="1.5 1.5"/>',
     robot:'<rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 4v4"/><circle cx="12" cy="3.5" r="1"/><circle cx="9.5" cy="13" r="1.3" fill="currentColor"/><circle cx="14.5" cy="13" r="1.3" fill="currentColor"/>',
     balls:'<circle cx="8" cy="14.5" r="5"/><circle cx="16.5" cy="7.5" r="4"/>',
+    hat:'<path d="M2.5 18.5h19"/><path d="M6 18.5V7.5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v11"/><path d="M6 14h12"/>',
   };
   const svg = (name, size) => `<svg viewBox="0 0 24 24"${size ? ` width="${size}" height="${size}"` : ''} fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[name] || ''}</svg>`;
 
   // ---------- Opslag ----------
   const KEY = 'tiktik-tafeltennis-v1';
-  function fresh(){ return {showerHits:0, bossDown:{}, bossHits:0, skin:{char:'boy', tone:1, paddle:'classic'},dev:false,etage:0,veld8:true,tab:'batje',pts:0,total:0,hits:0,best:0,lv:{},muted:false,bats:[],portals:[],high:0}; }
+  function fresh(){ return {moonLaunches:0, moonTicks:0, showerHits:0, bossDown:{}, bossHits:0, skin:{char:'boy', tone:1, paddle:'classic'},dev:false,etage:0,veld8:true,tab:'batje',pts:0,total:0,hits:0,best:0,lv:{},muted:false,bats:[],portals:[],high:0}; }
   let S = fresh();
   try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(fresh(), JSON.parse(raw)); } catch(e){}
   // Veld vrijkopen had eerst 4 stukken van 10%, nu 8 van 5%: bestaande voortgang omzetten
@@ -613,8 +692,8 @@
   function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
   // Meta: wat je ooit gezien hebt (codex) en achievements. Blijft bewaard bij een nieuw spel.
   const MKEY = KEY + '-meta';
-  let META = {seen:{up:{}, boss:{}, pow:{}}, ach:{}, flags:{}};
-  try { const r = localStorage.getItem(MKEY); if (r){ const m = JSON.parse(r); META = {seen:Object.assign({up:{}, boss:{}, pow:{}}, m.seen || {}), ach:m.ach || {}, flags:m.flags || {}}; } } catch(e){}
+  let META = {seen:{up:{}, boss:{}, pow:{}}, ach:{}, flags:{}, maxFloor:0, hats:{}, hatOn:[]};
+  try { const r = localStorage.getItem(MKEY); if (r){ const m = JSON.parse(r); META = {seen:Object.assign({up:{}, boss:{}, pow:{}}, m.seen || {}), ach:m.ach || {}, flags:m.flags || {}, maxFloor:m.maxFloor || 0, hats:m.hats || {}, hatOn:m.hatOn || []}; } } catch(e){}
   const saveMeta = () => { try { localStorage.setItem(MKEY, JSON.stringify(META)); } catch(e){} };
   function markSeen(kind, id){ if (!META.seen[kind][id]){ META.seen[kind][id] = true; saveMeta(); } }
   function flag(f){ if (!META.flags[f]){ META.flags[f] = true; saveMeta(); checkAch(); } }
@@ -750,6 +829,13 @@
     else if (c === 'cat'){ sad ? voice(700, 350, 0.5, 'a', 0.14, 0, 'triangle') : (voice(500, 900, 0.18, 'i', 0.14, 0, 'triangle'), voice(900, 600, 0.3, 'a', 0.14, 0.17, 'triangle')); }
     else if (c === 'astro'){ noise(0.08, 0.2, 2000, 0, 1); tone(sad ? 300 : 900, 0.06, 0.08, 'square', 0.1); tone(sad ? 200 : 1200, 0.06, 0.08, 'square', 0.2); noise(0.08, 0.2, 2000, 0.3, 1); }
     else if (c === 'gnome') gnomed();
+    else if (c === 'frog'){ const n = sad ? [160, 120] : [240, 200, 260]; n.forEach((f, i) => tone(f, 0.06, 0.12, 'square', i * 0.08, f * 0.7)); }
+    else if (c === 'ninja'){ sad ? voice(300, 150, 0.4, 'o', 0.15) : (voice(300, 420, 0.08, 'a', 0.16), voice(460, 320, 0.18, 'a', 0.16, 0.1)); }
+    else if (c === 'knight'){ noise(0.05, 0.15, 4000, 0, 1); sad ? voice(180, 110, 0.4, 'o', 0.16, 0.05) : (voice(160, 200, 0.12, 'u', 0.16, 0.05), voice(220, 260, 0.2, 'a', 0.16, 0.18)); }
+    else if (c === 'dino'){ sad ? voice(220, 110, 0.5, 'o', 0.16, 0, 'sawtooth') : voice(150, 95, 0.45, 'a', 0.18, 0, 'sawtooth'); }
+    else if (c === 'penguin'){ sad ? voice(700, 400, 0.3, 'i', 0.12, 0, 'triangle') : (voice(900, 1300, 0.07, 'i', 0.12, 0, 'triangle'), voice(1300, 1000, 0.1, 'i', 0.12, 0.09, 'triangle')); }
+    else if (c === 'alien'){ tone(sad ? 900 : 700, 0.22, 0.07, 'sine', 0, sad ? 300 : 1600); tone(sad ? 300 : 1600, 0.2, 0.07, 'sine', 0.22, sad ? 200 : 600); }
+    else if (c === 'skelly'){ for (let i = 0; i < (sad ? 6 : 4); i++) noise(0.03, 0.2, 2500 + i * 300, i * 0.06, 2); }
   }
   // Het echte gnome-geluid (door de speler aangeleverd), ingebakken als data
   const GNOME_SND = 'data:audio/mpeg;base64,SUQzBAAAAAABAFRYWFgAAAASAAADbWFqb3JfYnJhbmQAbXA0MgBUWFhYAAAAEQAAA21pbm9yX3ZlcnNpb24AMABUWFhYAAAAHAAAA2NvbXBhdGlibGVfYnJhbmRzAGlzb21tcDQyAFRTU0UAAAAPAAADTGF2ZjU4LjI5LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAAhAAA2sAALCwsTExMaGhoiIiIqKioxMTE5OTlAQEBISEhQUFBXV1dfX19nZ2dubm52dnZ+fn6FhYWNjY2VlZWcnJykpKSrq6uzs7O7u7vCwsLKysrS0tLZ2dnh4eHp6enw8PD4+Pj///8AAAAATGF2YzU4LjU0AAAAAAAAAAAAAAAAJAZAAAAAAAAANrCdrBUTAAAAAAAAAAAAAAAAAAAAAP/7kGQAD/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmRAj/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+5JkQI/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//uSZECP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmRAj/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+5JkQI/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//uSZECP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmRAj/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+5JkQI/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//uSZECP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmRAj/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+5JkQI/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//uSZECP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmRAj/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+5JkQI/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//uSZECP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVAQS25JbFCQXlDhcXYG9vCU9p8Ik3V6e9zc0fHNkGSY7u+WUaFBvm8Jg2vlY4dsXJlpxJtKsTig3AViGL6XLYhERSKh/IXw4D/W8oZFjwIl0QZEE5DIUh0HeqnAwBSEMU6rgF3PsnDIvnSJmUAhhcHFXs7YXND0PfDcQJ1n+eZ1ohWv/7kmRBD/AAAGkAAAAIAAANIAAAAQAgAgABAAAgAAA0gAAABHWkBbCWJNRHECkQKvniXRCESSrxBEaQc/jwnUdGM9BcE6da8jLrO4WvACATMa3HpaoA3kAPJRsMk1aGFM2D8aWieXjd5/XXh+C2bpeKJqIgAyEDlyyMAAg/FQmSVhpm+h6PGAU8lGysOHHV7Y4T6fuEbsFqwG1zTlcKdUz3/YGBYY3U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GIJoLRSONKPQWjUmnFmWrZo40o+LypNOLhNVSccWUfC5qTTizLVU0caUfC0ak0osy82ao0q43NmWeNypo40osDVQlYarv2iJV0iUVVMNUlXSJRVU7REq4aoNVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmSJj/SNSiQJ7zFyAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVU=';
@@ -846,6 +932,7 @@
     b.ox = b.x; b.oy = b.y; b.trail.length = 0;
   }
   function syncBalls(){
+    if (S.sunMode){ if (!balls.some(b => b.isSun) && !(SUN.crash > 0)) balls = [sunBall()]; return; }
     if (S.finale){ if (!balls.some(b => b.isMoon)) balls = [moonBall()]; return; }
     const want = 1 + lv('bal');
     let have = balls.filter(b => !b.temp).length;
@@ -1165,6 +1252,12 @@
   }
   function updateCam(dt){
     if (!cam.cb) cam.cb = H;
+    if (SUN.falling || SUN.impact > 0){
+      cam.z += (0.5 - cam.z) * Math.min(1, dt * 3);
+      cam.cb += (Math.min(H, SUN.y + H * 1.2) - cam.cb) * Math.min(1, dt * 6);
+      cam.top = cam.cb - H / cam.z; cam.recover = true;
+      return;
+    }
     const shot = balls.find(b => b.moonshot && !b.hidden);
     if (shot){
       // Maanschot: volg de bal
@@ -1190,6 +1283,11 @@
     cam.top = cam.cb - H / cam.z;
   }
 
+  // Na het geheime einde speel je met de zon zelf
+  function sunBall(){
+    const y = Math.min(P.y, tableY() - H * 0.3) - H * 1.6;
+    return {x:W / 2, y, ox:W / 2, oy:y, vx:0, vy:0, spin:0, trail:[], isSun:true};
+  }
   function moonBall(){
     const y = Math.max(fieldTop() + MOON_R() + 20, P.y - H * 1.2);
     return {x:W / 2, y, ox:W / 2, oy:y, vx:0, vy:0, spin:0, trail:[], isMoon:true};
@@ -1208,8 +1306,8 @@
   const bossesBeaten = () => BOSS_FLOORS.filter(k => S.bossDown && S.bossDown[k]).length;
   const allMaxed = () => bossesBeaten() >= BOSS_FLOORS.length;
   const MOONSHOT = {name:'Moonshot', icon:'moon', short:'Moon',
-    tag:() => allMaxed() ? 'final goal' : 'test flight',
-    desc:() => allMaxed()
+    tag:() => S.finale ? 'moon launch' : allMaxed() ? 'final goal' : 'test flight',
+    desc:() => S.finale ? 'Your next hit launches the Moon itself sky-high, for big bonus points. Catch it when it falls back!' : allMaxed()
       ? 'Your next hit launches the ball straight at the Moon. Keep your paddle ready, for 30 seconds.'
       : `Your next hit launches the ball hard, far above your hall. It reaches the Moon once you have beaten all 9 bosses (${bossesBeaten()}/9).`,
     apply:() => { POW.moon = 30; }};
@@ -1227,7 +1325,106 @@
     b.vx = (mp.x - b.x) / (-b.vy / g);
     b.moonshot = true; POW.moon = 0;
     floaters.push({x:b.x, y:b.y - 40, txt:'Moonshot!', age:0, big:true});
-    blip(220, .6, .15, 'sawtooth'); setTimeout(() => blip(440, .5, .12, 'triangle'), 120);
+    b.streak = []; b.streakFade = 0;
+    moonshotSound();
+  }
+  // Maanschot tijdens de finale: de maan zelf de lucht in knallen
+  // ---------- Geheim einde: raak de zon met de maan ----------
+  const SUN_R = () => MOON_R() * 1.25;
+  const sunPos = () => moonPos();                 // de zon hangt waar eerst de maan hing
+  const SUN = {falling:false, x:0, y:0, vy:0, y0:0, impact:0, white:0, crash:0};
+  function startSunFall(b){
+    b.dead = true; b.moonshot = false;
+    const sp = sunPos();
+    Object.assign(SUN, {falling:true, x:sp.x, y:sp.y, vy:0, y0:sp.y, impact:0, white:0});
+    floaters.push({x:sp.x, y:sp.y + SUN_R() + 50, txt:'You hit the Sun!', age:-0.6, big:true});
+    noise(0.6, 0.4, 300, 0, 0.7); tone(60, 1.5, 0.2, 'sawtooth', 0, 30);
+  }
+  function crowdScream(){
+    if (!ac || S.muted) return;
+    for (let i = 0; i < 14; i++){
+      const f = 500 + Math.random() * 700, d = 1.2 + Math.random() * 1.2;
+      voice(f, f * (1.2 + Math.random() * 0.5), d, pick(['a', 'e', 'i']), 0.05, Math.random() * 0.4, 'sawtooth');
+    }
+    noise(2.5, 0.25, 1500, 0, 0.5); noise(1.5, 0.35, 150, 0, 0.6);
+  }
+  function sunUpdate(dt){
+    if (SUN.falling){
+      // steeds sneller omlaag, zodat de val een paar seconden duurt
+      SUN.vy = Math.min(H * 6, SUN.vy + H * 1.6 * dt + SUN.vy * 0.9 * dt);
+      SUN.y += SUN.vy * dt;
+      hype = 1;
+      const p = clamp((SUN.y - SUN.y0) / (tableY() - SUN.y0), 0, 1);
+      SUN.white = Math.pow(p, 1.2) * 0.9;
+      if (SUN.y + SUN_R() >= tableY()){
+        SUN.falling = false; SUN.impact = 2.8; SUN.white = 1; SUN.y = tableY() - SUN_R();
+        crowdScream(); MAN.oops = performance.now();
+      }
+    } else if (SUN.crash > 0){
+      SUN.crash -= dt; SUN.white = 1;
+      if (SUN.crash <= 0){ SUN.white = 0; balls = [sunBall()]; }
+    } else if (S.sunMode && !SUN.impact){
+      // hoe lager de zon, hoe lichter het beeld
+      const sb = balls.find(b => b.isSun);
+      // in de hal (verdieping H) helemaal licht, daarboven lichter naarmate hij zakt
+      if (sb){ const above = (hallTop() - sb.y) / (H * 9); SUN.white = sb.y >= hallTop() ? 0.96 : 0.08 + Math.pow(clamp(1 - above, 0, 1), 1.4) * 0.8; }
+    } else if (SUN.impact > 0){
+      SUN.impact -= dt; SUN.white = 1;
+      if (SUN.impact <= 0){
+        if (!META.flags.sunEnd){ META.flags.sunEnd = true; saveMeta(); }
+        checkAch(); SUN.white = 0.0; showEnd('sun');
+      }
+    }
+  }
+  function launchMoonUp(b){
+    // Elke maan-lancering gaat hoger dan de vorige, maar nooit voorbij de zon.
+    // Pas als je de maan hebt verslagen en een lancering hoog genoeg komt, raak je de zon.
+    const sp0 = sunPos(), full = b.y - (sp0.y + SUN_R() * 0.5);
+    const want = H * (4 + 0.5 * S.etage) * Math.pow(1.6, S.moonLaunches || 0);
+    S.moonLaunches = (S.moonLaunches || 0) + 1;
+    if (!(S.won && want >= full)){
+      const g0 = gravity() * 0.45, dist = Math.min(want, full - SUN_R() * 3);
+      b.vy = -Math.sqrt(2 * g0 * Math.max(H, dist)); b.vx = (W / 2 - b.x) * 0.3;
+      b.moonshot = true; b.streak = []; POW.moon = 0;
+      const bonus0 = 500 * hitValue() * presMult() * mult();
+      S.pts += bonus0; S.total += bonus0;
+      const pct = Math.min(99, Math.round(100 * dist / full));
+      floaters.push({x:b.x, y:b.y - MOON_R() - 40, txt:'MOON LAUNCH! +' + fmt(bonus0), age:-0.5, big:true});
+      if (S.won) floaters.push({x:b.x, y:b.y - MOON_R() - 80, txt:'Higher every time: ' + pct + '% to the Sun', age:-0.8, big:true});
+      moonshotSound();
+      return;
+    }
+    if (S.won){
+      // na het winnen: richt op de zon
+      const sp = sunPos(), g = gravity() * 0.45, dist = Math.max(H, b.y - (sp.y + SUN_R() * 0.5));
+      b.vy = -Math.sqrt(2 * g * dist * 1.08); b.vx = (sp.x - b.x) / (-b.vy / g);
+      b.moonshot = true; b.toSun = true; b.streak = []; POW.moon = 0;
+      floaters.push({x:b.x, y:b.y - MOON_R() - 40, txt:'Aim for the Sun!', age:-0.5, big:true});
+      moonshotSound();
+      return;
+    }
+    const g = gravity() * 0.45, dist = H * (4 + 0.5 * S.etage);
+    b.vy = -Math.sqrt(2 * g * dist); b.vx = (W / 2 - b.x) * 0.3;
+    b.moonshot = true; b.streak = []; POW.moon = 0;
+    const bonus = 500 * hitValue() * presMult() * mult();
+    S.pts += bonus; S.total += bonus;
+    floaters.push({x:b.x, y:b.y - MOON_R() - 40, txt:'MOON LAUNCH! +' + fmt(bonus), age:-0.5, big:true});
+    moonshotSound();
+  }
+  // Raket-achtig geluid: een harde klap, een aanzwellende suis en een stijgende toon, daarna een knal
+  function moonshotSound(){
+    if (!ac || S.muted) return;
+    noise(0.12, 0.35, 700, 0, 1);                              // de klap
+    tone(90, 1.4, 0.16, 'sawtooth', 0, 900);                   // stijgende raket-toon
+    tone(180, 1.2, 0.08, 'square', 0.05, 1600);
+    const t = ac.currentTime, n = Math.floor(ac.sampleRate * 1.6), buf = ac.createBuffer(1, n, ac.sampleRate), d = buf.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+    const src = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain();
+    src.buffer = buf; f.type = 'bandpass'; f.Q.value = 1.2;
+    f.frequency.setValueAtTime(300, t); f.frequency.exponentialRampToValueAtTime(4000, t + 1.4);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.3, t + 0.3); g.gain.exponentialRampToValueAtTime(0.0001, t + 1.6);
+    src.connect(f).connect(g).connect(ac.destination); src.start(t);
+    noise(0.35, 0.3, 200, 0.9, 0.8);                           // sonische knal
   }
   function hitMoon(b){
     b.dead = true;
@@ -1296,7 +1493,9 @@
   const MOON_R = () => Math.min(W * 0.2, H * 0.26);
   // Bigger ball: in 10 stappen van normaal naar een halve maan (dezelfde groei per stap)
   const ballScale = () => Math.pow(Math.max(1, MOON_R() * 0.5 / ballR()), lv('balgroot') / 10);
-  const rOf = b => (b && b.isMoon) ? MOON_R() : (b && b.miniMoon) ? MOON_R() * 0.45 : Math.min(MOON_R() * 0.9, ballR() * ballScale() * (POW.big > 0 ? 10 : 1));
+  // Big ball maakt ook de maan en de zon groter; split-stukken zijn even groot als het origineel
+  const bigF = () => POW.big > 0 ? 1.6 : 1;
+  const rOf = b => (b && (b.isSun || b.miniSun)) ? MOON_R() * 0.5 * bigF() : (b && (b.isMoon || b.miniMoon)) ? MOON_R() * bigF() : Math.min(MOON_R() * 0.9, ballR() * ballScale() * (POW.big > 0 ? 10 : 1));
 
   function spawnStar(){
     star = {x:fieldL() + (fieldR() - fieldL()) * (0.1 + Math.random() * 0.8), y:(() => { const lo = Math.max(fieldTop() + 20, cam.top + 60), hi = Math.min(tableY() - 60, cam.cb - 120); return hi > lo ? lo + (hi - lo) * (0.1 + Math.random() * 0.7) : Math.max(fieldTop() + 20, (cam.top + cam.cb) / 2); })(), life:starLife(), max:starLife(), rot:0};
@@ -1308,7 +1507,7 @@
     const base = Math.random() * 360;
     for (let k = 1; k < n; k++){
       balls.push({x:b.x, y:b.y, ox:b.x, oy:b.y, vx:b.vx + (Math.random() - .5) * 1.1 * H, vy:b.vy - (0.2 + Math.random() * 0.9) * H,
-        spin:0, trail:[], temp:true, hue:(base + k * 360 / n) % 360, miniMoon:!!b.isMoon});
+        spin:0, trail:[], temp:true, hue:(base + k * 360 / n) % 360, miniMoon:!!b.isMoon, miniSun:!!b.isSun});
     }
   }
   // Een ster start altijd de roulette: je kiest niet zelf
@@ -1323,10 +1522,11 @@
   }
   function choose(){}
   // hoe hoger je komt, hoe vaker het Maanschot; niet tijdens de finale
-  const moonChance = () => S.finale ? 0 : allMaxed() ? 0.6 : 0.1 + 0.04 * S.etage;
+  const moonChance = () => S.sunMode ? 0 : S.finale ? 0.3 : allMaxed() ? 0.6 : 0.1 + 0.04 * S.etage;
   function drawOutcome(){
     if (Math.random() < negChance()){ const id = pick(Object.keys(CURSES)); return {neg:true, id, def:CURSES[id]}; }
     if (Math.random() < moonChance()) return {neg:false, id:'moon', def:MOONSHOT, moon:true};
+    if (Math.random() < HAT_CHANCE) return {neg:false, id:'hat', def:HATPOW, hat:true};
     const id = pick(Object.keys(POWERS)), def = POWERS[id];
     // Jackpot-upgrade: kans op dubbele waarde
     return {neg:false, id, def, v:def.roll ? def.roll() : null, dbl:lv('keuze') > 0 && Math.random() < 0.35};
@@ -1335,11 +1535,11 @@
   function gamble(){
     if (!choice || choice.result) return;
     const out = drawOutcome();
-    choice.result = {name:out.def.name, neg:out.neg, spinning:true};
+    choice.result = {name:out.def.name, neg:out.neg, spinning:true, hat:!!out.hat};
     const N = 44, WIN = 36, STEP = 86, CELL = 78;
     const items = []; for (let k = 0; k < N; k++) items.push(k === WIN ? out : drawOutcome());
     const track = $('reelTrack');
-    track.innerHTML = items.map((it, k) => `<div class="cell${it.neg ? ' neg' : ''}${it.moon ? ' moon' : ''}" id="cell-${k}">${svg(it.def.icon)}<span class="cell-n">${it.def.short}</span></div>`).join('');
+    track.innerHTML = items.map((it, k) => `<div class="cell${it.neg ? ' neg' : ''}${it.moon ? ' moon' : ''}${it.hat ? ' hat' : ''}" id="cell-${k}">${svg(it.def.icon)}<span class="cell-n">${it.def.short}</span></div>`).join('');
     $('choicePick').hidden = true; $('choiceResult').hidden = false; $('resBody').hidden = true;
     $('choiceResult').classList.remove('bad');
     $('resKicker').textContent = 'Star roulette...';
@@ -1361,16 +1561,19 @@
   function land(out, win){
     if (!choice) return;
     const d = out.def;
-    if (out.neg || out.moon) d.apply(); else d.apply(out.v, choice.ball, !!out.dbl);
+    const plain = out.neg || out.moon || out.hat;
+    if (plain) d.apply(); else d.apply(out.v, choice.ball, !!out.dbl);
     markSeen('pow', out.id); if (out.neg) flag('neg');
     choice.result.spinning = false;
     const c = $('cell-' + win); if (c) c.classList.add('win');
     $('choiceResult').classList.toggle('bad', out.neg);
-    $('resKicker').textContent = out.neg ? 'Bad luck: negative power' : out.moon ? 'The Moonshot!' : out.dbl ? 'Jackpot: double value' : 'You won a power';
+    $('resKicker').textContent = out.neg ? 'Bad luck: negative power' : out.moon ? 'The Moonshot!' : out.hat ? 'A HAT! Time for the hat roulette' : out.dbl ? 'Jackpot: double value' : 'You won a power';
     $('resIc').innerHTML = svg(d.icon);
     $('resName').textContent = d.name;
-    $('resTag').textContent = out.neg || out.moon ? d.tag() : d.tag(out.v, !!out.dbl);
-    $('resDesc').textContent = out.neg || out.moon ? d.desc() : d.desc(out.v, !!out.dbl);
+    $('resTag').textContent = plain ? d.tag() : d.tag(out.v, !!out.dbl);
+    $('resDesc').textContent = plain ? d.desc() : d.desc(out.v, !!out.dbl);
+    $('resGo').textContent = out.hat ? 'Spin for a hat!' : 'Keep playing';
+    if (out.hat){ [0, .1, .2, .3].forEach((dt, i) => tone([784, 988, 1175, 1568][i], 0.14, 0.09, 'square', dt)); }
     $('resBody').hidden = false;
     blip(out.neg ? 140 : 1100, .25, .12, out.neg ? 'sawtooth' : 'triangle');
     setTimeout(() => $('resGo').focus({preventScroll:true}), 30);
@@ -1381,7 +1584,13 @@
   function showEnd(mode){
     endMode = mode; paused = true;
     $('endIc').innerHTML = svg('moon');
-    if (mode === 'win'){
+    if (mode === 'sun'){
+      $('endIc').innerHTML = svg('star');
+      $('endKicker').textContent = 'Secret ending';
+      $('endTitle').textContent = 'You brought down the Sun!';
+      $('endText').textContent = 'You knocked the Sun out of the sky with the Moon. The crowd will never forget it. New: the Sun ball, in Style.';
+      $('endGo').textContent = 'Keep playing';
+    } else if (mode === 'win'){
       $('endKicker').textContent = 'The end';
       $('endTitle').textContent = 'You kept the Moon up!';
       $('endText').textContent = 'From a ping pong ball in a sports hall to the Moon on your paddle. You can keep playing with the Moon, or start over from scratch.';
@@ -1399,13 +1608,16 @@
   $('endGo').addEventListener('click', () => {
     $('ending').hidden = true; paused = false;
     if (endMode === 'crash'){ S.moonTicks = 0; balls = [moonBall()]; }
+    if (endMode === 'sun'){ S.sunMode = true; balls = [sunBall()]; SUN.white = 0; save(); }
     endMode = null;
   });
   $('endNew').addEventListener('click', () => { $('ending').hidden = true; paused = false; endMode = null; resetGame(); });
   function closeChoice(){
-    if (choice && choice.result) floaters.push({x:W / 2, y:H * 0.4, txt:choice.result.name + '!', age:0, big:true});
+    const hat = choice && choice.result && choice.result.hat;
+    if (choice && choice.result && !hat) floaters.push({x:W / 2, y:H * 0.4, txt:choice.result.name + '!', age:0, big:true});
     choice = null; paused = false;
     $('choice').hidden = true; $('choicePick').hidden = false; $('choiceResult').hidden = true;
+    if (hat) openHatSpin('star');
   }
   $('resGo').addEventListener('click', () => { if (choice && choice.result && !choice.result.spinning) closeChoice(); });
   addEventListener('keydown', e => {
@@ -1849,6 +2061,11 @@
     if (S.moonTicks === 10 && !S.won){ S.won = true; save(); setTimeout(() => showEnd('win'), 700); }
   }
   function miss(b, i){
+    if (b.isSun){
+      // de zon raakt de grond: alles wit, het publiek gilt, daarna komt hij opnieuw naar beneden
+      b.dead = true; SUN.crash = 2.4; SUN.white = 1; crowdScream(); MAN.oops = performance.now(); streak = 0;
+      return;
+    }
     if (b.isMoon){ b.hidden = true; b.wait = 1e9; blip(70, 1, .2, 'sawtooth'); setTimeout(() => showEnd('crash'), 500); return; }
     MAN.oops = performance.now();
     maybeVoice('miss');
@@ -1886,21 +2103,22 @@
     if (P.held && incoming > Math.sqrt(2 * g * H * 0.035) && vn > Math.sqrt(2 * g * H * 0.03)){
       b.chain = 0;
       scoreHit(b);
-      if (b.isMoon) moonTick(b);
-      else if (POW.moon > 0 && !b.temp) launchMoonshot(b);
+      if (b.isMoon){ moonTick(b); if (POW.moon > 0) launchMoonUp(b); }
+      else if (POW.moon > 0 && !b.temp && !b.isSun) launchMoonshot(b);
     }
   }
   let BALL_ID = 1;
   function integrate(b, h, k, n, i){
     if (!b.id) b.id = BALL_ID++;
-    const r = rOf(b), g = gravity() * (b.isMoon ? 0.45 : 1);
+    const r = rOf(b), g = gravity() * (b.isMoon || b.isSun || b.miniMoon || b.miniSun ? 0.45 : 1);
     b.ox = b.x; b.oy = b.y;
     const vyBefore = b.vy;
     b.vy += g * h;
     if (b.moonshot && vyBefore < 0 && b.vy >= 0){
       b.moonshot = false;
       const left = MOON_M - altAt(b.y);
-      floaters.push({x:b.x, y:b.y - 40, txt:'Still ' + fmtM(Math.max(0, left)) + ' to the Moon', age:0, big:true});
+      if (b.isMoon) floaters.push({x:b.x, y:b.y - MOON_R() - 30, txt:'Here it comes back!', age:0, big:true});
+      else floaters.push({x:b.x, y:b.y - 40, txt:'Still ' + fmtM(Math.max(0, left)) + ' to the Moon', age:0, big:true});
     }
     if (!b.temp && vyBefore < 0 && b.vy >= 0){
       const m = Math.max(0, altAt(b.y + r));
@@ -1968,6 +2186,10 @@
     if (b.bossCd > 0) b.bossCd -= h;
     bossHit(b, r);
     if (!S.finale && moonCollide(b, r) === 'end') return;
+    if (b.isMoon && b.toSun){
+      const sp = sunPos();
+      if (Math.hypot(b.x - sp.x, b.y - sp.y) < r + SUN_R()){ startSunFall(b); return; }
+    }
 
     rainHit(b, r);
     if (star && !paused && Math.hypot(b.x - star.x, b.y - star.y) < r + starR()){
@@ -1976,7 +2198,7 @@
 
     if (b.y + r >= tableY()){
       if (b.temp) b.dead = true; else miss(b, i);
-    } else if (!b.moonshot && !b.isMoon && P.y < 0 && b.vy > 0 && b.y - P.y > 3 * H){
+    } else if (!b.moonshot && !b.isMoon && !b.isSun && P.y < 0 && b.vy > 0 && b.y - P.y > 3 * H){
       // hoog in de lucht: een bal die ver onder je batje valt, is ook mis
       if (b.temp) b.dead = true; else miss(b, i);
     }
@@ -2041,9 +2263,15 @@
       for (let k = 0; k < n && !b.hidden && !b.dead; k++) integrate(b, h, k, n, i);
       if (b.dead){ const j = balls.indexOf(b); if (j >= 0) balls.splice(j, 1); continue; }
       if (!reduceMotion){ b.trail.push({x:b.x, y:b.y}); if (b.trail.length > 7) b.trail.shift(); }
+      // snelheidsstreep bij een Maanschot (blijft even nagloeien)
+      if (b.streak){
+        if (b.moonshot){ b.streak.push({x:b.x, y:b.y}); if (b.streak.length > 45) b.streak.shift(); }
+        else { b.streakFade += dt; b.streak.shift(); if (!b.streak.length) b.streak = null; }
+      }
     }
 
     bossUpdate(dt);
+    sunUpdate(dt);
     showerUpdate(dt);
     P.dizzy = Math.max(0, (P.dizzy || 0) - dt);
     // Robot
@@ -2108,7 +2336,7 @@
     }
     // de maan aan de hemel: groeit naarmate je hoger komt, tot hij echt boven je hangt
     const wm = moonPos(), wmTop = H + (wm.y + MOON_R() - cb) * z;
-    if (isDay()){
+    if (isDay() && !S.sunMode && !(S.finale && wmTop > -SUN_R() * z) && !SUN.falling && !(SUN.impact > 0)){
       const p = clamp(Math.log10(Math.max(1, altMid)) / Math.log10(MOON_M), 0, 1);
       const winY = H + (H * 0.13 - cb) * z, skyY = H * 0.14, inHall = winY < skyY;
       drawSun(W / 2, inHall ? winY : skyY, (22 + 30 * p) * (inHall ? z : 1));
@@ -2388,6 +2616,11 @@
       { const q = toS(h.x + 14, h.y + cb); lbl(deg + '°', q.x + 6, q.y, {bl:'middle', col:'#ffb347', edge:'#ff8a1f'}); }
     }
 
+    // de zon (na de maan) in de wereld, of de vallende zon
+    if (isDay()){
+      const sp = SUN.falling || SUN.impact > 0 ? SUN : (S.finale && !S.sunMode ? sunPos() : null), R = SUN_R();
+      if (sp && sp.y + R > camTop - R && sp.y - R < cb + R) drawSun(sp.x, sp.y - cb, R);
+    }
     // de maan
     if (!S.finale){
       const mp = moonPos(), R = MOON_R();
@@ -2417,6 +2650,14 @@
       ctx.restore();
     }
 
+    // speler (lichaam en hoofd) en hoedjes onder de ballen, zodat de bal eroverheen gaat;
+    // arm en batje komen pas na de ballen
+    {
+      const hand = handPos(P.x, P.y, P.rot + P.tilt, false), man = manPos(ARM.sx || P.x);
+      drawMan(man, hand, cb, z);
+      if (POW.dual > 0){ const h2 = handPos(W - P.x, P.y, -(P.rot + P.tilt), true), m2 = manPos(W - (ARM.sx || P.x)); drawMan(m2, h2, cb, z, BUDDY); }
+    }
+    drawHatStack(cb, z);
     // ballen
     const offs = [];
     balls.forEach(b => {
@@ -2427,15 +2668,45 @@
         ctx.beginPath(); ctx.arc(W / 2, spawnY() - cb, ballR() * (2 - t), 0, Math.PI * 2); ctx.stroke();
         return;
       }
+      if (b.streak && b.streak.length > 1){
+        const R0 = b.isMoon ? r * 0.5 : r;
+        const pts = b.streak, n = pts.length, tt = performance.now() / 1000;
+        ctx.save(); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+        for (const [w, col] of [[Math.max(R0 * 3.2, 30 / z), 'rgba(255,190,80,.22)'], [Math.max(R0 * 2, 16 / z), 'rgba(255,210,63,.5)'], [Math.max(R0 * 1.1, 7 / z), 'rgba(255,255,255,.95)']]){
+          for (let i = 1; i < n; i++){
+            const f = i / n;
+            ctx.strokeStyle = col; ctx.globalAlpha = f; ctx.lineWidth = Math.max(1.5 / z, w * f);
+            ctx.beginPath(); ctx.moveTo(pts[i - 1].x, pts[i - 1].y - cb); ctx.lineTo(pts[i].x, pts[i].y - cb); ctx.stroke();
+          }
+        }
+        // vonkjes langs de streep
+        ctx.globalAlpha = 1;
+        for (let i = 0; i < n; i += 3){
+          const p = pts[i], j = Math.sin(i * 12.9 + tt * 20) * Math.max(R0 * 1.6, 20 / z);
+          ctx.fillStyle = i % 2 ? '#ffe14a' : '#ffffff';
+          ctx.fillRect(p.x + j, p.y - cb + Math.cos(i * 7.3 + tt * 17) * r, Math.max(4 / z, R0 * 0.35), Math.max(4 / z, R0 * 0.35));
+        }
+        ctx.restore();
+      }
+      if (b.isSun){
+        if (b.y - r > cb || b.y + r < camTop){ offs.push({b, col:'#ffd23f', up:b.y < camTop}); return; }
+        drawSun(b.x, b.y - cb, r, POW.gold > 0);
+        return;
+      }
+      if (b.miniSun){
+        if (b.y - r > cb || b.y + r < camTop) return;
+        drawSun(b.x, b.y - cb, r, POW.gold > 0);
+        return;
+      }
       if (b.miniMoon){
         if (b.y - r > cb || b.y + r < camTop) return;
-        drawMoon(b.x, b.y - cb, r, b.spin, b.hue);
+        drawMoon(b.x, b.y - cb, r, b.spin, POW.gold > 0 ? null : b.hue, POW.gold > 0);
         return;
       }
       if (b.isMoon){
         if (b.y - r > cb){ offs.push({b, col:'#d8dee6', up:false}); return; }
         if (b.y + r < camTop){ offs.push({b, col:'#d8dee6', up:true}); return; }
-        drawMoon(b.x, b.y - cb, r, b.spin);
+        drawMoon(b.x, b.y - cb, r, b.spin, null, POW.gold > 0);
         return;
       }
       const gold = POW.gold > 0;
@@ -2461,6 +2732,7 @@
         gg.addColorStop(0, 'rgba(255,215,80,.35)'); gg.addColorStop(1, 'rgba(255,215,80,0)');
         ctx.fillStyle = gg; ctx.beginPath(); ctx.arc(b.x, by, r * 2, 0, Math.PI * 2); ctx.fill();
       }
+      if (!b.temp && S.skin.ball === 'sun' && (S.dev || META.flags.sunEnd)){ drawSun(b.x, by, r, POW.gold > 0); return; }
       const grd = ctx.createRadialGradient(b.x - r * .35, by - r * .4, r * .1, b.x, by, r);
       grd.addColorStop(0, cols[0]); grd.addColorStop(.45, cols[1]); grd.addColorStop(1, cols[2]);
       ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(b.x, by, r, 0, Math.PI * 2); ctx.fill();
@@ -2473,10 +2745,10 @@
     // arm(en) achter het batje
     {
       const hand = handPos(P.x, P.y, P.rot + P.tilt, false), man = manPos(ARM.sx || P.x);
-      drawMan(man, hand, cb, z); drawArm(hand, shoulderOf(man, hand), cb, z);
+      drawArm(hand, shoulderOf(man, hand), cb, z);
       if (POW.dual > 0){
         const h2 = handPos(W - P.x, P.y, -(P.rot + P.tilt), true), m2 = manPos(W - (ARM.sx || P.x));
-        drawMan(m2, h2, cb, z, BUDDY); drawArm(h2, shoulderOf(m2, h2), cb, z, BUDDY);
+        drawArm(h2, shoulderOf(m2, h2), cb, z, BUDDY);
       }
     }
     // batje (en tweede batje bij Dual wield)
@@ -2495,6 +2767,18 @@
     });
     ctx.restore();
 
+    // steeds lichter terwijl de zon valt; bij de inslag alles wit
+    if (SUN.white > 0){
+      ctx.fillStyle = `rgba(255,252,235,${SUN.white})`; ctx.fillRect(0, 0, W, H);
+      // met de zon als bal: zon en batje blijven zichtbaar door het licht heen, zodat je kunt blijven spelen
+      if (S.sunMode && !(SUN.crash > 0)){
+        ctx.save(); ctx.translate(W / 2, H); ctx.scale(z, z); ctx.translate(-W / 2, 0);
+        for (const b of balls) if (!b.hidden && (b.isSun || b.miniSun)) drawSun(b.x, b.y - cb, rOf(b), POW.gold > 0);
+        drawPaddle(P.x, P.y - cb, P.rot + P.tilt, false);
+        ctx.restore();
+      }
+    }
+
     // pijltjes voor ballen die zelfs uitgezoomd boven beeld zijn
     offs.forEach(({b, col, up}) => {
       const sx = W / 2 + (b.x - W / 2) * z;
@@ -2508,18 +2792,29 @@
     });
   }
   const CRATERS = (() => { const r = rnd(5), a = []; for (let k = 0; k < 9; k++){ const an = r() * 6.28, d = Math.sqrt(r()) * 0.75; a.push({x:Math.cos(an) * d, y:Math.sin(an) * d, s:0.08 + r() * 0.14}); } return a; })();
-  function drawSun(x, y, R){
+  // glinsterende sterretjes rond een gouden maan of zon
+  function goldGlints(x, y, R, t){
+    ctx.fillStyle = '#ffffff';
+    for (let k = 0; k < 6; k++){
+      const a = t * 0.8 + k * 1.05, pulse = Math.max(0, Math.sin(t * 5 + k * 1.7));
+      if (pulse < 0.2) continue;
+      const px = x + Math.cos(a) * R * (0.5 + 0.7 * ((k * 0.37) % 1)), py = y + Math.sin(a * 1.2) * R * 0.8, s = Math.max(1.5, R * 0.09) * pulse;
+      ctx.fillRect(px - s * 2, py - s * 0.35, s * 4, s * 0.7); ctx.fillRect(px - s * 0.35, py - s * 2, s * 0.7, s * 4);
+    }
+  }
+  function drawSun(x, y, R, gold){
     const t = performance.now() / 1000;
     const gl = ctx.createRadialGradient(x, y, R * 0.8, x, y, R * 2.6);
-    gl.addColorStop(0, 'rgba(255,230,120,.55)'); gl.addColorStop(1, 'rgba(255,230,120,0)');
+    gl.addColorStop(0, gold ? 'rgba(255,215,80,.7)' : 'rgba(255,230,120,.55)'); gl.addColorStop(1, 'rgba(255,230,120,0)');
     ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(x, y, R * 2.6, 0, Math.PI * 2); ctx.fill();
     ctx.save(); ctx.translate(x, y); ctx.rotate(reduceMotion ? 0 : t * 0.3);
-    ctx.fillStyle = '#ffb21f';
-    for (let i = 0; i < 12; i++){ ctx.rotate(Math.PI / 6); ctx.fillRect(R * 1.12, -R * 0.1, R * 0.45, R * 0.2); }
+    ctx.fillStyle = gold ? '#ffe680' : '#ffb21f';
+    for (let i = 0; i < 12; i++){ ctx.rotate(Math.PI / 6); ctx.fillRect(R * 1.12, -R * 0.1, R * (gold ? 0.6 : 0.45), R * 0.2); }
     ctx.restore();
     ctx.fillStyle = '#141018'; ctx.beginPath(); ctx.arc(x, y, R + 2, 0, Math.PI * 2); ctx.fill();
     const g = ctx.createRadialGradient(x - R * 0.3, y - R * 0.3, R * 0.1, x, y, R);
-    g.addColorStop(0, '#fff6b0'); g.addColorStop(0.6, '#ffd23f'); g.addColorStop(1, '#f5a000');
+    if (gold){ g.addColorStop(0, '#fffbe0'); g.addColorStop(0.35, '#ffe066'); g.addColorStop(0.75, '#e0a800'); g.addColorStop(1, '#8a5a00'); }
+    else { g.addColorStop(0, '#fff6b0'); g.addColorStop(0.6, '#ffd23f'); g.addColorStop(1, '#f5a000'); }
     ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, R, 0, Math.PI * 2); ctx.fill();
     // blij gezichtje
     ctx.fillStyle = '#141018';
@@ -2527,23 +2822,26 @@
     ctx.strokeStyle = '#141018'; ctx.lineWidth = Math.max(1.5, R * 0.08); ctx.lineCap = 'round';
     ctx.beginPath(); ctx.arc(x, y + R * 0.05, R * 0.42, Math.PI * 0.18, Math.PI * 0.82); ctx.stroke();
     ctx.fillStyle = 'rgba(255,110,90,.55)'; ctx.beginPath(); ctx.arc(x - R * 0.55, y + R * 0.18, R * 0.13, 0, Math.PI * 2); ctx.arc(x + R * 0.55, y + R * 0.18, R * 0.13, 0, Math.PI * 2); ctx.fill();
+    if (gold) goldGlints(x, y, R, t);
   }
-  function drawMoon(x, y, R, rot, hue){
-    const tint = hue != null;
+  function drawMoon(x, y, R, rot, hue, gold){
+    const tint = hue != null && !gold;
     const gl = ctx.createRadialGradient(x, y, R * 0.9, x, y, R * 1.6);
-    gl.addColorStop(0, tint ? `hsla(${hue},90%,70%,.3)` : 'rgba(220,230,245,.25)'); gl.addColorStop(1, 'rgba(220,230,245,0)');
+    gl.addColorStop(0, gold ? 'rgba(255,210,70,.5)' : tint ? `hsla(${hue},90%,70%,.3)` : 'rgba(220,230,245,.25)'); gl.addColorStop(1, 'rgba(220,230,245,0)');
     ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(x, y, R * 1.6, 0, Math.PI * 2); ctx.fill();
     const g = ctx.createRadialGradient(x - R * 0.35, y - R * 0.35, R * 0.1, x, y, R);
-    if (tint){ g.addColorStop(0, `hsl(${hue},90%,88%)`); g.addColorStop(0.7, `hsl(${hue},70%,62%)`); g.addColorStop(1, `hsl(${hue},60%,40%)`); }
+    if (gold){ g.addColorStop(0, '#fff6c9'); g.addColorStop(0.45, '#ffd23f'); g.addColorStop(0.8, '#d89a00'); g.addColorStop(1, '#8a5a00'); }
+    else if (tint){ g.addColorStop(0, `hsl(${hue},90%,88%)`); g.addColorStop(0.7, `hsl(${hue},70%,62%)`); g.addColorStop(1, `hsl(${hue},60%,40%)`); }
     else { g.addColorStop(0, '#f1f3f6'); g.addColorStop(0.7, '#c9cfd8'); g.addColorStop(1, '#9aa3b0'); }
     ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, R, 0, Math.PI * 2); ctx.fill();
     ctx.save(); ctx.translate(x, y); ctx.rotate(rot * 0.2);
     for (const c of CRATERS){
-      ctx.fillStyle = 'rgba(120,130,145,.35)'; ctx.beginPath(); ctx.arc(c.x * R, c.y * R, c.s * R, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = gold ? 'rgba(150,95,0,.4)' : 'rgba(120,130,145,.35)'; ctx.beginPath(); ctx.arc(c.x * R, c.y * R, c.s * R, 0, Math.PI * 2); ctx.fill();
       ctx.strokeStyle = 'rgba(255,255,255,.25)'; ctx.lineWidth = Math.max(1, R * 0.015);
       ctx.beginPath(); ctx.arc(c.x * R, c.y * R, c.s * R, 3.6, 5.6); ctx.stroke();
     }
     ctx.restore();
+    if (gold) goldGlints(x, y, R, performance.now() / 1000);
   }
   // ---------- Publiek ----------
   let hype = 0;   // hoe enthousiast het publiek is: stijgt bij elke tik, zakt langzaam weg
@@ -2698,9 +2996,16 @@
   const CHARS = [
     {id:'boy',   name:'Tik',   unlock:0},
     {id:'girl',  name:'Tikka', unlock:0},
-    {id:'robot', name:'Robo',  unlock:0},
+    {id:'robot', name:'Robo',  unlock:1},
     {id:'cat',   name:'Meow',  unlock:2},
+    {id:'frog',  name:'Ribbit', unlock:3},
     {id:'astro', name:'Astro', unlock:4},
+    {id:'ninja', name:'Ninja', unlock:5},
+    {id:'knight',name:'Sir Tik', unlock:6},
+    {id:'dino',  name:'Dino',  unlock:7},
+    {id:'penguin',name:'Pingo', unlock:8},
+    {id:'alien', name:'Zorp',  unlock:9},
+    {id:'skelly',name:'Bones', unlock:10},
     {id:'gnome', name:'Gnome', unlock:99, won:true},
   ];
   const PADDLES = [
@@ -2711,7 +3016,19 @@
     {id:'gold',    name:'Golden',     unlock:3, top:'#ffd23f', core:'#fff3b0', bot:'#b8860b', handle:'#b8860b', glow:'rgba(255,210,63,.4)'},
     {id:'saber',   name:'Lightsaber', unlock:99, won:true, saber:true},
   ];
-  const unlocked = it => S.dev || (it.won ? !!S.won : S.etage >= it.unlock);
+  // hoogste verdieping ooit: vrijgespeelde personages blijven ook bij een nieuw spel
+  const maxFloor = () => Math.max(S.etage, META.maxFloor || 0);
+  const unlocked = it => S.dev || (it.sun ? !!META.flags.sunEnd : it.won ? !!S.won : maxFloor() >= it.unlock);
+  // kleuren van de nieuwe personages
+  const CSTY = {
+    frog:   {skin:'#62c64c', shirt:'#b6ec7a', limb:'#62c64c', pants:'#3f9a34', shoe:'#3f9a34', sock:'#62c64c', fist:'#62c64c', line:'#1f4a14'},
+    ninja:  {shirt:'#262833', limb:'#262833', pants:'#262833', shoe:'#1a1b22', sock:'#d8262b', fist:'#262833', line:'#0b0b10'},
+    knight: {skin:'#b8c0d0', shirt:'#b8c0d0', limb:'#8a93a8', pants:'#8a93a8', shoe:'#6d768c', sock:'#6d768c', fist:'#6d768c', line:'#2b2f3c'},
+    dino:   {skin:'#4fb04a', shirt:'#4fb04a', limb:'#4fb04a', pants:'#3d8c39', shoe:'#3d8c39', sock:'#4fb04a', fist:'#4fb04a', line:'#1f4a14'},
+    penguin:{skin:'#262a3e', shirt:'#262a3e', limb:'#262a3e', pants:'#262a3e', shoe:'#ff9a1f', sock:'#262a3e', fist:'#262a3e', line:'#0b0b10'},
+    alien:  {skin:'#8ef07a', shirt:'#8a4fd6', limb:'#8ef07a', pants:'#5a2f9a', shoe:'#c8d0e0', sock:'#8ef07a', fist:'#8ef07a', line:'#1f4a14'},
+    skelly: {skin:'#f1efe4', shirt:'#1a1b22', limb:'#1a1b22', pants:'#1a1b22', shoe:'#f1efe4', sock:'#1a1b22', fist:'#f1efe4', line:'#0b0b10'},
+  };
   const curChar = () => { const c = CHARS.find(c => c.id === S.skin.char); return c && unlocked(c) ? c.id : 'boy'; };
   const curPaddle = () => { const p = PADDLES.find(p => p.id === S.skin.paddle); return p && unlocked(p) ? p : PADDLES[0]; };
   // kleuren van arm en hand per personage
@@ -2725,6 +3042,7 @@
   function charColors(who){
     const tone = TONES[who ? who.tone : S.skin.tone | 0] || TONES[1], c = who ? who.char : curChar();
     if (c === 'robot') return {sleeve:'#8a93a8', fore:'#b8c0d0', hand:'#6d768c', line:'#2b2f3c'};
+    if (CSTY[c]){ const T = CSTY[c]; return {sleeve:T.shirt, fore:T.limb, hand:T.fist, line:T.line}; }
     if (c === 'gnome') return {sleeve:'#2f5fd0', fore:tone, hand:tone, line:'#2a1608'};
     if (c === 'astro') return {sleeve:'#eef1f6', fore:'#dfe4ee', hand:'#ff8a1f', line:'#4a5068'};
     const sl = who ? `hsl(${(who.tone * 90 + 200) % 360},70%,50%)` : ballCols()[1];
@@ -2755,7 +3073,8 @@
     if (streak >= 8 || hype > 0.6) return 'happy';
     return 'focus';
   }
-  function drawMan(man, hand, cb, z, who){
+  function drawMan(man, hand, cb, z, who){ drawCharacter(man.x, man.feet - cb, H * 0.01, manOpts(man, hand, cb, z, who)); }
+  function manOpts(man, hand, cb, z, who){
     // hoofd hoort altijd in beeld: zit de camera hoog, dan rekt de nek uit tot onderin het scherm
     const g = H * 0.0085, headY = man.feet - 26 * g, want = cb - 70 / z;
     const lift = headY > want ? (headY - want) / g : 0;
@@ -2763,7 +3082,7 @@
     // met Dual wield: jouw hoofd links van het midden, het maatje rechts, zodat ze niet overlappen
     const hx = POW.dual > 0 ? W / 2 + (who ? 1 : -1) * W * 0.14 : W / 2;
     const headDX = lift > 0 ? (hx - man.x) / g * lookS : 0;
-    drawCharacter(man.x, man.feet - cb, H * 0.01, {lift, headDX, look:Math.sign(hand.x - man.x) || 1, lean:lift > 0 ? 0 : clamp((hand.x - man.x) / (W * 2), -0.1, 0.1),
+    return ({lift, headDX, look:Math.sign(hand.x - man.x) || 1, lean:lift > 0 ? 0 : clamp((hand.x - man.x) / (W * 2), -0.1, 0.1),
       amp:ARM.amp, walk:MAN.walk, mood:manMood(), shirt:who ? `hsl(${(who.tone * 90 + 200) % 360},70%,50%)` : ballCols()[1], num:who ? 2 : S.etage || 1, wave:hype > 0.5, who});
   }
   // Pixel-art sporter met dikke zwarte lijnen, in 3/4 aanzicht richting het batje.
@@ -2784,11 +3103,12 @@
   function drawCharacter(x, fy, u, o){
     const t = performance.now() / 1000, c = o.who ? o.who.char : curChar(), tone = TONES[o.who ? o.who.tone : S.skin.tone | 0] || TONES[1];
     const g = u * 0.85, K = '#141018';
-    const human = c === 'boy' || c === 'girl';
-    const shirt = c === 'robot' ? '#9aa3b8' : c === 'astro' ? '#eef1f6' : c === 'cat' ? '#ff9a3c' : c === 'gnome' ? '#2f5fd0' : hslHex(o.shirt);
-    const skin = c === 'cat' ? '#ff9a3c' : c === 'robot' ? '#b8c0d0' : c === 'astro' ? tone : tone;
-    const limb = c === 'robot' ? '#8a93a8' : c === 'astro' ? '#eef1f6' : skin;
-    const pants = c === 'robot' ? '#6d768c' : c === 'astro' ? '#dfe4ee' : c === 'cat' ? '#fff3e6' : c === 'gnome' ? '#6b4122' : '#ffb21f';
+    const human = c === 'boy' || c === 'girl', T = CSTY[c];
+    let shirt = c === 'robot' ? '#9aa3b8' : c === 'astro' ? '#eef1f6' : c === 'cat' ? '#ff9a3c' : c === 'gnome' ? '#2f5fd0' : hslHex(o.shirt);
+    let skin = c === 'cat' ? '#ff9a3c' : c === 'robot' ? '#b8c0d0' : c === 'astro' ? tone : tone;
+    let limb = c === 'robot' ? '#8a93a8' : c === 'astro' ? '#eef1f6' : skin;
+    let pants = c === 'robot' ? '#6d768c' : c === 'astro' ? '#dfe4ee' : c === 'cat' ? '#fff3e6' : c === 'gnome' ? '#6b4122' : '#ffb21f';
+    if (T){ shirt = T.shirt; skin = T.skin || tone; limb = T.limb; pants = T.pants; }
     const hair = c === 'girl' ? '#6b3b1a' : '#8a4a14';
     const bounce = Math.round(Math.abs(Math.sin(t * 5)) * (0.3 + o.amp) * 1.2);
     const step = Math.round(Math.sin(o.walk) * 1.2);
@@ -2805,14 +3125,15 @@
     // --- achterkant: staart, rugzak, paardenstaart ---
     if (c === 'cat') layer([[-11, -12 - B, 3, 2, '#ff9a3c'], [-12, -16 - B, 2, 5, '#ff9a3c'], [-11, -19 - B, 2, 4, '#ff9a3c'], [-10, -20 - B, 2, 2, '#fff3e6']]);
     if (c === 'astro') layer([[-10, -20 - B, 4, 9, '#b8c0d0']]);
+    if (c === 'dino'){ layer([[-11, -13 - B, 4, 4, skin], [-15, -11 - B, 5, 3, skin], [-18, -9 - B, 4, 2, skin]]); layer([[-12, -23 - B, 2, 2, '#ff8a1f'], [-12, -19 - B, 2, 2, '#ff8a1f'], [-15, -13 - B, 2, 2, '#ff8a1f']]); }
     if (c === 'girl') layer([[-12, -30 - B, 4, 3, hair], [-13, -27 - B, 4, 5, hair], [-12, -22 - B, 3, 2, shade(hair, .8)]]);
 
     // --- benen in spreidstand (stapjes als hij loopt) ---
     const l1 = Math.max(0, step), l2 = Math.max(0, -step);
     layer([[-8, -8 - l1, 3, 5, limb], [5, -8 - l2, 3, 5, limb]]);
-    const sock = c === 'robot' ? '#2b2f3c' : '#ffffff';
+    const sock = T ? T.sock : c === 'robot' ? '#2b2f3c' : '#ffffff';
     layer([[-8, -3 - l1, 3, 1, sock, 1], [5, -3 - l2, 3, 1, sock, 1]]);
-    const shoe = c === 'robot' ? '#2b2f3c' : c === 'astro' ? '#8a93a8' : c === 'cat' ? '#fff3e6' : '#7f8fd6';
+    const shoe = T ? T.shoe : c === 'robot' ? '#2b2f3c' : c === 'astro' ? '#8a93a8' : c === 'cat' ? '#fff3e6' : '#7f8fd6';
     layer([[-10, -2 - l1, 6, 2, shoe], [4, -2 - l2, 6, 2, shoe]]);
     dot(-10, -1 - l1, 6, 1, shade(shoe, .75)); dot(4, -1 - l2, 6, 1, shade(shoe, .75));
 
@@ -2830,11 +3151,18 @@
     if (c === 'robot'){ dot(-4, -18 - B, 6, 4, '#2b2f3c'); dot(-3, -17 - B, 1, 1, Math.sin(t * 6) > 0 ? '#39ffb6' : '#1a6a4c'); dot(0, -17 - B, 1, 1, '#ff4d4d'); }
     if (c === 'astro'){ dot(-7, -16 - B, 14, 1, '#ff8a1f'); dot(1, -19 - B, 3, 2, '#1c2a9c'); }
     if (c === 'cat') dot(-3, -18 - B, 5, 5, '#fff3e6');
+    if (c === 'dino') dot(-3, -18 - B, 5, 5, '#c8f09a');
+    if (c === 'penguin') dot(-4, -19 - B, 8, 7, '#f4f5fa');
+    if (c === 'ninja') dot(-7, -14 - B, 14, 2, '#d8262b');
+    if (c === 'knight'){ dot(-1, -19 - B, 2, 6, '#d8262b'); dot(-3, -17 - B, 6, 2, '#d8262b'); }
+    if (c === 'alien'){ dot(-2, -18 - B, 4, 4, '#ffe14a'); dot(-1, -17 - B, 2, 2, '#8a4fd6'); }
+    if (c === 'skelly'){ dot(-1, -20 - B, 2, 7, '#f1efe4'); for (let k = 0; k < 3; k++) dot(-5, -19 - B + k * 2, 10, 1, '#f1efe4'); }
+    if (c === 'frog') dot(-7, -13 - B, 14, 1, '#3f9a34');
     if (human){ ctx.fillStyle = '#ffffff'; ctx.font = `${Math.round(4 * g)}px "Press Start 2P", monospace`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.save(); ctx.scale(o.look >= 0 ? 1 : -1, 1); ctx.fillText(String(o.num), -0.5 * g * (o.look >= 0 ? 1 : -1), -15.5 * g - B * g); ctx.restore(); }
 
     // --- vrije arm: vuist voor de borst, of juichend omhoog ---
-    const fist = c === 'robot' ? '#6d768c' : c === 'astro' ? '#ff8a1f' : c === 'cat' ? '#fff3e6' : skin;
+    const fist = T ? T.fist : c === 'robot' ? '#6d768c' : c === 'astro' ? '#ff8a1f' : c === 'cat' ? '#fff3e6' : skin;
     if (o.wave){
       const w = Math.round(Math.sin(t * 12));
       layer([[-10, -21 - B, 3, 3, shirt], [-10 + w, -27 - B, 3, 6, limb], [-11 + w, -30 - B, 4, 3, fist]]);
@@ -2848,7 +3176,7 @@
     const hy = -32 - B - L;
     const HX = L > 0 ? (o.headDX || 0) : 0;      // hoog in de lucht: hoofd altijd in het midden van het scherm
     if (L > 0){
-      const neck = c === 'robot' ? '#8a93a8' : c === 'astro' ? '#eef1f6' : skin;
+      const neck = T ? T.limb : c === 'robot' ? '#8a93a8' : c === 'astro' ? '#eef1f6' : skin;
       if (Math.abs(HX) < 1){
         layer([[-2, hy + 11, 4, L + 2, neck]]);
         if (c === 'robot') for (let k = hy + 14; k < -20 - B; k += 4) dot(-2, k, 4, 1, '#6d768c');
@@ -2872,6 +3200,13 @@
     } else {
       const head = [[-7, hy, 14, 12, skin], [-8, hy + 4, 1, 4, skin]];
       if (c === 'cat') head.push([-6, hy - 3, 3, 3, '#ff9a3c'], [3, hy - 3, 3, 3, '#ff9a3c']);
+      if (c === 'frog') head.push([-5, hy - 4, 5, 5, skin], [2, hy - 4, 5, 5, skin]);
+      if (c === 'alien') head.push([-8, hy - 2, 16, 4, skin]);
+      if (c === 'knight') head.push([-8, hy - 1, 16, 14, skin]);
+      if (c === 'alien') layer([[-5, hy - 6, 1, 5, skin], [4, hy - 6, 1, 5, skin], [-6, hy - 8, 3, 3, '#ffe14a'], [3, hy - 8, 3, 3, '#ffe14a']]);
+      if (c === 'knight') layer([[-2, hy - 5, 5, 5, '#d8262b'], [-5, hy - 7, 5, 3, '#d8262b'], [-8, hy - 6, 3, 3, '#d8262b']]);
+      if (c === 'dino') layer([[-6, hy - 2, 3, 2, '#ff8a1f'], [-2, hy - 3, 3, 3, '#ff8a1f'], [2, hy - 2, 3, 2, '#ff8a1f']]);
+      if (c === 'ninja') layer([[-12, hy + 1, 5, 2, '#d8262b'], [-14, hy + 3, 3, 2, '#d8262b']]);
       layer(head);
       if (c === 'cat'){ dot(-5, hy - 2, 1, 2, '#ffb3c6'); dot(4, hy - 2, 1, 2, '#ffb3c6'); }
       dot(-7, hy + 11, 14, 1, shade(skin, .85));            // kin-schaduw
@@ -2885,8 +3220,36 @@
         if (c === 'girl'){ dot(3, hy + 3, 4, 1, hair); dot(5, hy + 4, 2, 1, hair); }
       }
       // gezicht (kijkt naar rechts = naar het batje)
-      const ey = hy + 5;
-      if (o.mood === 'happy'){
+      const ey = hy + 5, hap = o.mood === 'happy', oops = o.mood === 'oops';
+      const eyes = (col, ex) => {      // gewone oogjes, voor gezichten met een eigen vorm
+        if (hap){ dot(0, ey, 2, 1, col); dot(4, ey, 2, 1, col); dot(-1, ey + 1, 1, 1, col); dot(2, ey + 1, 1, 1, col); dot(3, ey + 1, 1, 1, col); dot(6, ey + 1, 1, 1, col); }
+        else { if (ex) { dot(0, ey - oops, 2, 2 + oops, '#ffffff'); dot(4, ey - oops, 2, 2 + oops, '#ffffff'); } dot(1, ey, 1, 2, col); dot(5, ey, 1, 2, col); }
+      };
+      if (c === 'frog'){
+        dot(-4, hy - 3, 3, 3, '#ffffff'); dot(3, hy - 3, 3, 3, '#ffffff');
+        if (hap){ dot(-4, hy - 2, 3, 1, K); dot(3, hy - 2, 3, 1, K); } else { dot(-3, hy - 2, 2, 2, K); dot(4, hy - 2, 2, 2, K); }
+        dot(-5, ey + 4, 12, 1, K); if (hap) dot(-3, ey + 5, 8, 1, '#ff7a8a'); if (oops) dot(0, ey + 4, 3, 3, '#7a1522');
+        dot(-6, ey + 2, 2, 1, 'rgba(255,90,110,.55)');
+      } else if (c === 'ninja'){
+        ctx.fillStyle = '#262833'; ctx.fillRect(-7 * g, hy * g, 14 * g, 12 * g); ctx.fillRect(-8 * g, (hy + 4) * g, g, 4 * g);
+        dot(-5, ey - 1, 12, 4, tone); dot(-7, hy + 1, 14, 2, '#d8262b'); eyes(K, true);
+      } else if (c === 'knight'){
+        dot(-6, ey - 1, 13, 3, '#1d2133');
+        if (hap){ dot(0, ey, 2, 1, '#39ffb6'); dot(4, ey, 2, 1, '#39ffb6'); } else { dot(1, ey, 1, 1, '#ffffff'); dot(5, ey, 1, 1, '#ffffff'); }
+        for (let k = -5; k <= 5; k += 3) dot(k, ey + 4, 1, 3, shade(skin, .7));
+        dot(-8, hy + 12, 16, 1, shade(skin, .7));
+      } else if (c === 'penguin'){
+        dot(-3, hy + 2, 10, 9, '#f4f5fa'); eyes(K, false);
+        layer([[7, ey + 2, 3, 2, '#ff9a1f']]); if (oops) dot(7, ey + 3, 3, 1, '#b85a00');
+        dot(-1, ey + 3, 2, 1, 'rgba(255,90,110,.55)');
+      } else if (c === 'alien'){
+        dot(-1, ey - 2, 3, 4, K); dot(4, ey - 2, 3, 4, K); dot(-1, ey - 2, 1, 1, '#ffffff'); dot(4, ey - 2, 1, 1, '#ffffff');
+        if (hap) dot(1, ey + 4, 4, 1, K); else if (oops) dot(2, ey + 3, 2, 2, K); else dot(2, ey + 4, 2, 1, K);
+      } else if (c === 'skelly'){
+        dot(-1, ey - 1, 3, 3, K); dot(4, ey - 1, 3, 3, K); if (!hap){ dot(0, ey, 1, 1, '#ff4d4d'); dot(5, ey, 1, 1, '#ff4d4d'); }
+        dot(3, ey + 2, 1, 2, K); dot(0, ey + 4, 7, 2, '#ffffff'); dot(0, ey + 4 + (oops ? 1 : 0), 7, 1, K);
+        dot(1, ey + 4, 1, 2, K); dot(3, ey + 4, 1, 2, K); dot(5, ey + 4, 1, 2, K);
+      } else if (o.mood === 'happy'){
         dot(0, ey, 2, 1, K); dot(4, ey, 2, 1, K); dot(-1, ey + 1, 1, 1, K); dot(2, ey + 1, 1, 1, K); dot(3, ey + 1, 1, 1, K); dot(6, ey + 1, 1, 1, K);
       } else {
         const big = o.mood === 'oops' ? 1 : 0;
@@ -2894,12 +3257,15 @@
         dot(1, ey, 1, 2, K); dot(5, ey, 1, 2, K);
         if (o.mood === 'focus'){ dot(-1, ey - 2, 3, 1, K); dot(4, ey - 2, 3, 1, K); }
       }
+      if (!T || c === 'dino'){
       dot(-2, ey + 3, 2, 1, 'rgba(255,90,110,.55)'); dot(6, ey + 3, 1, 1, 'rgba(255,90,110,.55)');
       dot(3, ey + 3, 1, 1, shade(skin, .8));                 // neus
       const my = ey + 5;
       if (o.mood === 'happy'){ dot(1, my - 1, 4, 2, '#7a1522'); dot(2, my, 2, 1, '#ff7a8a'); }
       else if (o.mood === 'oops') dot(2, my - 1, 2, 2, '#7a1522');
       else { dot(1, my - 1, 3, 1, K); dot(4, my - 2, 1, 1, K); }
+      if (c === 'dino'){ dot(0, my + 1, 1, 1, '#ffffff'); dot(4, my + 1, 1, 1, '#ffffff'); }
+      }
       if (c === 'gnome'){
         // grote rode puntmuts
         layer([[-8, hy - 1, 16, 3, '#d8262b'], [-6, hy - 5, 12, 4, '#d8262b'], [-4, hy - 9, 9, 4, '#d8262b'], [-2, hy - 13, 7, 4, '#d8262b'], [1, hy - 16, 5, 3, '#d8262b'], [4, hy - 18, 3, 2, '#d8262b']]);
@@ -3015,6 +3381,240 @@
     ctx.arcTo(x, y + h, x, y, rr); ctx.arcTo(x, y, x + w, y, rr); ctx.closePath();
   }
 
+
+  // ---------- Hoedjes ----------
+  // 100 hoedjes in 4 zeldzaamheden; ze blijven bewaard bij een nieuw spel (in META)
+  const HAT_CHANCE = 0.15;
+  const HATPOW = {name:'Mystery hat', short:'HAT', icon:'hat', apply(){}, tag:() => 'Hat', desc:() => 'You won a spin on the hat roulette! 100 hats to collect, some of them very rare.'};
+  const RAR = {
+    basic:    {name:'Basic',     w:70, col:'#9aa0b4', cls:'r-basic'},
+    rare:     {name:'Rare',      w:22, col:'#2f6fe0', cls:'r-rare'},
+    epic:     {name:'Epic',      w:7,  col:'#ff8a1f', cls:'r-epic'},
+    legendary:{name:'Legendary', w:1,  col:'#ff3d6e', cls:'r-leg'},
+  };
+  const RORDER = ['basic', 'rare', 'epic', 'legendary'];
+  // vormen in blokjes: [x, y, w, h, kleur]; y=0 is de onderkant, negatief is omhoog.
+  // kleur 'C' = hoedkleur, 'S' = donkerder, 'R' = regenboog
+  const HSHAPE = {
+    cap:      {n:'Cap',          b:[[-7,-5,14,5,'C'],[3,-2,9,2,'S'],[-1,-6,2,1,'S']]},
+    beanie:   {n:'Beanie',       b:[[-7,-6,14,6,'C'],[-8,-2,16,2,'S'],[-2,-9,4,3,'#ffffff']]},
+    bucket:   {n:'Bucket hat',   b:[[-6,-6,12,5,'C'],[-9,-2,18,2,'S']]},
+    beret:    {n:'Beret',        b:[[-8,-3,16,3,'C'],[-5,-4,10,1,'C'],[-1,-6,2,2,'S']]},
+    bowler:   {n:'Bowler',       b:[[-6,-7,12,6,'C'],[-8,-1,16,1,'S'],[-6,-3,12,1,'#141018']]},
+    band:     {n:'Headband',     b:[[-8,-2,16,2,'C'],[-11,-1,3,2,'C'],[-12,1,2,2,'S']]},
+    bunny:    {n:'Bunny ears',   b:[[-6,-2,12,2,'S'],[-5,-12,3,10,'C'],[2,-12,3,10,'C'],[-4,-11,1,7,'#ffb3c6'],[3,-11,1,7,'#ffb3c6']]},
+    cone:     {n:'Traffic cone', b:[[-7,-2,14,2,'S'],[-5,-6,10,4,'C'],[-4,-10,8,4,'C'],[-2,-14,4,4,'C'],[-5,-6,10,1,'#ffffff'],[-4,-10,8,1,'#ffffff']]},
+    flower:   {n:'Flower crown', b:[[-7,-1,14,1,'#2fa84a'],[-7,-4,3,3,'C'],[-2,-5,4,4,'C'],[4,-4,3,3,'C'],[-6,-3,1,1,'#ffe14a'],[-1,-4,2,2,'#ffe14a'],[5,-3,1,1,'#ffe14a']]},
+    propeller:{n:'Propeller cap',b:[[-7,-5,14,5,'C'],[3,-2,9,2,'S'],[-1,-7,2,2,'#141018'],[-6,-8,12,1,'P']]},
+    top:      {n:'Top hat',      b:[[-5,-12,10,11,'C'],[-8,-1,16,1,'S'],[-5,-4,10,2,'#ffffff']]},
+    cowboy:   {n:'Cowboy hat',   b:[[-5,-7,10,6,'C'],[-11,-2,22,2,'C'],[-11,-3,3,1,'C'],[8,-3,3,1,'C'],[-5,-3,10,1,'S'],[-1,-7,2,2,'S']]},
+    wizard:   {n:'Wizard hat',   b:[[-8,-2,16,2,'S'],[-5,-6,10,4,'C'],[-3,-10,7,4,'C'],[0,-14,5,4,'C'],[3,-16,4,2,'C'],[-2,-7,2,2,'#ffe14a'],[1,-12,1,1,'#ffe14a']]},
+    chef:     {n:'Chef hat',     b:[[-6,-4,12,4,'#ffffff'],[-8,-9,6,5,'#ffffff'],[-3,-11,6,7,'#ffffff'],[2,-9,6,5,'#ffffff'],[-6,-2,12,1,'C']]},
+    fez:      {n:'Fez',          b:[[-5,-7,10,7,'C'],[-5,-2,10,1,'S'],[0,-8,2,1,'#141018'],[2,-8,3,1,'#ffc21a'],[4,-7,1,4,'#ffc21a']]},
+    party:    {n:'Party hat',    b:[[-5,-3,10,3,'C'],[-4,-6,8,3,'C'],[-2,-9,5,3,'C'],[-1,-12,3,3,'C'],[-2,-15,5,3,'#ffffff'],[-3,-5,1,1,'#ffe14a'],[1,-8,1,1,'#ffffff'],[2,-3,1,1,'#ffffff']]},
+    viking:   {n:'Viking helmet',b:[[-7,-7,14,7,'#b8c0d0'],[-7,-2,14,2,'C'],[-1,-8,2,8,'C'],[-11,-7,4,3,'#f4efd8'],[-12,-11,3,4,'#f4efd8'],[7,-7,4,3,'#f4efd8'],[9,-11,3,4,'#f4efd8']]},
+    pirate:   {n:'Pirate hat',   b:[[-9,-4,18,4,'C'],[-11,-2,22,2,'S'],[-6,-8,12,4,'C'],[-2,-7,4,3,'#ffffff'],[-1,-6,1,1,'#141018'],[1,-6,1,1,'#141018']]},
+    sombrero: {n:'Sombrero',     b:[[-13,-2,26,2,'C'],[-4,-9,8,7,'C'],[-4,-4,8,1,'#ffffff'],[-13,-3,2,1,'C'],[11,-3,2,1,'C'],[-9,-2,1,1,'#ffffff'],[-5,-2,1,1,'#ffffff'],[4,-2,1,1,'#ffffff'],[8,-2,1,1,'#ffffff']]},
+    crown:    {n:'Rainbow crown',     b:[[-7,-5,14,5,'R'],[-7,-9,3,4,'R'],[-2,-10,4,5,'R'],[4,-9,3,4,'R'],[-5,-3,2,2,'#ffffff'],[0,-3,2,2,'#ff3d6e'],[4,-3,2,2,'#3dc8ff']]},
+    halo:     {n:'Angel halo',        b:[[-7,-8,14,1,'R'],[-8,-7,1,1,'R'],[7,-7,1,1,'R'],[-7,-6,14,1,'R'],[0,-5,1,5,'#fff6c9',1]]},
+    rwizard:  {n:'Cosmic wizard hat', b:[[-8,-2,16,2,'R'],[-5,-6,10,4,'R'],[-3,-10,7,4,'R'],[0,-14,5,4,'R'],[3,-16,4,2,'R'],[5,-19,3,3,'#fff23d']]},
+    rtop:     {n:'Rainbow top hat',   b:[[-5,-12,10,11,'R'],[-8,-1,16,1,'R'],[-5,-4,10,2,'#ffffff'],[-3,-10,2,5,'#ffffff']]},
+    antlers:  {n:'Rainbow antlers',   b:[[-6,-2,12,2,'#8a5a2a'],[-6,-7,2,5,'R'],[-9,-10,2,4,'R'],[-5,-11,2,4,'R'],[4,-7,2,5,'R'],[7,-10,2,4,'R'],[3,-11,2,4,'R']]},
+  };
+  const HCOLS = [['Red', '#d8262b'], ['Blue', '#2f6fe0'], ['Green', '#2fa84a'], ['Yellow', '#ffc21a'], ['Purple', '#8a4fd6']];
+  const HATS = [], HAT = {};
+  [['basic', ['cap', 'beanie', 'bucket', 'beret', 'bowler', 'band', 'bunny', 'cone', 'flower', 'propeller']],
+   ['rare', ['top', 'cowboy', 'wizard', 'chef', 'fez', 'party']],
+   ['epic', ['viking', 'pirate', 'sombrero']]].forEach(([r, shapes]) =>
+    shapes.forEach(sh => HCOLS.forEach(([cn, col], i) => HATS.push({id:sh + '-' + i, shape:sh, r, col, name:cn + ' ' + HSHAPE[sh].n.toLowerCase()}))));
+  ['crown', 'halo', 'rwizard', 'rtop', 'antlers'].forEach(sh => HATS.push({id:sh, shape:sh, r:'legendary', col:'#ffffff', name:HSHAPE[sh].n}));
+  HATS.forEach((h, i) => {
+    h.no = i + 1; HAT[h.id] = h;
+    const b = HSHAPE[h.shape].b;
+    h.top = -Math.min(...b.map(q => q[1])); h.x0 = Math.min(...b.map(q => q[0])); h.x1 = Math.max(...b.map(q => q[0] + q[2]));
+  });
+  META.hatOn = META.hatOn.filter(id => HAT[id] && META.hats[id]);
+  // tekent een hoedje met de onderkant op (0, y0), in blokjes van g pixels; geeft de hoogte terug
+  function drawHat(h, y0, g, t){
+    const sh = HSHAPE[h.shape], K = '#141018';
+    const colOf = (c, k, q) => c === 'C' ? h.col : c === 'S' ? shade(h.col, .72)
+      : c === 'R' ? `hsl(${(t * 140 + (q[1] + y0) * 14 + k * 25) % 360},95%,60%)` : c;
+    ctx.fillStyle = K;
+    for (const q of sh.b) if (!q[5] && q[4] !== 'P') ctx.fillRect((q[0] - 1) * g, (y0 + q[1] - 1) * g, (q[2] + 2) * g, (q[3] + 2) * g);
+    sh.b.forEach((q, k) => {
+      if (q[4] === 'P'){      // draaiende propeller
+        const w = Math.abs(Math.cos(t * 14)) * q[2];
+        ctx.fillStyle = K; ctx.fillRect((-w / 2 - 1) * g, (y0 + q[1] - 1) * g, (w + 2) * g, 3 * g);
+        ctx.fillStyle = h.col; ctx.fillRect(-w / 2 * g, (y0 + q[1]) * g, w * g, g);
+        return;
+      }
+      ctx.fillStyle = colOf(q[4], k, q); ctx.fillRect(q[0] * g, (y0 + q[1]) * g, q[2] * g, q[3] * g);
+    });
+    if (h.r === 'legendary'){      // glinstertjes
+      ctx.fillStyle = '#ffffff';
+      for (let k = 0; k < 3; k++){ const a = t * 2 + k * 2.1; if (Math.sin(a * 3) > 0.3) ctx.fillRect(Math.cos(a) * 9 * g, (y0 - h.top / 2 + Math.sin(a * 1.3) * h.top / 2) * g, g, g); }
+    }
+    return h.top + 1;
+  }
+  // hoe hoog de bovenkant van het hoofd ligt per personage (in blokjes t.o.v. hy)
+  const HAT_Y = {boy:-2, girl:-2, gnome:-18, alien:-8, knight:-7, frog:-4, cat:-3, astro:-3, dino:-3};
+  // de hoedjesstapel op het hoofd van je speler (voor de ballen getekend, zodat de bal eroverheen gaat)
+  function drawHatStack(cb, z){
+    if (!META.hatOn.length) return;
+    const hand = handPos(P.x, P.y, P.rot + P.tilt, false), man = manPos(ARM.sx || P.x);
+    const o = manOpts(man, hand, cb, z), t = performance.now() / 1000, g = H * 0.01 * 0.85;
+    const B = Math.round(Math.abs(Math.sin(t * 5)) * (0.3 + o.amp) * 1.2), L = Math.max(0, Math.round(o.lift || 0));
+    const hy = -32 - B - L, HX = L > 0 ? (o.headDX || 0) : 0, c = curChar();
+    ctx.save(); ctx.translate(Math.round(man.x), Math.round(man.feet - cb)); ctx.rotate(o.lean); ctx.scale(o.look >= 0 ? 1 : -1, 1);
+    ctx.translate(HX * g, (hy + (HAT_Y[c] ?? 0)) * g);
+    let y = 0;
+    for (const id of META.hatOn){
+      const h = HAT[id]; if (!h) continue;
+      // een klein beetje wiebelen: hoe hoger in de stapel, hoe meer
+      ctx.save(); ctx.translate(Math.sin(t * 3 + y * 0.05) * Math.min(6, -y * 0.02) * g, 0);
+      y -= drawHat(h, y, g, t) - 1;
+      ctx.restore();
+    }
+    ctx.restore();
+  }
+  function hatThumb(cnv, h, size){
+    preview(cnv, () => {
+      const W0 = h.x1 - h.x0 + 2, H0 = h.top + 2, g = Math.max(1, Math.floor(Math.min(size / W0, size / H0) * 0.9));
+      ctx.save(); ctx.translate(Math.round(size / 2 - (h.x0 + h.x1) / 2 * g), Math.round(size / 2 + h.top / 2 * g));
+      drawHat(h, 0, g, performance.now() / 1000); ctx.restore();
+    }, size);
+  }
+  function rollHat(){
+    let r = Math.random() * 100, rar = 'basic';
+    for (const k of RORDER){ if (r < RAR[k].w){ rar = k; break; } r -= RAR[k].w; }
+    return pick(HATS.filter(h => h.r === rar));
+  }
+  const HS = {open:false, spinning:false, hat:null, respun:false, loop:0};
+  function hatMusic(on){
+    clearInterval(HS.loop); if (!on) return;
+    const mel = [523, 659, 784, 1047, 784, 659, 587, 740, 880, 1175, 880, 740];
+    let i = 0;
+    HS.loop = setInterval(() => { tone(mel[i % mel.length], 0.1, 0.05, 'square'); if (i % 4 === 0) tone(mel[i % mel.length] / 2, 0.2, 0.04, 'triangle'); i++; }, 110);
+  }
+  function fanfare(r){
+    const seq = r === 'legendary' ? [523, 659, 784, 1047, 1319, 1568, 2093] : r === 'epic' ? [523, 659, 784, 1047, 1319] : r === 'rare' ? [659, 784, 1047, 1319] : [784, 988, 1175];
+    seq.forEach((f, i) => { tone(f, 0.16, 0.09, 'square', i * 0.09); tone(f * 1.5, 0.16, 0.035, 'triangle', i * 0.09); });
+    const end = seq.length * 0.09;
+    tone(seq[seq.length - 1], 0.6, 0.08, 'square', end); tone(seq[seq.length - 1] * 1.25, 0.6, 0.05, 'triangle', end); tone(seq[seq.length - 1] * 1.5, 0.6, 0.05, 'triangle', end);
+    if (r === 'legendary') for (let k = 0; k < 10; k++) tone(1800 + Math.random() * 1600, 0.08, 0.03, 'sine', end + 0.1 + k * 0.07);
+  }
+  function confetti(n){
+    const box = $('hatSpin');
+    for (let k = 0; k < n; k++){
+      const c = document.createElement('i'); c.className = 'confetti';
+      c.style.left = (Math.random() * 100) + '%'; c.style.background = `hsl(${Math.random() * 360},95%,60%)`;
+      c.style.animationDuration = (1.4 + Math.random() * 1.6) + 's'; c.style.animationDelay = (Math.random() * 0.4) + 's';
+      box.appendChild(c); setTimeout(() => c.remove(), 3600);
+    }
+  }
+  function openHatSpin(src){
+    audioInit();
+    HS.open = true; HS.respun = false; paused = true;
+    $('hatSpin').hidden = false;
+    spinHat();
+  }
+  function spinHat(){
+    const win = rollHat(); HS.hat = win; HS.spinning = true;
+    $('hsRes').hidden = true; $('hsKick').textContent = 'HAT ROULETTE!';
+    const N = 44, WIN = 36, STEP = 86, CELL = 78;
+    const items = []; for (let k = 0; k < N; k++) items.push(k === WIN ? win : rollHat());
+    const track = $('hsTrack'); track.innerHTML = '';
+    items.forEach((h, k) => {
+      const d = document.createElement('div'); d.className = 'hc ' + RAR[h.r].cls; d.id = 'hc-' + k;
+      const cv2 = document.createElement('canvas'); d.appendChild(cv2); track.appendChild(d); hatThumb(cv2, h, 70);
+    });
+    const reelW = $('hsReel').clientWidth;
+    const final = reelW / 2 - (WIN * STEP + CELL / 2) + (Math.random() - .5) * (CELL - 16);
+    const T = reduceMotion ? 600 : 4200, t0 = performance.now();
+    let lastCell = -1;
+    track.style.transform = 'translateX(0px)';
+    hatMusic(true);
+    function roll(now){
+      const k = Math.min(1, (now - t0) / T), e = 1 - Math.pow(1 - k, 4);
+      const x = final * e;
+      track.style.transform = `translateX(${x}px)`;
+      const cell = Math.floor((reelW / 2 - x) / STEP);
+      if (cell !== lastCell){ lastCell = cell; blip(900 + (cell % 3) * 150, .03, .05, 'triangle'); }
+      if (k < 1) requestAnimationFrame(roll); else landHat(win, WIN);
+    }
+    requestAnimationFrame(roll);
+  }
+  function landHat(h, win){
+    HS.spinning = false; hatMusic(false);
+    const c = $('hc-' + win); if (c) c.classList.add('win');
+    const had = META.hats[h.id] || 0;
+    META.hats[h.id] = had + 1; saveMeta();
+    const R = RAR[h.r];
+    $('hsKick').textContent = h.r === 'legendary' ? 'LEGENDARY!!!' : had ? 'Duplicate!' : 'NEW HAT!';
+    $('hsRar').className = 'hs-rar ' + h.r; $('hsRar').textContent = R.name;
+    $('hsName').textContent = h.name;
+    $('hsNote').textContent = had ? `You already had this one (now x${had + 1}). With 3 duplicates you can trade them for a new spin.`
+      : `Hat #${h.no} of 100 · you own ${Object.keys(META.hats).length}/100`;
+    const on = META.hatOn.includes(h.id);
+    $('hsWear').hidden = on; $('hsWear').textContent = 'Wear it';
+    const dc = dupCount();
+    $('hsRespin').hidden = dc < 3; $('hsRespin').textContent = `Trade 3 duplicates: spin again (${dc})`;
+    $('hsRes').hidden = false;
+    const big = $('hsBig'); hatThumb(big, h, 120);
+    fanfare(h.r); confetti(h.r === 'legendary' ? 120 : h.r === 'epic' ? 70 : h.r === 'rare' ? 45 : 25);
+    checkAch();
+    setTimeout(() => $(had ? 'hsDone' : 'hsWear').focus({preventScroll:true}), 30);
+  }
+  function closeHatSpin(){
+    if (HS.spinning) return;
+    HS.open = false; hatMusic(false); $('hatSpin').hidden = true;
+    if (!choice && !endMode) paused = false;
+    if (HS.hat) floaters.push({x:W / 2, y:H * 0.4, txt:HS.hat.name + '!', age:0, big:true});
+    if (S.tab === 'style') renderSkins();
+  }
+  function wearHat(id, on){
+    META.hatOn = META.hatOn.filter(x => x !== id);
+    if (on) META.hatOn.push(id);
+    saveMeta(); checkAch();
+  }
+  $('hsWear').addEventListener('click', () => { if (!HS.hat) return; wearHat(HS.hat.id, true); $('hsWear').hidden = true; blip(1200, .1, .08, 'square'); });
+  $('hsDone').addEventListener('click', closeHatSpin);
+  // opnieuw draaien kan alleen door 3 duplicates in te leveren
+  $('hsRespin').addEventListener('click', () => { if (!HS.spinning && payDupes()) spinHat(); });
+  const dupCount = () => Object.values(META.hats).reduce((a, n) => a + Math.max(0, n - 1), 0);
+  // levert 3 duplicates in (eerst de minst zeldzame)
+  function payDupes(){
+    if (dupCount() < 3) return false;
+    let left = 3;
+    for (const r of RORDER) for (const h of HATS){ while (left > 0 && h.r === r && (META.hats[h.id] || 0) > 1){ META.hats[h.id]--; left--; } }
+    saveMeta(); return true;
+  }
+  function tradeDupes(){ if (payDupes()) openHatSpin('trade'); }
+  function renderHats(){
+    const box = $('skHats'); if (!box) return;
+    const own = Object.keys(META.hats).filter(id => HAT[id]).length;
+    $('hatCount').textContent = `(${own}/100)`;
+    const d = dupCount();
+    $('hatTrade').textContent = `Trade 3 duplicates: spin (${d})`; $('hatTrade').disabled = d < 3;
+    $('hatNone').disabled = !META.hatOn.length; $('hatAll').disabled = !own;
+    box.innerHTML = '';
+    HATS.forEach(h => {
+      const n = META.hats[h.id] || 0;
+      const b = document.createElement('button'); b.type = 'button';
+      if (!n){ b.className = 'hg none'; b.textContent = '?'; b.setAttribute('aria-label', 'Unknown hat'); box.appendChild(b); return; }
+      const on = META.hatOn.includes(h.id);
+      b.className = 'hg ' + RAR[h.r].cls + (on ? ' on' : '');
+      b.title = `${h.name} · ${RAR[h.r].name}${n > 1 ? ' · x' + n : ''}`; b.setAttribute('aria-label', b.title);
+      const cv2 = document.createElement('canvas'); b.appendChild(cv2);
+      if (n > 1){ const q = document.createElement('b'); q.textContent = 'x' + n; b.appendChild(q); }
+      b.addEventListener('click', () => { wearHat(h.id, !on); blip(on ? 600 : 1100, .06, .07, 'square'); renderHats(); });
+      box.appendChild(b); hatThumb(cv2, h, 40);
+    });
+  }
+  $('hatAll').addEventListener('click', () => { HATS.forEach(h => { if (META.hats[h.id] && !META.hatOn.includes(h.id)) META.hatOn.push(h.id); }); saveMeta(); checkAch(); renderHats(); });
+  $('hatNone').addEventListener('click', () => { META.hatOn = []; saveMeta(); renderHats(); });
+  $('hatTrade').addEventListener('click', tradeDupes);
+
   // ---------- Paneel ----------
   const upEls = {}, tabEls = {};
   const groupOf = u => GROUPS.find(g => g.g === u.g);
@@ -3047,10 +3647,10 @@
     if (S.tab === 'style') renderSkins();
   }
   // ---------- Skins-menu ----------
-  function preview(cnv, fn){
-    const g = cnv.getContext('2d'), saved = ctx;
-    cnv.width = 84; cnv.height = 84;
-    ctx = g; g.clearRect(0, 0, 84, 84);
+  function preview(cnv, fn, size){
+    const g = cnv.getContext('2d'), saved = ctx, sz = size || 84;
+    cnv.width = sz; cnv.height = sz;
+    ctx = g; g.clearRect(0, 0, sz, sz);
     try { fn(); } finally { ctx = saved; }
   }
   function renderSkins(){
@@ -3063,7 +3663,7 @@
         b.setAttribute('aria-label', it.name + (ok ? '' : it.won ? ' (unlocks when you beat the Moon)' : ` (unlocks at floor ${it.unlock})`));
         const cv2 = document.createElement('canvas'); b.appendChild(cv2);
         const nm = document.createElement('span'); nm.textContent = it.name; b.appendChild(nm);
-        if (!ok){ const l = document.createElement('div'); l.className = 'lock'; l.textContent = it.won ? 'BEAT MOON' : 'FLOOR ' + it.unlock; b.appendChild(l); }
+        if (!ok){ const l = document.createElement('div'); l.className = 'lock'; l.textContent = it.sun ? 'SECRET' : it.won ? 'BEAT MOON' : 'FLOOR ' + it.unlock; b.appendChild(l); }
         b.addEventListener('click', () => { if (!ok) return; onPick(it.id); save(); renderSkins(); });
         box.appendChild(b);
         preview(cv2, () => draw(it));
@@ -3072,12 +3672,19 @@
     mk($('skChars'), CHARS, curChar(), id => { S.skin.char = id; audioInit(); if (id === 'gnome') playGnome(); }, it => {
       const keep = S.skin.char; S.skin.char = it.id;
       const d = S.dev; S.dev = true;   // voorbeeld tekenen, ook als hij nog op slot zit
-      drawCharacter(42, 82, 2.75, {look:1, lean:0, amp:0, walk:0, mood:'happy', shirt:ballCols()[1], num:S.etage || 1, wave:false});
+      const tall = ['alien', 'knight', 'frog'].includes(it.id);
+      drawCharacter(42, 82, tall ? 2.3 : 2.75, {look:1, lean:0, amp:0, walk:0, mood:'happy', shirt:ballCols()[1], num:S.etage || 1, wave:false});
       S.skin.char = keep; S.dev = d;
+    });
+    const BALLS = [{id:'normal', name:'Classic', unlock:0}, {id:'sun', name:'The Sun', unlock:99, sun:true}];
+    mk($('skBalls'), BALLS, (S.skin.ball === 'sun' && unlocked(BALLS[1])) ? 'sun' : 'normal', id => { S.skin.ball = id; }, it => {
+      if (it.id === 'sun') drawSun(42, 42, 20);
+      else { ctx.fillStyle = '#141018'; ctx.beginPath(); ctx.arc(42, 42, 16, 0, Math.PI * 2); ctx.fill(); const g = ctx.createRadialGradient(37, 37, 2, 42, 42, 15); g.addColorStop(0, '#ffd2a3'); g.addColorStop(.45, '#ff8a1f'); g.addColorStop(1, '#d9620a'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(42, 42, 14, 0, Math.PI * 2); ctx.fill(); }
     });
     mk($('skPads'), PADDLES, curPaddle().id, id => { S.skin.paddle = id; }, it => {
       ctx.save(); ctx.translate(38, 44); ctx.rotate(-0.35); paintPaddle(46, it); ctx.restore();
     });
+    renderHats();
     const tb = $('skTones'); tb.innerHTML = '';
     TONES.forEach((c, i) => {
       const b = document.createElement('button'); b.type = 'button'; b.className = 'tone' + ((S.skin.tone | 0) === i ? ' cur' : '');
@@ -3132,6 +3739,11 @@
   });
   function doPrestige(){
     S.etage++;
+    if (!S.dev && S.etage > (META.maxFloor || 0)){
+      META.maxFloor = S.etage; saveMeta();
+      const nc = CHARS.find(c => c.unlock === S.etage && !c.won);
+      if (nc) setTimeout(() => toast(nc.name + ' (tab Style)', 'NEW PLAYER UNLOCKED'), 900);
+    }
     S.pts = 0; S.lv = {}; S.bats = []; S.portals = []; S.bossHits = 0; BOSS.on = false; BOMBS = []; HAZ = []; DRONES = [];
     streak = 0; carry = null; sel = -1; hoverBat = -1; P.rot = 0;
     Object.assign(POW, POW0); star = null; starTimer = 8; if (choice) closeChoice();
@@ -3204,13 +3816,28 @@
     $('devTools').hidden = !S.dev;
     lastHud = '';
   }
-  $('dev').addEventListener('click', () => {
-    if (!S.dev){ S.devBackup = S.pts; S.dev = true; }
-    else { S.dev = false; S.pts = S.devBackup || 0; }
+  function setDev(on){
+    if (on && !S.dev){ S.devBackup = S.pts; S.dev = true; }
+    else if (!on && S.dev){ S.dev = false; S.pts = S.devBackup || 0; }
     Object.values(upEls).forEach(el => el.key = '');
     renderDev(); save(); renderPanel(); showTab();
+  }
+  // developer mode aanzetten kan alleen met het wachtwoord; uitzetten mag altijd
+  const DEV_PW = 'jemoer';
+  $('dev').addEventListener('click', () => {
+    if (S.dev){ setDev(false); return; }
+    const f = $('devPw'); f.hidden = !f.hidden; $('devPwErr').hidden = true; $('devPwIn').value = '';
+    if (!f.hidden) $('devPwIn').focus();
   });
+  // geen <form>: in de ingebouwde weergave worden formulieren geblokkeerd
+  $('devPwIn').addEventListener('keydown', e => { e.stopPropagation(); if (e.key === 'Escape') $('devPw').hidden = true; if (e.key === 'Enter'){ e.preventDefault(); tryDevPw(); } });
+  $('devPwOk').addEventListener('click', tryDevPw);
+  function tryDevPw(){
+    if ($('devPwIn').value.trim().toLowerCase() === DEV_PW){ $('devPw').hidden = true; $('devPwIn').value = ''; setDev(true); blip(1200, .1, .08, 'square'); }
+    else { $('devPwErr').hidden = false; $('devPwIn').select(); blip(140, .25, .1, 'sawtooth'); }
+  }
   $('devStar').addEventListener('click', () => { if (!S.finale && !paused) spawnStar(); });
+  $('devHat').addEventListener('click', () => { if (!paused) openHatSpin('dev'); });
   $('devMoon').addEventListener('click', () => { if (!S.finale){ POW.moon = 30; floaters.push({x:W / 2, y:P.y - 80, txt:'Moonshot: hit the ball up!', age:0, big:true}); } });
   $('devFloor').addEventListener('click', () => { S.bossDown[S.etage] = true; S.etage = Math.min(ETAGE_MAX, S.etage + 1); S.view = S.etage; save(); renderPanel(); });
   $('devShower').addEventListener('click', () => { if (!S.finale) startShower(); });
@@ -3245,11 +3872,23 @@
     balls = []; syncBalls(); save(); renderPanel(); updateHint(); renderDev();
   }
 
+  // Nieuwe bal: alle ballen weg en één verse bal laten vallen
+  function dropNewBall(){
+    if (choice || endMode || menuOpen || SUN.falling || SUN.impact > 0) return;
+    balls = []; streak = 0;
+    if (!S.sunMode && !S.finale){
+      const want = 1 + lv('bal');
+      for (let k = 0; k < want; k++){ const b = {x:W / 2, y:spawnY(), ox:W / 2, oy:spawnY(), vx:0, vy:0, spin:0, trail:[], hidden:k > 0, wait:0.9 * k}; balls.push(b); }
+    } else syncBalls();
+    blip(700, .08, .1, 'square');
+  }
+  $('newBall').addEventListener('click', dropNewBall);
+  addEventListener('keydown', e => { if ((e.key === 'n' || e.key === 'N') && !e.repeat) dropNewBall(); });
   let lastPow = '';
   function renderPowers(){
     const list = [];
     if (POW.moon > 0) list.push(['moon', 'Moonshot: hit the ball up', POW.moon]);
-    if (S.finale) list.push(['moon', 'Moon hits ' + S.moonTicks + (S.won ? '' : ' / 10'), null]);
+    if (S.finale && !S.sunMode) list.push(['moon', 'Moon hits ' + S.moonTicks + (S.won ? '' : ' / 10'), null]);
     if (POW.turbo > 0) list.push(['turbo', 'Turbo ' + POW.turboF + 'x', POW.turbo]);
     if (POW.bouncer > 0) list.push(['bouncer', 'Bouncer ' + POW.bounceF + 'x', POW.bouncer]);
     if (POW.big > 0) list.push(['big', 'Big ball', POW.big]);
@@ -3268,7 +3907,8 @@
   let lastMoon = '';
   function renderMoonDist(){
     let txt;
-    if (S.finale) txt = S.won ? 'The Moon is yours' : 'The Moon is on your paddle';
+    if (S.sunMode) txt = 'You are juggling the Sun!';
+    else if (S.finale) txt = S.won ? 'The Moon is yours' : 'The Moon is on your paddle';
     else {
       const d = Math.max(0, MOON_M - altAt(P.y));
       txt = 'Moon: ' + (d >= 1000 ? Math.round(d / 1000).toLocaleString('en-US') + ' km' : Math.round(d).toLocaleString('en-US') + ' m') + ' away · '
@@ -3346,15 +3986,22 @@
     ['moon',    'Moonwalker',       'Beat the Moon',                             () => !!S.won],
     ['gnomed',  "You've been gnomed",'Hear the gnome',                           () => META.flags.gnomed],
     ['saber',   'Jedi',             'Hit the ball with the lightsaber',          () => META.flags.saber],
+    ['hat',     'Mad hatter',       'Win a hat from the star roulette',          () => Object.keys(META.hats).length > 0],
+    ['leghat',  'Legendary!',       'Get a legendary hat',                       () => HATS.some(h => h.r === 'legendary' && META.hats[h.id])],
+    ['hattower','Hat tower',        'Wear 25 hats at the same time',             () => META.hatOn.length >= 25],
+    ['allhats', 'Hat collector',    'Collect all 100 hats',                      () => HATS.every(h => META.hats[h.id])],
+    ['roster',  'Full team',        'Unlock all 10 floor players',               () => (META.maxFloor || 0) >= 10],
+    ['sun',     'Solar eclipse',    'Secret: find the hidden ending',             () => META.flags.sunEnd],
   ];
   let toastQ = [], toastBusy = false;
-  function toast(name){
-    toastQ.push(name);
+  function toast(name, kick){
+    toastQ.push([name, kick || 'ACHIEVEMENT UNLOCKED']);
     if (toastBusy) return;
     const next = () => {
-      const n = toastQ.shift(); if (!n){ toastBusy = false; $('toast').hidden = true; return; }
-      toastBusy = true;
-      $('toast').innerHTML = svg('star') + '<div><div class="t-k">ACHIEVEMENT UNLOCKED</div><div class="t-n"></div></div>';
+      const q = toastQ.shift(); if (!q){ toastBusy = false; $('toast').hidden = true; return; }
+      toastBusy = true; const [n, kick] = q;
+      $('toast').innerHTML = svg(kick === 'ACHIEVEMENT UNLOCKED' ? 'star' : kick.includes('HAT') ? 'hat' : 'shirt') + '<div><div class="t-k"></div><div class="t-n"></div></div>';
+      $('toast').querySelector('.t-k').textContent = kick;
       $('toast').querySelector('.t-n').textContent = n; $('toast').hidden = false;
       tone(880, 0.12, 0.1, 'square'); tone(1320, 0.2, 0.1, 'square', 0.12);
       setTimeout(next, 2600);
@@ -3479,6 +4126,7 @@
 
   // wat je in een bestaand spel al gekocht/verslagen hebt, telt als gezien
   UP.forEach(u => { if (lv(u.id) > 0) META.seen.up[u.id] = true; });
+  if (S.etage > (META.maxFloor || 0)){ META.maxFloor = S.etage; saveMeta(); }
   Object.keys(S.bossDown || {}).forEach(k => { if (S.bossDown[k] && hasBoss(+k)) META.seen.boss[defOf(+k).name] = true; });
   saveMeta();
   resize(); updateHint(); renderPanel(); renderDev();
