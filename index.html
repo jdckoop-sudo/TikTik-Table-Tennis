@@ -117,6 +117,14 @@
   .g-ster{--tile-bg:#fff1c2;--tile-fg:#a07800}
   .g-extra{--tile-bg:#e7e9f2;--tile-fg:#4b5875}
   .foot{margin-top:auto;display:flex;gap:8px;flex-wrap:wrap}
+  .legacy{display:flex;flex-direction:column;gap:8px}
+  .legacy[hidden]{display:none}
+  .leg-head{display:flex;gap:10px;align-items:center;font-family:var(--vt);font-size:17px;line-height:1.1;color:#cfd6ff;background:#070b33;border:2px solid var(--ps-line);padding:8px}
+  .leg-tro{flex:none;font-family:var(--px);font-size:12px;color:#ffe14a;text-shadow:2px 2px 0 #000;text-align:center;min-width:70px}
+  #legList{display:flex;flex-direction:column;gap:8px}
+  .up.leg .buy.ready{background:linear-gradient(#fff08a,#ffc21a 55%,#f08a0c);color:#2a1300}
+  @keyframes readyPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+  .prest-btn.ready:not(.armed){animation:readyPulse .9s ease-in-out infinite}
   .devpw{display:flex;gap:6px;align-items:center;flex-wrap:wrap;width:100%}
   .devpw[hidden]{display:none}
   .devpw input{font-family:var(--vt);font-size:20px;padding:4px 8px;border:2px solid #000;background:#070b33;color:#fff;width:150px;min-width:0}
@@ -232,6 +240,10 @@
   @keyframes sbpulse{50%{background:#fff}}
   @media (prefers-reduced-motion: reduce){ .showerbar.on .sb-ic{animation:none} }
   .powers{top:170px}
+  .bossgo{all:unset;position:absolute;top:92px;left:50%;transform:translateX(-50%);z-index:7;cursor:pointer;font-family:var(--px);font-size:10px;padding:10px 14px;color:#fff;
+    background:linear-gradient(#ff5a5a,#d8262b 55%,#8a1015);border:3px solid #000;box-shadow:inset 2px 2px 0 #ff9a9a,3px 3px 0 rgba(0,0,0,.5);text-shadow:2px 2px 0 #000;animation:bossPulse .8s ease-in-out infinite;white-space:nowrap}
+  .bossgo[hidden]{display:none}
+  @keyframes bossPulse{0%,100%{transform:translateX(-50%) scale(1)}50%{transform:translateX(-50%) scale(1.07)}}
   .bossbar{position:absolute;top:50px;left:50%;transform:translateX(-50%);width:min(420px,60%);z-index:6;pointer-events:none}
   .bb-top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
   .bb-name{font-family:var(--px);font-size:9px;color:#ff6b6b;text-shadow:2px 2px 0 #000}
@@ -264,7 +276,9 @@
   .stat{background:#070b33;border:2px solid var(--ps-line);border-radius:0;box-shadow:inset 0 0 0 2px #000}
   .stat .k{font-family:var(--px);font-size:8px;letter-spacing:0;color:var(--ps-yellow);font-weight:400}
   .stat .v{font-family:var(--vt);font-weight:400;font-size:30px;line-height:1;color:#7dffb0;text-shadow:0 0 6px rgba(125,255,176,.45)}
-  .tabs{grid-template-columns:repeat(6,1fr);background:#070b33;border:2px solid var(--ps-line);border-radius:0;padding:3px}
+  .tab{min-width:0;overflow:hidden}
+  .tab > span:not(.badge){font-size:6px;letter-spacing:-.3px;white-space:nowrap}
+  .tabs{grid-template-columns:repeat(7,minmax(0,1fr));gap:2px;background:#070b33;border:2px solid var(--ps-line);border-radius:0;padding:3px}
   .tab{font-family:var(--px);font-size:7px;font-weight:400;color:#b7c0f2;border-radius:0;padding:8px 2px 7px;gap:6px}
   .tab:hover{color:#fff}
   .tab[aria-selected="true"]{background:linear-gradient(#f1f2f8,#9ea3b8);color:#10143a;box-shadow:inset -2px -2px 0 #5f6376, inset 2px 2px 0 #fff}
@@ -380,7 +394,11 @@
     background:linear-gradient(rgba(11,18,85,0),#0b1255 55%);pointer-events:none;text-shadow:2px 2px 0 #000;animation:sh 1.2s steps(2) infinite;z-index:3}
   @keyframes sh{50%{transform:translateY(3px)}}
   @media (prefers-reduced-motion: reduce){ .scrollhint{animation:none} }
-  .panel{scrollbar-width:auto;scrollbar-color:#ffe14a #0b1255}
+  .panel{scrollbar-width:auto;scrollbar-color:#ffe14a #0b1255;overflow-x:hidden}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stat{min-width:0}
+  .stat .v{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .score .v,.score #pts{white-space:nowrap}
   .panel::-webkit-scrollbar{width:12px}
   .panel::-webkit-scrollbar-track{background:#0b1255}
   .panel::-webkit-scrollbar-thumb{background:#ffe14a;border:2px solid #0b1255}
@@ -397,6 +415,45 @@
     background:linear-gradient(#f1f2f8,#9ea3b8);box-shadow:inset 3px 3px 0 #fff, inset -3px -3px 0 #5f6376, 3px 3px 0 #000}
   .pm-btn:hover,.pm-btn:focus-visible{background:linear-gradient(#fff08a,#ffc21a 55%,#f08a0c);color:#2a1300;outline:none}
   .pm-btn.armed{background:var(--ps-red);color:#fff}
+  .pm-btn.hard{background:linear-gradient(#ff7a7a,#d8262b 55%,#8a1015);color:#fff;text-shadow:2px 2px 0 #000;box-shadow:inset 3px 3px 0 #ffb0b0, inset -3px -3px 0 #5a0a0e, 3px 3px 0 #000}
+  .pm-btn.hard:hover,.pm-btn.hard:focus-visible{background:linear-gradient(#ffb0b0,#ff5a5a 55%,#b8161c);color:#fff}
+  .pm-btn.hard.locked{background:linear-gradient(#6b6f84,#3f4254);color:#c9ccd8;cursor:not-allowed;font-size:9px;line-height:1.6;text-shadow:none}
+  .pm-hc{font-family:var(--vt);font-size:20px;margin:6px 0 0;color:#ff9a9a}
+  .newball[hidden]{display:none}
+  .replace-btn{all:unset;box-sizing:border-box;margin-top:5px;align-self:flex-start;cursor:pointer;font-family:var(--px);font-size:7px;padding:5px 7px;color:#10143a;
+    background:linear-gradient(#f1f2f8,#9ea3b8);box-shadow:inset 2px 2px 0 #fff, inset -2px -2px 0 #5f6376, 2px 2px 0 #000}
+  .replace-btn:hover,.replace-btn:focus-visible{background:linear-gradient(#fff08a,#ffc21a 55%,#f08a0c);outline:none}
+  .replace-btn[hidden]{display:none}
+  .mini{position:absolute;z-index:7;width:190px;padding:6px;background:linear-gradient(180deg,#2536b8,#0d1560);border:3px solid #dfe2ec;box-shadow:3px 3px 0 rgba(0,0,0,.6);pointer-events:none;animation:miniIn .25s ease-out;transition:opacity .35s,transform .35s}
+  .mini.out{opacity:0;transform:scale(.85)}
+  .mini.good{border-color:#7dffb0}.mini.bad{border-color:#ff6b80}.mini.gold{border-color:#ffc21a}
+  @keyframes miniIn{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+  .mini-reel{position:relative;height:52px;overflow:hidden;background:#070b33;border:2px solid #000}
+  .mini-track{position:absolute;top:3px;left:0;display:flex;gap:4px;will-change:transform}
+  .mcell{flex:none;width:46px;height:46px;display:grid;place-items:center;background:#1c2a9c;color:#ffd23f;box-sizing:border-box;border:2px solid transparent}
+  .mcell svg{width:24px;height:24px}
+  .mcell.neg{background:#5a1022;color:#ff6b80}
+  .mcell.moon{background:linear-gradient(#fff08a,#ffc21a 55%,#c98a00);color:#2a1300}
+  .mcell.hat{background:linear-gradient(90deg,#ff3d6e,#ffb43d,#fff23d,#3dff6a,#3dc8ff,#8a4fd6);color:#1a0a2a}
+  .mcell.win{border-color:#fff;box-shadow:0 0 10px #fff}
+  .mini-mark{position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;background:#ffd23f}
+  .mini-res{font-family:var(--vt);font-size:18px;color:#fff;margin-top:4px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:1px 1px 0 #000}
+  .unlock{position:absolute;left:50%;top:34%;transform:translateX(-50%);z-index:9;display:flex;align-items:center;gap:12px;padding:12px 18px 12px 12px;pointer-events:none;
+    background:linear-gradient(180deg,#2536b8,#0d1560);border:4px solid #ffe14a;box-shadow:5px 5px 0 #000,0 0 30px rgba(255,225,74,.5);animation:unlIn .45s cubic-bezier(.2,1.6,.4,1)}
+  .unlock[hidden]{display:none}
+  .unlock canvas{width:84px;height:84px;image-rendering:pixelated;background:#0a0f3c;border:2px solid #000;flex:none}
+  .u-k{font-family:var(--px);font-size:9px;color:#ffe14a;text-shadow:2px 2px 0 #000}
+  .u-n{font-family:var(--px);font-size:15px;color:#fff;margin:8px 0 6px;text-shadow:3px 3px 0 #000}
+  .u-s{font-family:var(--vt);font-size:19px;color:#cfd6ff}
+  @keyframes unlIn{from{transform:translateX(-50%) scale(.3) rotate(-6deg);opacity:0}to{transform:translateX(-50%) scale(1) rotate(0);opacity:1}}
+  .viewbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:#070b33;border:2px solid var(--ps-line);padding:6px}
+  .vb-l{font-family:var(--px);font-size:8px;color:var(--ps-yellow);margin-right:2px}
+  .viewbar .lift{position:static;flex-direction:row;flex-wrap:wrap;gap:4px;overflow:visible;flex:1;min-width:0}
+  .viewbar .lift button{width:auto;min-width:30px;padding:7px 6px}
+  .viewbar .lift button.all{padding:8px 6px}
+  .viewbar .newball{position:static;margin-left:auto}
+  .hcbadge{position:absolute;left:16px;top:160px;z-index:6;font-family:var(--px);font-size:9px;color:#fff;background:#b8161c;border:2px solid #000;padding:6px 8px;box-shadow:3px 3px 0 rgba(0,0,0,.5);text-shadow:1px 1px 0 #000;pointer-events:none}
+  .hcbadge[hidden]{display:none}
   .pm-btn[hidden]{display:none}
   .pm-foot{font-family:var(--vt);font-size:18px;color:#9aa6e6;margin:4px 0 0}
   .pm-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
@@ -407,6 +464,16 @@
   .pm-tab{all:unset;cursor:pointer;font-family:var(--px);font-size:8px;padding:8px 10px;color:#b7c0f2;background:#070b33;border:2px solid var(--ps-line)}
   .pm-tab[aria-selected="true"]{color:#10143a;background:linear-gradient(#fff08a,#ffc21a);border-color:#fff}
   .pm-tab:focus-visible{outline:2px solid #fff}
+  .st-tot{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:6px;margin-bottom:10px}
+  .st-tot div{background:#070b33;border:2px solid var(--ps-line);padding:6px 8px;font-family:var(--px);font-size:7px;color:var(--ps-yellow)}
+  .st-tot b{display:block;font-family:var(--vt);font-size:24px;font-weight:400;color:#7dffb0;margin-top:3px}
+  .st-wrap{max-height:46vh;overflow:auto;border:2px solid var(--ps-line);background:#070b33}
+  .st-tab{width:100%;border-collapse:collapse;font-family:var(--vt);font-size:19px;color:#e8ecff}
+  .st-tab th{position:sticky;top:0;background:#1c2a9c;font-family:var(--px);font-size:7px;font-weight:400;color:var(--ps-yellow);padding:7px 6px;text-align:left}
+  .st-tab td{padding:4px 6px;border-top:1px solid rgba(255,255,255,.08);white-space:nowrap;font-variant-numeric:tabular-nums}
+  .st-tab tr.cur td{background:rgba(255,225,74,.12)}
+  .st-tab td.hard{color:#ff8a8a}
+  .st-empty{font-family:var(--vt);font-size:20px;color:#cfd6ff;padding:10px}
   .pm-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
   .pm-list.text{display:flex;flex-direction:column;gap:10px;font-family:var(--vt);font-size:20px;line-height:1.15;color:#e8ecff}
   .pm-list.text b{color:var(--ps-yellow);font-weight:400}
@@ -438,6 +505,7 @@
 
 <div class="app">
   <div class="stage" id="stage">
+    <div class="unlock" id="unlockBox" hidden><canvas id="unlockCv" width="84" height="84"></canvas><div><div class="u-k" id="unlockK">UNLOCKED!</div><div class="u-n" id="unlockN"></div><div class="u-s" id="unlockS"></div></div></div>
     <canvas id="cv" aria-label="Playing field: keep the ping pong ball up with your paddle"></canvas>
     <canvas id="lc" aria-hidden="true"></canvas>
     <div class="hud">
@@ -453,8 +521,7 @@
       </div>
     </div>
     <div class="hint" id="hint"></div>
-    <div class="lift" id="lift" aria-label="Floors"></div>
-    <button class="newball" id="newBall" type="button" title="Remove all balls and drop a fresh one (N)">New ball (N)</button>
+    <div class="hcbadge" id="hcBadge" hidden>HARDCORE</div>
     <div class="moondist" id="moondist" aria-live="off"></div>
     <div class="showerbar" id="showerbar">
       <span class="sb-ic" id="sbIc"></span>
@@ -464,6 +531,7 @@
       <div class="bb-top"><span class="bb-name" id="bbName"></span><span class="bb-info" id="bbInfo"></span></div>
       <div class="bb-track"><div class="bb-fill" id="bbFill"></div></div>
     </div>
+    <button class="bossgo" id="bossGo" type="button" hidden>FIGHT</button>
     <div class="powers" id="powers" aria-live="polite"></div>
     <div class="choice" id="ending" hidden>
       <div class="choice-box end-box" role="dialog" aria-labelledby="endTitle">
@@ -519,6 +587,12 @@
   </div>
 
   <aside class="panel">
+    <!-- verdiepingknoppen en nieuwe bal staan hier, zodat ze je batje in het veld niet in de weg zitten -->
+    <div class="viewbar">
+      <span class="vb-l">View</span>
+      <div class="lift" id="lift" aria-label="Floors"></div>
+      <button class="newball" id="newBall" type="button" title="Remove all balls and drop a fresh one (N)">New ball (N)</button>
+    </div>
     <div class="panel-head">
       <h1>Tik Tik Table Tennis</h1>
       <p class="sub">Keep the ball in the air. Every hit scores points, and a long streak makes each hit worth more. Hit golden stars with the ball to get a power.</p>
@@ -528,6 +602,7 @@
         <div><dt>R</dt><dd>level paddle</dd></div>
         <div><dt>Wheel</dt><dd>out: whole building · in: pick a floor</dd></div>
         <div><dt>W / S</dt><dd>floor up / down</dd></div>
+        <div><dt>N</dt><dd>new ball</dd></div>
       </dl>
     </div>
     <div class="stats">
@@ -546,7 +621,7 @@
         <span class="prest-arrow" id="prestArrow">▼</span>
       </button>
       <div class="prest-now" id="prestNow"></div>
-      <p class="prest-desc"><span id="prestGrow">Your hall grows 5 meters taller</span> and all your points count extra from now on. You do lose your points, all upgrades, bounce paddles and portals. Your records stay.</p>
+      <p class="prest-desc"><span id="prestGrow">Your hall grows 5 meters taller</span> and all your points count extra from now on. You earn trophies to spend in the Legacy tab. Your points, upgrades, bounce paddles and portals reset, but Legacy upgrades, hats, players and records stay.</p>
       <ul class="prest-list" id="prestList"></ul>
       <div class="prest-req" id="prestReq"></div>
       <button class="prest-btn" id="prestBtn" type="button"></button>
@@ -554,6 +629,10 @@
     <div class="tabs" role="tablist" aria-label="Upgrades" id="tabs"></div>
     <div class="tab-title"><h2 id="tabName"></h2><span id="tabInfo"></span></div>
     <div class="ups" id="ups" role="tabpanel"></div>
+    <div class="legacy" id="legacy" hidden>
+      <div class="leg-head"><span class="leg-tro" id="legTro"></span><span>Earn trophies by building floors. The more points you scored on a floor, the more you get. Legacy upgrades stay when you build a floor.</span></div>
+      <div id="legList"></div>
+    </div>
     <div class="skins" id="skins" hidden>
       <div class="sk-sub">Player</div>
       <div class="sk-grid" id="skChars"></div>
@@ -577,12 +656,15 @@
       <div class="dev-head"><b>Developer mode</b><span>Infinite points, everything is free</span></div>
       <div class="dev-btns">
         <button class="btn" id="devStar" type="button">Star now</button>
+        <button class="btn" id="devSpin" type="button">Power spin</button>
         <button class="btn" id="devHat" type="button">Hat spin</button>
         <button class="btn" id="devMoon" type="button">Give Moonshot</button>
         <button class="btn" id="devFloor" type="button">Floor +1</button>
         <button class="btn" id="devBoss" type="button">Boss now</button>
         <button class="btn" id="devShower" type="button">Star shower</button>
         <button class="btn" id="devAll" type="button">Max everything</button>
+        <button class="btn" id="devUnlock" type="button">Unlock all progress</button>
+        <button class="btn danger" id="devWipe" type="button">Wipe all progress</button>
       </div>
     </div>
     <div class="foot">
@@ -606,11 +688,14 @@
     <div id="pmHome">
       <h1 class="pm-title">Tik Tik<br>Table Tennis</h1>
       <p class="pm-sub" id="pmSub">From a sports hall to the Moon</p>
+      <p class="pm-hc" id="pmHc" hidden></p>
       <div class="pm-btns">
         <button class="pm-btn" id="pmContinue" type="button">Continue</button>
         <button class="pm-btn" id="pmNew" type="button">New game</button>
+        <button class="pm-btn hard" id="pmHard" type="button">Hardcore mode</button>
         <button class="pm-btn" id="pmHow" type="button">How to play &amp; codex</button>
         <button class="pm-btn" id="pmAch" type="button">Achievements <span id="pmAchCount"></span></button>
+        <button class="pm-btn" id="pmStats" type="button">Stats &amp; runs</button>
       </div>
       <p class="pm-foot">Press Esc during play to open this menu</p>
     </div>
@@ -618,6 +703,11 @@
       <div class="pm-head"><button class="pm-back" type="button" data-back>◀ Back</button><h2>How to play</h2></div>
       <div class="pm-tabs" id="pmTabs"></div>
       <div class="pm-list" id="pmList"></div>
+    </div>
+    <div id="pmStatsPage" hidden>
+      <div class="pm-head"><button class="pm-back" type="button" data-back>◀ Back</button><h2>Stats &amp; runs</h2></div>
+      <div class="st-tot" id="stTot"></div>
+      <div class="st-wrap"><table class="st-tab"><thead><tr><th>#</th><th>Mode</th><th>Floor</th><th>Time</th><th>Falls</th><th>Points</th><th>Streak</th><th>Result</th></tr></thead><tbody id="stRuns"></tbody></table></div>
     </div>
     <div id="pmAchPage" hidden>
       <div class="pm-head"><button class="pm-back" type="button" data-back>◀ Back</button><h2>Achievements</h2></div>
@@ -672,24 +762,37 @@
     portal:'<ellipse cx="7" cy="12" rx="3.5" ry="7.5"/><ellipse cx="17" cy="12" rx="3.5" ry="7.5"/><path d="M10.5 12h3" stroke-dasharray="1.5 1.5"/>',
     robot:'<rect x="5" y="8" width="14" height="11" rx="3"/><path d="M12 4v4"/><circle cx="12" cy="3.5" r="1"/><circle cx="9.5" cy="13" r="1.3" fill="currentColor"/><circle cx="14.5" cy="13" r="1.3" fill="currentColor"/>',
     balls:'<circle cx="8" cy="14.5" r="5"/><circle cx="16.5" cy="7.5" r="4"/>',
+    trophy:'<path d="M8 21h8M12 16v5M7 3.5h10V9a5 5 0 0 1-10 0z"/><path d="M7 5.5H4a3 3 0 0 0 3.2 4.3M17 5.5h3a3 3 0 0 1-3.2 4.3"/>',
     hat:'<path d="M2.5 18.5h19"/><path d="M6 18.5V7.5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v11"/><path d="M6 14h12"/>',
   };
   const svg = (name, size) => `<svg viewBox="0 0 24 24"${size ? ` width="${size}" height="${size}"` : ''} fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[name] || ''}</svg>`;
 
   // ---------- Opslag ----------
   const KEY = 'tiktik-tafeltennis-v1';
-  function fresh(){ return {moonLaunches:0, moonTicks:0, showerHits:0, bossDown:{}, bossHits:0, skin:{char:'boy', tone:1, paddle:'classic'},dev:false,etage:0,veld8:true,tab:'batje',pts:0,total:0,hits:0,best:0,lv:{},muted:false,bats:[],portals:[],high:0}; }
+  function fresh(){ return {moonLaunches:0, moonTicks:0, showerHits:0, bossDown:{}, bossHits:0, skin:{char:'boy', tone:1, paddle:'classic'},dev:false,etage:0,veld8:true,tab:'batje',pts:0,total:0,hits:0,best:0,lv:{},muted:false,bats:[],portals:[],high:0,trophies:0,trophyTotal:0,leg:{},runStart:0,readyToast:-1,lastSeen:0,upBuys:0,bossReadyToast:-1,floors6:true,moth:true,runTime:0,runFalls:0,runStreak:0}; }
   let S = fresh();
   try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(fresh(), JSON.parse(raw)); } catch(e){}
   // Veld vrijkopen had eerst 4 stukken van 10%, nu 8 van 5%: bestaande voortgang omzetten
   if (!S.veld8){ if (S.lv.veld) S.lv.veld = Math.min(8, S.lv.veld * 2); S.veld8 = true; }
   if ((S.lv.veld || 0) > 8) S.lv.veld = 8;
-  S.etage = Math.min(10, S.etage || 0);
+  // oude saves (10 verdiepingen) omzetten naar 6: verdieping schalen, gepasseerde bazen tellen als verslagen
+  if (!S.floors6){
+    const old = S.etage || 0, curDown = !!(S.bossDown && S.bossDown[old]) || old < 2;
+    S.etage = Math.min(6, Math.round(old * 0.6));
+    const bd = {}; for (let k = 1; k < S.etage; k++) bd[k] = true; if (curDown && S.etage >= 1) bd[S.etage] = true;
+    if (S.won) for (let k = 1; k <= 6; k++) bd[k] = true;
+    S.bossDown = bd; S.floors6 = true;
+  }
+  if (!S.moth){ if ((S.etage || 0) > 0 || (S.bossDown && S.bossDown[1])) (S.bossDown = S.bossDown || {})[0] = true; S.moth = true; }
+  S.etage = Math.min(6, S.etage || 0);
+  S.upBuys = S.upBuys || 0; S.runTime = S.runTime || 0; S.runFalls = S.runFalls || 0; S.runStreak = S.runStreak || 0; if (S.bossReadyToast == null) S.bossReadyToast = -1;
   if (!S.skin) S.skin = {char:'boy', tone:1, paddle:'classic'};
   S.showerHits = S.showerHits || 0;
   if (!S.bossDown) S.bossDown = {}; S.bossHits = S.bossHits || 0;
   S.moonTicks = S.moonTicks || 0;
-  function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
+  S.trophies = S.trophies || 0; S.trophyTotal = S.trophyTotal || 0; S.leg = S.leg || {}; S.runStart = S.runStart || 0; if (S.readyToast == null) S.readyToast = -1;
+  const HKEY = KEY + '-hc';
+  function save(){ S.lastSeen = Date.now(); try { localStorage.setItem(S.hardcore ? HKEY : KEY, JSON.stringify(S)); } catch(e){} }
   // Meta: wat je ooit gezien hebt (codex) en achievements. Blijft bewaard bij een nieuw spel.
   const MKEY = KEY + '-meta';
   let META = {seen:{up:{}, boss:{}, pow:{}}, ach:{}, flags:{}, maxFloor:0, hats:{}, hatOn:[]};
@@ -709,6 +812,7 @@
     {g:'Your paddle', id:'spin',   name:'Topspin', desc:'Each hit in your streak raises the multiplier more', base:60, mul:1.9, max:10},
     {g:'Your paddle', id:'blad',   name:'Bigger blade', desc:'Paddle gets 12% wider', base:30, mul:2.1, max:8},
     {g:'Your paddle', id:'lucht',  name:'Floaty ball', desc:'Ball falls 7% slower', base:45, mul:2, max:7},
+    {g:'Your paddle', id:'hoogte', name:'Sky bonus', desc:'Balls that go high give 40% more height bonus', base:50, mul:1.9, max:10},
     {g:'Your paddle', id:'balgroot', name:'Bigger ball', desc:'Your ball grows about 22% per level, up to half the size of the Moon', base:40, mul:2.1, max:10},
 
     {g:'Bounce paddles', id:'vast',       name:'Bounce paddle', desc:'A fixed paddle you place and rotate in the field. Every bounce counts toward your streak', base:150, mul:3, max:5},
@@ -729,7 +833,7 @@
     {g:'Extra', id:'robot', name:'Robot trainer', desc:'Hits along on its own and earns points per second', base:80, mul:1.55, max:Infinity},
     {g:'Extra', id:'bal',   name:'Extra ball', desc:'One more ball in the air at once', base:600, mul:6, max:3},
   ];
-  const UPICON = {rubber:'rubber', spin:'spin', blad:'wide', lucht:'feather', balgroot:'big', vast:'bat', kaatsrubber:'rubber', kaatsbreed:'wide', springveer:'spring',
+  const UPICON = {hoogte:'up', rubber:'rubber', spin:'spin', blad:'wide', lucht:'feather', balgroot:'big', vast:'bat', kaatsrubber:'rubber', kaatsbreed:'wide', springveer:'spring',
     veld:'up', portal:'portal', sterregen:'stars', stervanger:'starring', krachtbron:'battery', keuze:'cards', gokgeluk:'clover', geluk:'dice', robot:'robot', bal:'balls'};
   const GROUPS = [
     {id:'batje', g:'Your paddle', short:'Paddle', icon:'paddle', info:'More points per hit'},
@@ -738,9 +842,12 @@
     {id:'ster',  g:'Stars and powers', short:'Stars', icon:'star', info:'More and stronger powers'},
     {id:'extra', g:'Extra', short:'Extra', icon:'robot', info:'Idle points and more balls'},
     {id:'style', g:'Style', short:'Style', icon:'shirt', info:'Skins for your player and paddle'},
+    {id:'legacy', g:'Legacy', short:'Legacy', icon:'trophy', info:'Permanent: never lost'},
   ];
   const lv = id => S.lv[id] || 0;
-  const cost = u => Math.ceil(u.base * Math.pow(u.mul, lv(u.id)));
+  // op hogere verdiepingen worden upgrades duurder (x2.2 per verdieping), zodat het tempo niet te hoog wordt
+  const costScale = e => Math.pow(2.2, e);
+  const cost = u => Math.ceil(u.base * Math.pow(u.mul, lv(u.id)) * costScale(S.etage));
   const hitValue = () => 1 + lv('rubber');
   const comboStep = () => 0.1 + 0.08 * lv('spin');
   const mult = () => 1 + comboStep() * Math.min(streak, 60);
@@ -749,8 +856,11 @@
   // ---------- Getallen ----------
   function fmt(n){
     if (n < 1e4) return Math.floor(n).toLocaleString('en-US');
-    const u = ['', 'K', 'M', 'B', 'T', 'Qa']; let i = 0;
+    if (!isFinite(n)) return '∞';
+    const u = ['', 'K', 'M', 'B', 'T', 'Qa', 'Qi', 'Sx', 'Sp', 'Oc', 'No', 'Dc']; let i = 0;
     while (n >= 1000 && i < u.length - 1){ n /= 1000; i++; }
+    // nog groter dan Dc: wetenschappelijke notatie, zodat het getal altijd kort blijft
+    if (n >= 1000){ const e = Math.floor(Math.log10(n)) + 3 * i; return (n * 1000 ** i / 10 ** e).toFixed(2) + 'e' + e; }
     return n.toLocaleString('en-US', {maximumFractionDigits: n < 100 ? 1 : 0}) + u[i];
   }
   const fmtM = m => m >= 1000
@@ -761,35 +871,59 @@
   // ---------- Geluid ----------
   let ac = null;
   function audioInit(){ if (!ac) { try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){} } if (ac && ac.state === 'suspended') ac.resume(); if (ac && typeof loadGnome === 'function') loadGnome(); }
+  // Geluid: alles gaat via een compressor (geen kraken bij veel tegelijk) en er klinken nooit
+  // te veel geluidjes tegelijk. Ruis komt uit één vooraf gemaakte buffer.
+  const AUD = {out:null, active:0, noiseBuf:null};
+  function OUT(){
+    if (AUD.out) return AUD.out;
+    const c = ac.createDynamicsCompressor();
+    c.threshold.value = -16; c.knee.value = 12; c.ratio.value = 10; c.attack.value = 0.003; c.release.value = 0.18;
+    const g = ac.createGain(); g.gain.value = 0.9;
+    c.connect(g).connect(ac.destination); AUD.out = c;
+    return c;
+  }
+  const SND_MAX = 36;
+  function track(node, endT){      // telt actieve geluiden
+    AUD.active++; let done = false;
+    const fin = () => { if (!done){ done = true; AUD.active = Math.max(0, AUD.active - 1); } };
+    node.onended = fin; setTimeout(fin, (endT - ac.currentTime) * 1000 + 300);
+  }
+  const busy = () => AUD.active >= SND_MAX;
   function blip(freq, dur, vol, type){
-    if (!ac || S.muted) return;
+    if (!ac || S.muted || busy()) return;
     const t = ac.currentTime, o = ac.createOscillator(), g = ac.createGain();
     o.type = type || 'triangle'; o.frequency.setValueAtTime(freq, t);
     o.frequency.exponentialRampToValueAtTime(freq * .6, t + dur);
     g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
-    o.connect(g).connect(ac.destination); o.start(t); o.stop(t + dur + .02);
+    o.connect(g).connect(OUT()); o.start(t); o.stop(t + dur + .02); track(o, t + dur);
   }
 
   // losse synth-bouwstenen
   function tone(freq, dur, vol, type, t0, slideTo, dest){
-    if (!ac || S.muted) return;
+    if (!ac || S.muted || busy()) return;
     const t = ac.currentTime + (t0 || 0), o = ac.createOscillator(), g = ac.createGain();
     o.type = type || 'sine'; o.frequency.setValueAtTime(freq, t);
     if (slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, t + dur);
     g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    o.connect(g).connect(dest || ac.destination); o.start(t); o.stop(t + dur + 0.05);
+    o.connect(g).connect(dest || OUT()); o.start(t); o.stop(t + dur + 0.05); track(o, t + dur);
+  }
+  function noiseBuf(){
+    if (AUD.noiseBuf) return AUD.noiseBuf;
+    const n = Math.floor(ac.sampleRate * 2), buf = ac.createBuffer(1, n, ac.sampleRate), d = buf.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+    return AUD.noiseBuf = buf;
   }
   function noise(dur, vol, fq, t0, q){
-    if (!ac || S.muted) return;
-    const t = ac.currentTime + (t0 || 0), n = Math.floor(ac.sampleRate * dur), buf = ac.createBuffer(1, n, ac.sampleRate), d = buf.getChannelData(0);
-    for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n);
+    if (!ac || S.muted || busy()) return;
+    const t = ac.currentTime + (t0 || 0);
     const src = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain();
-    src.buffer = buf; f.type = 'bandpass'; f.frequency.value = fq || 1500; f.Q.value = q || 1; g.gain.value = vol;
-    src.connect(f).connect(g).connect(ac.destination); src.start(t);
+    src.buffer = noiseBuf(); f.type = 'bandpass'; f.frequency.value = fq || 1500; f.Q.value = q || 1;
+    g.gain.setValueAtTime(vol, t); g.gain.linearRampToValueAtTime(0.0001, t + dur);
+    src.connect(f).connect(g).connect(OUT()); src.start(t, Math.random() * Math.max(0, 2 - dur - 0.05), dur); track(src, t + dur);
   }
   // "stem": toon met klinker-achtige filter
   function voice(f0, f1, dur, vowel, vol, t0, type){
-    if (!ac || S.muted) return;
+    if (!ac || S.muted || busy()) return;
     const t = ac.currentTime + (t0 || 0), o = ac.createOscillator(), g = ac.createGain();
     const F = {a:[800, 1200], o:[500, 900], e:[450, 2000], i:[300, 2300], u:[350, 800]}[vowel] || [700, 1200];
     o.type = type || 'sawtooth'; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + dur);
@@ -797,11 +931,13 @@
     f1n.frequency.value = F[0]; f2n.frequency.value = F[1]; f1n.Q.value = 6; f2n.Q.value = 8;
     const mix = ac.createGain(); mix.gain.value = 1;
     g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.03); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    o.connect(f1n).connect(mix); o.connect(f2n).connect(mix); mix.connect(g).connect(ac.destination);
-    o.start(t); o.stop(t + dur + 0.05);
+    o.connect(f1n).connect(mix); o.connect(f2n).connect(mix); mix.connect(g).connect(OUT());
+    o.start(t); o.stop(t + dur + 0.05); track(o, t + dur);
   }
   // Batje-geluid per skin
+  let lastHitSnd = 0;
   function hitSound(){
+    const nowS = performance.now(); if (nowS - lastHitSnd < 35) return; lastHitSnd = nowS;
     const id = curPaddle().id, p = 620 + Math.min(streak, 40) * 12;
     if (id === 'pan' || id === 'saber') flag(id === 'pan' ? 'pan' : 'saber');
     if (id === 'pan'){          // echte koekenpan: metalen BONG met boventonen
@@ -811,6 +947,13 @@
       tone(140, 0.3, 0.07, 'sawtooth', 0, 90); tone(p * 1.5, 0.1, 0.03, 'square', 0, p * 0.8); noise(0.15, 0.06, 2400, 0, 3);
     } else if (id === 'neon') tone(p * 1.4, 0.12, 0.1, 'square', 0, p * 2.4);
     else if (id === 'gold'){ tone(p * 2, 0.5, 0.1, 'sine'); tone(p * 3, 0.4, 0.05, 'sine'); }
+    else if (id === 'swatter'){ noise(0.06, 0.35, 1800, 0, 1.5); tone(180, 0.08, 0.08, 'triangle', 0, 90); }
+    else if (id === 'candy'){ tone(p * 1.6, 0.06, 0.08, 'sine'); tone(p * 2.4, 0.12, 0.05, 'sine', 0.05); }
+    else if (id === 'ice'){ tone(p * 2.2, 0.35, 0.07, 'sine'); tone(p * 3.3, 0.25, 0.04, 'sine', 0.02); noise(0.02, 0.1, 6000, 0, 3); }
+    else if (id === 'lava'){ noise(0.2, 0.25, 700, 0, 0.8); tone(p * 0.6, 0.12, 0.08, 'sawtooth', 0, p * 0.3); }
+    else if (id === 'galaxy'){ tone(p, 0.3, 0.06, 'sine', 0, p * 2); tone(p * 1.5, 0.3, 0.04, 'triangle', 0.05, p * 3); }
+    else if (id === 'racket'){ tone(p * 0.9, 0.06, 0.12, 'triangle'); noise(0.04, 0.2, 2500, 0, 1); }
+    else if (id === 'baguette'){ for (let k = 0; k < 3; k++) noise(0.03, 0.25, 3000 + k * 800, k * 0.03, 2); }
     else if (id === 'pro'){ tone(p * 1.2, 0.05, 0.14, 'triangle'); noise(0.02, 0.12, 4000, 0, 2); }
     else blip(p, .07, .12, 'triangle');
   }
@@ -844,7 +987,7 @@
     if (!ac || S.muted) return;
     if (!gnomeBuf){ gnomeWant = true; loadGnome(); return; }
     const src = ac.createBufferSource(), g = ac.createGain(); g.gain.value = 1.4;
-    src.buffer = gnomeBuf; src.connect(g).connect(ac.destination); src.start();
+    src.buffer = gnomeBuf; src.connect(g).connect(OUT()); src.start();
   }
   function loadGnome(){
     if (!ac || gnomeBuf || gnomeLoading) return;
@@ -866,7 +1009,7 @@
   function saberUpdate(){
     const on = !!ac && !S.muted && curPaddle().id === 'saber' && !paused;
     if (on && !SABER.o){
-      SABER.g = ac.createGain(); SABER.g.gain.value = 0.0001; SABER.g.connect(ac.destination);
+      SABER.g = ac.createGain(); SABER.g.gain.value = 0.0001; SABER.g.connect(OUT());
       const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 600; lp.connect(SABER.g);
       SABER.o = ac.createOscillator(); SABER.o.type = 'sawtooth'; SABER.o.frequency.value = 90; SABER.o.connect(lp); SABER.o.start();
       SABER.o2 = ac.createOscillator(); SABER.o2.type = 'sawtooth'; SABER.o2.frequency.value = 92.5; SABER.o2.connect(lp); SABER.o2.start();
@@ -895,14 +1038,41 @@
   // Elke verdieping verdubbelt de extra hoogte: 5, 15, 35 m ... verdieping 15 = 164 km, voorbij de ruimte
   // Hoogte in meters. De hal (2,5 m) is lineair; daarboven groeit elke schermhoogte de hoogte
   // ongeveer x3, zodat de maan (384.400 km) op zo'n 18 schermen boven de tafel staat.
-  const ETAGE_MAX = 10, SPACE_M = 100000, MOON_M = 384400e3;
+  const ETAGE_MAX = 6, SPACE_M = 100000, MOON_M = 384400e3;
   const HALL_PX = () => H * 0.9;
   const altAt = y => { const u = tableY() - y; return u <= HALL_PX() ? u / (HALL_PX() / 2.5) : 2.5 * Math.exp((u - HALL_PX()) / HALL_PX()); };
   const yAt = m => tableY() - (m <= 2.5 ? m * HALL_PX() / 2.5 : HALL_PX() + HALL_PX() * Math.log(m / 2.5));
   // Elke verdieping tilt het plafond ~1,08 scherm omhoog: 8 m, 900 m, 370 km ... verdieping 15 = 150.000 km
   const ETAGE_PX = () => (H * 17.0 - H * 0.85) / ETAGE_MAX;
-  const presMult = () => 1 + S.etage;
-  const etageCost = () => 2000 * Math.pow(2.5, S.etage);
+  // puntenvermenigvuldiger per verdieping groeit steeds sneller: x3.4, x6.6, x10.6 ... x27 op verdieping 6
+  const presMultAt = e => Math.round((1 + 2 * e + 0.4 * e * e) * 10) / 10;
+  const presMult = () => presMultAt(S.etage) * (1 + 0.2 * legLv('pts'));
+  const fmtX = x => x < 100 ? (Math.round(x * 10) / 10).toLocaleString('en-US') : fmt(x);
+  // ---------- Legacy: blijvende upgrades, betaald met trofeeën ----------
+  const LEG = [
+    {id:'start',  name:'Head start',        desc:'Start every new floor with points: 20% of the next floor price per level', base:2, mul:1.7, max:5, icon:'up'},
+    {id:'field',  name:'Keep the field',    desc:'Keep 1 unlocked field piece when you build a floor', base:2, mul:1.5, max:8, icon:'up'},
+    {id:'rubber', name:'Veteran grip',      desc:'Always have at least 3 levels of Grippier rubber per level', base:1, mul:1.45, max:15, icon:'rubber'},
+    {id:'robot',  name:'Loyal robot',       desc:'Always have at least 2 levels of Robot trainer per level', base:2, mul:1.5, max:10, icon:'robot'},
+    {id:'bats',   name:'Keep bounce paddles', desc:'Keep 1 bounce paddle (right where you put it) when you build a floor', base:4, mul:1.9, max:5, icon:'bat'},
+    {id:'pts',    name:'Trophy wall',       desc:'+20% points on everything, forever', base:3, mul:1.35, max:25, icon:'trophy'},
+    {id:'sky',    name:'Sky scout',         desc:'+50% height bonus for high balls', base:2, mul:1.45, max:10, icon:'up'},
+    {id:'stars',  name:'Star sponsor',      desc:'Stars appear 8% more often', base:3, mul:1.7, max:5, icon:'star'},
+  ];
+  const legLv = id => (S.leg && S.leg[id]) || 0;
+  const legCost = L => Math.ceil(L.base * Math.pow(L.mul, legLv(L.id)));
+  // trofeeën bij het bouwen: meer op hogere verdiepingen, en meer als je hier veel punten scoorde (met afnemende meeropbrengst)
+  const runPts = () => Math.max(0, S.total - (S.runStart || 0));
+  const trophyGain = () => Math.floor((S.etage + 1) * 1.5 * (2 + Math.sqrt(runPts() / etageCost())));
+  // hoeveel veldstukken je nodig hebt om te bouwen: eerst de helft, later alles
+  const veldNeed = () => VELD_MAX;
+  // de minimale niveaus die je via Legacy altijd houdt
+  function applyLegacy(){
+    S.lv.rubber = Math.max(lv('rubber'), 3 * legLv('rubber'));
+    S.lv.robot = Math.max(lv('robot'), 2 * legLv('robot'));
+    S.lv.veld = Math.max(lv('veld'), Math.min(VELD_MAX, legLv('field')));
+  }
+  const etageCost = () => 2000 * Math.pow(3, S.etage);
   const fieldTop = () => H * (0.45 - 0.05 * Math.min(8, lv('veld'))) - Math.min(S.etage, ETAGE_MAX) * ETAGE_PX();
   const gravity = () => 2.3 * H * Math.pow(0.93, lv('lucht')) * (POW.heavy > 0 ? 20 : 1);
   const padW = () => Math.max(S.lv && lv('balgroot') ? ballR() * ballScale() * 2.4 : 0, (S.finale ? 1.6 : 1) * Math.min((fieldR() - fieldL()) * 0.7, Math.max(80, Math.min(170, W * 0.15)) * Math.pow(1.12, lv('blad'))) * (POW.half > 0 ? 0.5 : 1));
@@ -931,7 +1101,10 @@
     b.x = W / 2; b.y = spawnY(); b.vx = 0; b.vy = 0;
     b.ox = b.x; b.oy = b.y; b.trail.length = 0;
   }
+  // Hardcore: ballen komen alleen bij de start van een run of een nieuwe verdieping
+  const HC = {spawn:true, check:false, over:false};
   function syncBalls(){
+    if (S.hardcore && !S.sunMode && !S.finale){ if (!HC.spawn) return; HC.spawn = false; }
     if (S.sunMode){ if (!balls.some(b => b.isSun) && !(SUN.crash > 0)) balls = [sunBall()]; return; }
     if (S.finale){ if (!balls.some(b => b.isMoon)) balls = [moonBall()]; return; }
     const want = 1 + lv('bal');
@@ -1065,13 +1238,13 @@
     if (e.pointerType === 'mouse' && e.button === 2){ e.preventDefault(); startRot(e, 1); return; }
     if (e.pointerType === 'mouse' && e.button === 1){ e.preventDefault(); setView(curView() === 'all' ? floorAt(p.y) : 'all'); return; }
     if (carry && carry.mode === 'place'){
-      placeAt(carry.bat, p); sel = S.bats.indexOf(carry.bat); carry = null;
+      placeAt(carry.bat, p); sel = S.bats.indexOf(carry.bat); carry = PLACEQ.length ? PLACEQ.shift() : null;
       blip(500, .08, .1, 'square'); save(); updateCursor(); updateHint(); return;
     }
     if (carry && carry.mode === 'pplace'){
       placePortal(carry.portal, carry.end, p);
       if (carry.end === 'a'){ carry.end = 'b'; blip(560, .08, .1, 'square'); updateHint(); return; }
-      carry = null; blip(760, .1, .1, 'square'); save(); updateCursor(); updateHint(); return;
+      carry = PLACEQ.length ? PLACEQ.shift() : null; blip(760, .1, .1, 'square'); save(); updateCursor(); updateHint(); return;
     }
     if (onHandle(p)){
       e.preventDefault();
@@ -1302,14 +1475,14 @@
   const MOON_UPG = 50;
   const upgCount = () => UP.reduce((n, u) => n + Math.min(lv(u.id), u.max === Infinity ? 10 : u.max), 0);
   // De maan is haalbaar zodra je alle 9 bazen hebt verslagen
-  const BOSS_FLOORS = [2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const BOSS_FLOORS = [0, 1, 2, 3, 4, 5, 6];
   const bossesBeaten = () => BOSS_FLOORS.filter(k => S.bossDown && S.bossDown[k]).length;
   const allMaxed = () => bossesBeaten() >= BOSS_FLOORS.length;
   const MOONSHOT = {name:'Moonshot', icon:'moon', short:'Moon',
     tag:() => S.finale ? 'moon launch' : allMaxed() ? 'final goal' : 'test flight',
     desc:() => S.finale ? 'Your next hit launches the Moon itself sky-high, for big bonus points. Catch it when it falls back!' : allMaxed()
       ? 'Your next hit launches the ball straight at the Moon. Keep your paddle ready, for 30 seconds.'
-      : `Your next hit launches the ball hard, far above your hall. It reaches the Moon once you have beaten all 9 bosses (${bossesBeaten()}/9).`,
+      : `Your next hit launches the ball hard, far above your hall. It reaches the Moon once you have beaten all 7 bosses (${bossesBeaten()}/7).`,
     apply:() => { POW.moon = 30; }};
   // Hoe hoog een Maanschot komt zonder alles vol: boven je plafond, maar nooit tot de maan
   function moonshotTargetY(){
@@ -1417,13 +1590,12 @@
     noise(0.12, 0.35, 700, 0, 1);                              // de klap
     tone(90, 1.4, 0.16, 'sawtooth', 0, 900);                   // stijgende raket-toon
     tone(180, 1.2, 0.08, 'square', 0.05, 1600);
-    const t = ac.currentTime, n = Math.floor(ac.sampleRate * 1.6), buf = ac.createBuffer(1, n, ac.sampleRate), d = buf.getChannelData(0);
-    for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
+    const t = ac.currentTime;
     const src = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain();
-    src.buffer = buf; f.type = 'bandpass'; f.Q.value = 1.2;
+    src.buffer = noiseBuf(); f.type = 'bandpass'; f.Q.value = 1.2;
     f.frequency.setValueAtTime(300, t); f.frequency.exponentialRampToValueAtTime(4000, t + 1.4);
     g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.3, t + 0.3); g.gain.exponentialRampToValueAtTime(0.0001, t + 1.6);
-    src.connect(f).connect(g).connect(ac.destination); src.start(t);
+    src.connect(f).connect(g).connect(OUT()); src.start(t, 0, 1.7);
     noise(0.35, 0.3, 200, 0.9, 0.8);                           // sonische knal
   }
   function hitMoon(b){
@@ -1464,7 +1636,7 @@
     bouncer: {name:'Bouncer', tag:(v, d) => x2(3, d) + 'x', desc:(v, d) => `Your paddle hits the ball back ${x2(3, d)}x as hard, for ${dur(10)} seconds.`, apply:(v, b, d) => { POW.bouncer = dur(10); POW.bounceF = x2(3, d); }},
     big:     {name:'Big ball', tag:() => '10x', desc:(v, d) => `The ball gets 10x bigger, for ${dur(x2(20, d))} seconds.`, apply:(v, b, d) => { POW.big = dur(x2(20, d)); }},
     gold:    {name:'Golden ball', tag:(v, d) => x2(3, d) + 'x points', desc:(v, d) => `You get ${d ? 'six' : 'three'} times the points per hit, for ${dur(10)} seconds.`, apply:(v, b, d) => { POW.gold = dur(10); POW.goldF = x2(3, d); }},
-    dual:    {name:'Dual wield', tag:() => '2 paddles', desc:(v, d) => `A second, mirrored paddle moves on the other side, for ${dur(x2(10, d))} seconds.`, apply:(v, b, d) => { POW.dual = dur(x2(10, d)); pickBuddy(); }},
+    dual:    {name:'Dual wield', tag:() => '2 paddles', desc:(v, d) => `A second, mirrored paddle moves on the other side, for ${dur(x2(10, d))} seconds.`, apply:(v, b, d) => { if (POW.dual > 0){ if (BUDDIES.length < 3) BUDDIES.push(newBuddy()); } else BUDDIES = [newBuddy()]; BUDDY = BUDDIES[0]; POW.dual = Math.max(POW.dual, dur(x2(10, d))); }},
   };
   // Negatieve powers: alleen te krijgen door te gokken
   const CURSES = {
@@ -1481,7 +1653,7 @@
   const starLife = () => 9 + 2 * lv('stervanger');
   const starR = () => 20 * (1 + 0.15 * lv('stervanger'));
   let star = null, starTimer = 8, paused = false, choice = null;
-  const nextStar = () => (15 + Math.random() * 20) * Math.pow(0.85, lv('sterregen'));
+  const nextStar = () => (15 + Math.random() * 20) * Math.pow(0.85, lv('sterregen')) * Math.pow(0.92, legLv('stars'));
   // Elke verdieping een nieuwe kleur bal
   const FLOOR_HUES = [28, 355, 130, 210, 275, 320, 185, 52, 95, 0, 45];
   const ballCols = () => {
@@ -1505,13 +1677,54 @@
     if (!b || b.hidden) b = balls.find(x => !x.hidden);
     if (!b) return;
     const base = Math.random() * 360;
+    n = Math.min(n, Math.max(1, 121 - balls.length));        // nooit meer dan ~120 ballen tegelijk
     for (let k = 1; k < n; k++){
       balls.push({x:b.x, y:b.y, ox:b.x, oy:b.y, vx:b.vx + (Math.random() - .5) * 1.1 * H, vy:b.vy - (0.2 + Math.random() * 0.9) * H,
         spin:0, trail:[], temp:true, hue:(base + k * 360 / n) % 360, miniMoon:!!b.isMoon, miniSun:!!b.isSun});
     }
   }
   // Een ster start altijd de roulette: je kiest niet zelf
+  // Tijdens een sterrenregen loopt het spel door: een klein roulettewiel draait in een hoekje
+  // en de power gaat meteen in. Meerdere sterren = meerdere wieltjes op verschillende plekken.
+  const MINI = {slots:[]};
+  function miniSpin(b){
+    flag('star');
+    const out = drawOutcome();
+    let slot = 0; while (MINI.slots[slot]) slot++; MINI.slots[slot] = true;
+    const el = document.createElement('div'); el.className = 'mini';
+    el.style.top = (250 + Math.floor(slot / 2) * 92) + 'px'; el.style[slot % 2 ? 'right' : 'left'] = '16px';
+    el.innerHTML = '<div class="mini-reel"><div class="mini-track"></div><div class="mini-mark"></div></div><div class="mini-res">Star roulette...</div>';
+    $('stage').appendChild(el);
+    const N = 24, WIN = 20, STEP = 50, CELL = 46;
+    const items = []; for (let k = 0; k < N; k++) items.push(k === WIN ? out : drawOutcome());
+    const track = el.querySelector('.mini-track');
+    track.innerHTML = items.map((it, k) => `<div class="mcell${it.neg ? ' neg' : ''}${it.moon ? ' moon' : ''}${it.hat ? ' hat' : ''}${k === WIN ? ' w' : ''}">${svg(it.def.icon)}</div>`).join('');
+    const reelW = el.querySelector('.mini-reel').clientWidth || 170;
+    const final = reelW / 2 - (WIN * STEP + CELL / 2) + (Math.random() - .5) * (CELL - 12);
+    const T = reduceMotion ? 300 : 1100, t0 = performance.now();
+    let last = -1;
+    function roll(now){
+      const k = Math.min(1, (now - t0) / T), e = 1 - Math.pow(1 - k, 4), x = final * e;
+      track.style.transform = `translateX(${x}px)`;
+      const c = Math.floor((reelW / 2 - x) / STEP);
+      if (c !== last){ last = c; blip(900 + (c % 2) * 150, .015, .03, 'square'); }
+      if (k < 1){ requestAnimationFrame(roll); return; }
+      // meteen toepassen, zonder te hoeven accepteren
+      const d = out.def;
+      if (out.neg || out.moon || out.hat) d.apply(); else d.apply(out.v, b, !!out.dbl);
+      markSeen('pow', out.id); if (out.neg) flag('neg');
+      if (out.hat) HS.pending = (HS.pending || 0) + 1;
+      const w = track.querySelector('.w'); if (w) w.classList.add('win');
+      const res = el.querySelector('.mini-res');
+      res.textContent = out.hat ? 'Hat spin after the shower!' : d.name + (out.neg || out.moon || out.hat ? '' : ' · ' + d.tag(out.v, !!out.dbl));
+      el.classList.add(out.neg ? 'bad' : out.moon || out.hat ? 'gold' : 'good');
+      blip(out.neg ? 160 : 1200, .15, .08, out.neg ? 'sawtooth' : 'triangle');
+      setTimeout(() => { el.classList.add('out'); setTimeout(() => { el.remove(); MINI.slots[slot] = false; }, 350); }, 1700);
+    }
+    requestAnimationFrame(roll);
+  }
   function openChoice(b){
+    if (SHOWER.on){ miniSpin(b); return; }
     flag('star');
     paused = true;
     choice = {ball:b};
@@ -1522,7 +1735,7 @@
   }
   function choose(){}
   // hoe hoger je komt, hoe vaker het Maanschot; niet tijdens de finale
-  const moonChance = () => S.sunMode ? 0 : S.finale ? 0.3 : allMaxed() ? 0.6 : 0.1 + 0.04 * S.etage;
+  const moonChance = () => S.sunMode ? 0 : S.finale ? 0.3 : allMaxed() ? 0.6 : 0.1 + 0.07 * S.etage;
   function drawOutcome(){
     if (Math.random() < negChance()){ const id = pick(Object.keys(CURSES)); return {neg:true, id, def:CURSES[id]}; }
     if (Math.random() < moonChance()) return {neg:false, id:'moon', def:MOONSHOT, moon:true};
@@ -1583,6 +1796,7 @@
   let endMode = null;
   function showEnd(mode){
     endMode = mode; paused = true;
+    $('endNew').textContent = 'Start over from scratch';
     $('endIc').innerHTML = svg('moon');
     if (mode === 'sun'){
       $('endIc').innerHTML = svg('star');
@@ -1607,11 +1821,16 @@
   }
   $('endGo').addEventListener('click', () => {
     $('ending').hidden = true; paused = false;
+    if (endMode === 'hc'){ endMode = null; resetGame(); return; }
     if (endMode === 'crash'){ S.moonTicks = 0; balls = [moonBall()]; }
     if (endMode === 'sun'){ S.sunMode = true; balls = [sunBall()]; SUN.white = 0; save(); }
     endMode = null;
   });
-  $('endNew').addEventListener('click', () => { $('ending').hidden = true; paused = false; endMode = null; resetGame(); });
+  $('endNew').addEventListener('click', () => {
+    const hc = endMode === 'hc';
+    $('ending').hidden = true; paused = false; endMode = null;
+    if (hc){ resetGame(); switchMode(false); } else resetGame();
+  });
   function closeChoice(){
     const hat = choice && choice.result && choice.result.hat;
     if (choice && choice.result && !hat) floaters.push({x:W / 2, y:H * 0.4, txt:choice.result.name + '!', age:0, big:true});
@@ -1633,7 +1852,7 @@
   const SHOWER = {on:false, t:0, spawn:0};
   let RAIN = [];
   function showerProgress(){
-    if (SHOWER.on || S.finale) return;
+    if (SHOWER.on) return;
     S.showerHits++;
     if (S.showerHits >= showerNeed()) startShower();
   }
@@ -1682,7 +1901,7 @@
   }
   function renderShowerBar(){
     const el = $('showerbar');
-    el.hidden = !!S.finale;
+    el.hidden = false;
     el.classList.toggle('on', SHOWER.on);
     if (!$('sbIc').firstChild) $('sbIc').innerHTML = svg('star');
     if (SHOWER.on){
@@ -1697,7 +1916,7 @@
   // ---------- Eindbazen ----------
   // Elke verdieping vanaf 2 heeft een eigen eindbaas die past bij de hoogte: vogels laag, dan wolken en
   // vliegtuigen, daarna raketten, ufo's en aliens. Elke baas beweegt anders en heeft eigen aanvallen.
-  const FIRST_BOSS = 2;
+  const FIRST_BOSS = 0;
   const BOSS_DEFS = [
     {name:'Pigeon Boss',        move:'swoop',    speed:0.8, atk:[['drop', 2.2], ['dive', 6.5]]},
     {name:'Giant Eagle',        move:'circle',   speed:1.1, atk:[['feathers', 2.0], ['dive', 5]]},
@@ -1708,17 +1927,25 @@
     {name:'Alien Squid',        move:'wobble',   speed:1.2, atk:[['goo', 1.4], ['shield', 7]]},
     {name:'Satellite Sentinel', move:'orbit',    speed:0.7, atk:[['sweep', 5], ['missile', 3], ['drones', 99]]},
     {name:'Moon Guardian',      move:'phase',    speed:1.0, atk:[]},
+    {name:'Mega Moth',          move:'flutter',  speed:0.7, atk:[['dust', 3.4]]},
   ];
-  const lvlOf = k => Math.max(0, k - FIRST_BOSS);          // moeilijkheid: 0 = eerste baas
+  // welke baas op welke verdieping woont (index in BOSS_DEFS; bepaalt ook uiterlijk en moeilijkheid)
+  const BOSS_IDX = {0:9, 1:0, 2:2, 3:3, 4:4, 5:5, 6:8};
+  // moeilijkheid los van het uiterlijk: de mot in de hal is de makkelijkste
+  const bossDiff = k => k === 0 ? 0 : lvlOf(k);
+  const lvlOf = k => BOSS_IDX[k] ?? Math.max(0, Math.min(8, k - FIRST_BOSS));
   const defOf = k => BOSS_DEFS[Math.min(BOSS_DEFS.length - 1, lvlOf(k))];
   const BOSSES = new Proxy({}, {get:(o, k) => defOf(+k).name});
   const hasBoss = k => k >= FIRST_BOSS;
-  const bossNeed = k => 20 + 12 * lvlOf(k);                // tikken voordat de baas komt
-  const bossMaxHp = k => Math.round(40 * Math.pow(1.75, lvlOf(k)));
+  // de baas kan pas als je het hele veld hebt vrijgespeeld, en dan kies jij wanneer
+  const bossNeed = k => VELD_MAX;
+  const bossProg = () => Math.min(lv('veld'), VELD_MAX);
+  const bossReady = () => hasBoss(S.etage) && !bossDown(S.etage) && !BOSS.on && !S.finale && bossProg() >= VELD_MAX;
+  const bossMaxHp = k => k === 0 ? 14 : Math.round(40 * Math.pow(1.75, lvlOf(k)));
   const bossDown = k => !hasBoss(k) || !!S.bossDown[k];
   const BOSS = {on:false, k:0, hp:0, max:0, x:0, y:0, t:0, flash:0, hurt:0, dead:0, cds:{}, dive:0, shield:0, vis:1, tp:0, face:1};
   let BOMBS = [], HAZ = [], DRONES = [];
-  const bossR = () => H * (0.075 + 0.005 * lvlOf(BOSS.k)) * (lvlOf(BOSS.k) === 3 ? 1.25 : 1);
+  const bossR = () => BOSS.k === 0 ? H * 0.065 : H * (0.075 + 0.005 * lvlOf(BOSS.k)) * (lvlOf(BOSS.k) === 3 ? 1.25 : 1);
   function bossArea(k){
     const top = Math.max(fieldTop(), floorTop(k)), bottom = floorBottom(k);
     return {top, bottom, home:top + (bottom - top) * 0.3};
@@ -1737,8 +1964,7 @@
   }
   function bossProgress(){
     if (BOSS.on || bossDown(S.etage) || S.finale) return;   // bossDown is ook waar op verdiepingen zonder baas
-    S.bossHits++;
-    if (S.bossHits >= bossNeed(S.etage)) spawnBoss();
+    // bazen komen niet meer vanzelf: zie bossReady() en de Fight-knop
   }
   function hitPaddle(txt){
     if (P.dizzy > 0) return;
@@ -1754,7 +1980,7 @@
     return [dx / d * spd, dy / d * spd];
   }
   function bossAttack(a){
-    const k = lvlOf(BOSS.k), x = BOSS.x, y = BOSS.y, R = bossR(), sp = H * (0.7 + 0.07 * k);
+    const k = bossDiff(BOSS.k), x = BOSS.x, y = BOSS.y, R = bossR(), sp = H * (0.7 + 0.07 * k);
     if (a === 'drop'){ const v = aimAt(x, y, sp * 0.6); shoot('poop', x, y + R * 0.6, v[0], v[1], {grav:0.8}); }
     else if (a === 'feathers'){ for (let i = -2; i <= 2; i++){ const v = aimAt(x, y, sp, i * W * 0.09); shoot('feather', x, y + R * 0.5, v[0], v[1], {grav:0.1}); } }
     else if (a === 'rain'){ for (let i = 0; i < 3; i++) shoot('rain', x + (Math.random() - .5) * R * 2.4, y + R * 0.6, 0, sp * 0.5, {grav:1.2}); }
@@ -1763,6 +1989,7 @@
     else if (a === 'sparks'){ for (let i = 0; i < 6; i++){ const an = Math.PI * (0.15 + 0.7 * i / 5); shoot('spark', x, y + R * 0.8, Math.cos(an) * sp * 0.7, Math.sin(an) * sp * 0.7, {grav:0.5}); } }
     else if (a === 'zap'){ const v = aimAt(x, y, sp * 0.8); shoot('zap', x, y + R * 0.5, v[0], v[1], {zig:1, grav:0}); }
     else if (a === 'goo'){ for (const s2 of [-1, 1]){ const v = aimAt(x, y, sp * 0.7, s2 * W * 0.12); shoot('goo', x, y + R * 0.6, v[0], v[1], {zig:1, grav:0.3}); } }
+    else if (a === 'dust'){ const v = aimAt(x, y, sp * 0.35, (Math.random() - .5) * W * 0.2); shoot('dust', x, y + R * 0.5, v[0], v[1], {grav:0.15, life:6}); }
     else if (a === 'meteor'){ for (let i = 0; i < 4; i++) shoot('meteor', W * (0.1 + 0.8 * Math.random()), Math.max(fieldTop(), cam.top) - 20, (Math.random() - .5) * sp * 0.3, sp * 0.5, {grav:0.8}); }
     else if (a === 'bolt') HAZ.push({kind:'bolt', x:P.x, t:0, warn:0.8, dur:0.3});
     else if (a === 'beam') HAZ.push({kind:'beam', x:BOSS.x, t:0, warn:0.7, dur:1.8});
@@ -1773,7 +2000,7 @@
     blip(260, .07, .07, 'square');
   }
   function bossMove(dt){
-    const k = lvlOf(BOSS.k), d = defOf(BOSS.k), t = BOSS.t, A = bossArea(BOSS.k), R = bossR();
+    const k = bossDiff(BOSS.k), d = defOf(BOSS.k), t = BOSS.t, A = bossArea(BOSS.k), R = bossR();
     const sp = d.speed * (1 + 0.05 * k), cx = W / 2, hw = W * 0.34;
     let x = BOSS.x, y = A.home;
     let mv = d.move;
@@ -1798,6 +2025,7 @@
       if (BOSS.tp > 2.3 - 0.1 * k){ x = BOSS.tx; y = BOSS.ty; } else { x = BOSS.tx; y = BOSS.ty + Math.sin(t * 3) * H * 0.01; }
     }
     else if (mv === 'wobble'){ x = cx + Math.sin(t * sp * 0.7) * hw * 0.8 + Math.sin(t * 5) * W * 0.02; y = A.home + Math.sin(t * sp * 1.3) * H * 0.05; }
+    else if (mv === 'flutter'){ x = cx + Math.sin(t * sp) * hw * 0.7 + Math.sin(t * 3.1) * W * 0.05; y = A.home + Math.sin(t * 2.3) * H * 0.04 + Math.sin(t * 5.3) * H * 0.01; BOSS.face = Math.cos(t * sp) >= 0 ? 1 : -1; }
     else if (mv === 'orbit'){ x = cx + Math.cos(t * sp * 0.6) * hw; y = A.home + Math.sin(t * sp * 0.6) * H * 0.07; }
     // duikvlucht naar je batje en terug
     if (BOSS.dive > 0){
@@ -1810,7 +2038,7 @@
   }
   function bossUpdate(dt){
     if (!BOSS.on) return;
-    const k = lvlOf(BOSS.k), d = defOf(BOSS.k);
+    const k = bossDiff(BOSS.k), d = defOf(BOSS.k);
     BOSS.t += dt; BOSS.flash = Math.max(0, BOSS.flash - dt); BOSS.hurt = Math.max(0, BOSS.hurt - dt); BOSS.shield = Math.max(0, BOSS.shield - dt);
     if (BOSS.dead > 0){ BOSS.dead -= dt; if (BOSS.dead <= 0) BOSS.on = false; return; }
     bossMove(dt);
@@ -1889,7 +2117,12 @@
     const k = BOSS.k;
     BOSS.hp = 0; BOSS.dead = 1.2; BOMBS = []; HAZ = []; DRONES = [];
     S.bossDown[k] = true;
-    const reward = 60 * (lvlOf(k) + 1) * hitValue() * presMult();
+    if (!S.dev && !META.flags['boss' + k]){
+      META.flags['boss' + k] = true; saveMeta();
+      const nc = CHARS.find(c => c.boss === k);
+      // de melding in beeld komt vanzelf via checkUnlocks
+    }
+    const reward = 60 * (bossDiff(k) + 1) * hitValue() * presMult();
     S.pts += reward; S.total += reward;
     floaters.push({x:BOSS.x, y:BOSS.y, txt:BOSSES[k] + ' defeated!', age:-0.8, big:true});
     floaters.push({x:BOSS.x, y:BOSS.y + 40, txt:'+' + fmt(reward), age:-0.5, gold:true});
@@ -1898,6 +2131,9 @@
   }
   function renderBossBar(){
     const el = $('bossbar'), k = S.etage;
+    const rd = bossReady(); $('bossGo').hidden = !rd;
+    if (rd){ $('bossGo').textContent = 'FIGHT ' + BOSSES[k].toUpperCase() + ' (B)';
+      if (S.bossReadyToast !== k){ S.bossReadyToast = k; toast(BOSSES[k] + ': press FIGHT when you are ready', 'BOSS READY'); } }
     if (S.finale || (!BOSS.on && bossDown(k))){ el.hidden = true; return; }
     el.hidden = false;
     if (BOSS.on){
@@ -1907,9 +2143,10 @@
       $('bbFill').style.width = (100 * Math.max(0, BOSS.hp) / BOSS.max).toFixed(1) + '%';
     } else {
       el.classList.add('charge');
-      $('bbName').textContent = 'Next boss · ' + BOSSES[k];
-      $('bbInfo').textContent = S.bossHits + ' / ' + bossNeed(k) + ' hits';
-      $('bbFill').style.width = (100 * Math.min(1, S.bossHits / bossNeed(k))).toFixed(1) + '%';
+      const n = bossProg();
+      $('bbName').textContent = (bossReady() ? 'Boss ready · ' : 'Next boss · ') + BOSSES[k];
+      $('bbInfo').textContent = bossReady() ? 'press FIGHT' : n + ' / ' + bossNeed(k) + ' field pieces';
+      $('bbFill').style.width = (100 * n / bossNeed(k)).toFixed(1) + '%';
     }
   }
 
@@ -1950,6 +2187,17 @@
     const face = BOSS.face || 1;
     ctx.scale(face, 1);
     switch (defOf(BOSS.k).name){
+      case 'Mega Moth': {
+        const w = Math.round(Math.abs(Math.sin(t * 14)) * 4);        // fladderende vleugels
+        ol(-17, -9 + w, 12, 10 - w, '#c9b48a'); ol(5, -9 + w, 12, 10 - w, '#c9b48a');
+        ol(-14, 1, 9, 6, '#b09a70'); ol(5, 1, 9, 6, '#b09a70');
+        blk(-14, -6 + w, 4, 3, '#8a6f4a'); blk(10, -6 + w, 4, 3, '#8a6f4a'); blk(-13, -5 + w, 2, 1, '#f4ecd8'); blk(11, -5 + w, 2, 1, '#f4ecd8');
+        ol(-4, -8, 8, 16, '#e6dcc2'); blk(-4, -2, 8, 1, '#c9b48a'); blk(-4, 2, 8, 1, '#c9b48a');
+        ol(-4, -14, 8, 6, '#e6dcc2');
+        blk(-4, -18, 1, 4, K); blk(3, -18, 1, 4, K); blk(-6, -19, 3, 1, K); blk(3, -19, 3, 1, K);
+        eye(-4, -13, false); eye(1, -13, false); blk(-1, -9, 2, 1, K);
+        break;
+      }
       case 'Pigeon Boss':
         ol(-13, -2 + fl, 6, 6, '#7c8699'); ol(7, -2 - fl, 6, 6, '#7c8699');
         ol(-8, -8, 16, 15, '#a7b0c2'); ol(-5, -14, 11, 8, '#a7b0c2'); blk(-5, -8, 11, 3, '#5fbf9f'); blk(-5, -7, 11, 1, '#9b6bd1');
@@ -2030,6 +2278,7 @@
         case 'spark': box(rr * 0.9, rr * 0.9, '#ffb347'); break;
         case 'zap': box(rr * 1.2, rr * 1.2, '#7dff8a'); ctx.fillStyle = '#fff'; ctx.fillRect(-rr * 0.25, -rr * 0.25, rr * 0.5, rr * 0.5); break;
         case 'goo': box(rr * 1.5, rr * 1.2, '#9a6bff'); ctx.fillStyle = '#d2bcff'; ctx.fillRect(-rr * 0.5, -rr * 0.5, rr * 0.4, rr * 0.4); break;
+        case 'dust': ctx.globalAlpha = 0.85; box(rr * 1.3, rr * 1.3, '#d9c9a8'); ctx.fillStyle = '#f4ecd8'; ctx.fillRect(-rr * 0.3, -rr * 0.3, rr * 0.4, rr * 0.4); ctx.globalAlpha = 1; break;
         case 'meteor': ctx.rotate(bm.t * 4); box(rr * 1.8, rr * 1.8, '#8a5a3a'); ctx.fillStyle = '#ff8a1f'; ctx.fillRect(-rr * 0.9, -rr * 0.9, rr * 0.6, rr * 0.6); break;
         default: box(rr * 1.4, rr * 1.4, '#d8262b');
       }
@@ -2044,6 +2293,8 @@
     if (!placed) showerProgress();
     hype = Math.min(1, hype + 0.22 + Math.min(streak, 30) * 0.01);
     if (streak > S.best) S.best = streak;
+    if (streak > (S.runStreak || 0)) S.runStreak = streak;
+    streakMilestone();
     const v = hitValue() * mult() * (factor || 1) * (POW.gold > 0 ? POW.goldF : 1) * presMult();
     S.pts += v; S.total += v; S.hits++;
     if (placed){
@@ -2052,13 +2303,39 @@
       else floaters.push({x:b.x, y:b.y - 14, txt:'+' + fmt(v), sum:v, age:0, placed:true});
       if (floaters.length > 40) floaters.splice(0, floaters.length - 40);
     } else floaters.push({x:b.x, y:b.y - 14, txt:'+' + fmt(v), age:0, gold:POW.gold > 0});
-    if (placed) blip(420 + Math.min(streak, 40) * 12, .07, .12, 'sine'); else hitSound();
+    if (placed){ if (performance.now() - lastHitSnd > 45){ lastHitSnd = performance.now(); blip(420 + Math.min(streak, 40) * 12, .07, .12, 'sine'); } } else hitSound();
     if (!placed) maybeVoice('hit');
+  }
+  // Hoogtebonus: hoe hoger de bal komt, hoe meer punten op het hoogste punt (nieuw record = x3)
+  const HB = [[1.6, 'High!', '#ffbe5a'], [5, 'Very high!', '#ffe14a'], [40, 'SKY HIGH!', '#7dffb0'], [1000, 'INTO THE CLOUDS!', '#7dd3ff'], [1e5, 'SPACE SHOT!', '#c9a0ff'], [1e7, 'MOON LEVEL!', '#ffffff']];
+  // alleen als de bal boven het deel komt waar je batje kan komen (de bovenkant van je vrijgespeelde veld)
+  function heightBonus(b, m, r, rec){
+    if (S.sunMode && b.isSun && SUN.crash > 0) return;
+    if (b.y + r >= fieldTop()) return;
+    const top = Math.max(0.5, altAt(fieldTop()));
+    if (m <= top) return;
+    let tier = 0; for (let k = 0; k < HB.length; k++) if (m >= HB[k][0]) tier = k;
+    const f = 2.5 * Math.pow(m / top, 0.7) * (1 + 0.4 * lv('hoogte')) * (1 + 0.5 * legLv('sky')) * (rec ? 3 : 1);
+    const v = hitValue() * mult() * presMult() * f * (POW.gold > 0 ? POW.goldF : 1);
+    S.pts += v; S.total += v;
+    floaters.push({x:b.x, y:b.y + r + 45 / Math.max(cam.z, 0.05), txt:HB[tier][1] + ' +' + fmt(v) + (rec ? ' RECORD x3' : ''), age:-0.3, big:true, col:HB[tier][2]});
+    hype = Math.min(1, hype + 0.1 * (tier + 1));
+    [0, .07, .14].slice(0, 1 + Math.min(2, tier)).forEach((dt, i) => tone(660 * Math.pow(1.26, tier + i), 0.12, 0.06, 'triangle', dt));
+  }
+  // Streak-mijlpalen: een extra beloning bij 25, 50, 100, 200 ...
+  function streakMilestone(){
+    const ms = [25, 50, 100, 200, 300, 500, 750, 1000];
+    if (!ms.includes(streak) && !(streak > 1000 && streak % 500 === 0)) return;
+    const v = hitValue() * mult() * presMult() * streak * 0.5 * (POW.gold > 0 ? POW.goldF : 1);
+    S.pts += v; S.total += v;
+    floaters.push({x:W / 2, y:H * 0.3, txt:`STREAK ${streak}! +${fmt(v)}`, age:-0.4, big:true, col:'#ff9ad5'});
+    [523, 659, 784, 1047].forEach((f, i) => tone(f, 0.14, 0.08, 'square', i * 0.08));
+    hype = 1;
   }
   function moonTick(b){
     S.moonTicks++;
     floaters.push({x:b.x, y:b.y - MOON_R() - 20, txt:'Moon hit ' + S.moonTicks + (S.moonTicks <= 10 ? ' / 10' : ''), age:0, big:true});
-    if (S.moonTicks === 10 && !S.won){ S.won = true; save(); setTimeout(() => showEnd('win'), 700); }
+    if (S.moonTicks === 10 && !S.won){ S.won = true; logRun('moon'); save(); if (!META.flags.moonWon){ flag('moonWon'); setTimeout(() => showUnlock('mode', {name:'HARDCORE MODE', icon:'M3 12h18M7 7l-4 5 4 5M17 7l4 5-4 5'}, 'Find it in the start menu (Esc)'), 4000); } setTimeout(() => showEnd('win'), 700); }
   }
   function miss(b, i){
     if (b.isSun){
@@ -2066,14 +2343,16 @@
       b.dead = true; SUN.crash = 2.4; SUN.white = 1; crowdScream(); MAN.oops = performance.now(); streak = 0;
       return;
     }
-    if (b.isMoon){ b.hidden = true; b.wait = 1e9; blip(70, 1, .2, 'sawtooth'); setTimeout(() => showEnd('crash'), 500); return; }
+    if (b.isMoon){ b.hidden = true; b.wait = 1e9; blip(70, 1, .2, 'sawtooth'); setTimeout(() => S.hardcore ? hardcoreOver() : showEnd('crash'), 500); return; }
     MAN.oops = performance.now();
+    S.runFalls = (S.runFalls || 0) + 1; META.totFalls = (META.totFalls || 0) + 1;
     maybeVoice('miss');
     if (!SHOWER.on) S.showerHits = Math.floor(S.showerHits / 2);   // mis = de helft van je sterrenregen-voortgang kwijt
     if (streak >= 3) floaters.push({x:b.x, y:tableY() - 24, txt:'Miss! Streak ' + streak, age:0, big:true});
     hype *= 0.3;
     streak = 0;
     blip(180, .12, .15, 'sine');
+    if (S.hardcore){ b.dead = true; HC.check = true; floaters.push({x:b.x, y:tableY() - 50, txt:'Ball lost!', age:0, big:true, col:'#ff6b6b'}); return; }
     b.wait = 0.7; b.hidden = true;
   }
 
@@ -2097,6 +2376,9 @@
     const edge = t / (pw / 2);
     let vt = (b.vx * tx + b.vy * ty) * 0.6 + edge * 0.35 * H + (pd.vx * tx + pd.vy * ty) * 0.22;
     vt = clamp(vt, -1.6 * H, 1.6 * H);
+    // maan en zon gaan flink draaien als je ze raakt: raak je ze aan de rand of met een zwiep, dan nog harder
+    if (b.isMoon || b.isSun || b.miniMoon || b.miniSun || (!b.temp && S.skin.ball === 'sun'))
+      b.av = clamp((b.av || 0) * 0.5 + edge * 7 + (pd.vx * tx) / H * 2.5 + (Math.random() - .5) * 3 + (Math.random() < .5 ? -2 : 2), -16, 16);
     if (POW.wild > 0){ vt += (Math.random() - .5) * 1.6 * H; vn *= 0.6 + Math.random() * 0.9; }
     b.vx = tx * vt + nx * vn; b.vy = ty * vt + ny * vn;
     b.x = pd.x + tx * t + nx * (r + 4); b.y = pd.y + ty * t + ny * (r + 4);
@@ -2108,6 +2390,7 @@
     }
   }
   let BALL_ID = 1;
+  let MATES = [];
   function integrate(b, h, k, n, i){
     if (!b.id) b.id = BALL_ID++;
     const r = rOf(b), g = gravity() * (b.isMoon || b.isSun || b.miniMoon || b.miniSun ? 0.45 : 1);
@@ -2122,6 +2405,7 @@
     }
     if (!b.temp && vyBefore < 0 && b.vy >= 0){
       const m = Math.max(0, altAt(b.y + r));
+      heightBonus(b, m, r, m > S.high + 0.05 && m > 1);
       if (m > S.high + 0.05 && m > 1){
         if (m >= SPACE_M && S.high < SPACE_M) setTimeout(() => { floaters.push({x:W / 2, y:b.y - H * 0.2, txt:'You reached space!', age:0, big:true}); blip(1560, .4, .1, 'sine'); }, 0);
         S.high = m;
@@ -2132,13 +2416,17 @@
     b.vx *= (1 - 0.35 * h);
     b.x += b.vx * h; b.y += b.vy * h;
     b.spin += b.vx * h * 0.08;
+    if (b.av){ b.ang = (b.ang || 0) + b.av * h; b.av *= Math.exp(-h * 0.45); if (Math.abs(b.av) < 0.05) b.av = 0; }
     const fl = fieldL(), fr = fieldR();
     if (b.x < fl + r){ b.x = fl + r; b.vx = Math.abs(b.vx) * 0.8; }
     if (b.x > fr - r){ b.x = fr - r; b.vx = -Math.abs(b.vx) * 0.8; }
 
     const a0 = padAt(k / n), a1 = padAt((k + 1) / n);
     if (!(P.dizzy > 0)) collidePaddle(b, {x:a1.x, px:a0.x, y:a1.y, py:a0.y, vx:P.vx, vy:P.vy, a:P.rot}, r, g);
-    if (POW.dual > 0) collidePaddle(b, {x:W - a1.x, px:W - a0.x, y:a1.y, py:a0.y, vx:-P.vx, vy:P.vy, a:-P.rot}, r, g);
+    for (const m of MATES){
+      if (m.mirror) collidePaddle(b, {x:W - a1.x, px:W - a0.x, y:a1.y, py:a0.y, vx:-P.vx, vy:P.vy, a:-P.rot}, r, g);
+      else collidePaddle(b, {x:a1.x + m.dx, px:a0.x + m.dx, y:a1.y, py:a0.y, vx:P.vx, vy:P.vy, a:P.rot}, r, g);
+    }
 
     // Botsing met geplaatste kaatsbatjes (schuine lijnstukken, twee kanten)
     const L = batHalf();
@@ -2197,14 +2485,16 @@
     }
 
     if (b.y + r >= tableY()){
-      if (b.temp) b.dead = true; else miss(b, i);
+      if (b.temp){ b.dead = true; HC.check = true; } else miss(b, i);
     } else if (!b.moonshot && !b.isMoon && !b.isSun && P.y < 0 && b.vy > 0 && b.y - P.y > 3 * H){
       // hoog in de lucht: een bal die ver onder je batje valt, is ook mis
-      if (b.temp) b.dead = true; else miss(b, i);
+      if (b.temp){ b.dead = true; HC.check = true; } else miss(b, i);
     }
   }
 
   function step(dt){
+    S.runTime = (S.runTime || 0) + dt;
+    MATES = mates();
     // Batje volgt de muis
     P.px = P.x; P.py = P.y;
     const pw = padW();
@@ -2250,7 +2540,7 @@
     else { star.life -= dt; star.rot += dt * 1.2; if (star.life <= 0){ star = null; starTimer = nextStar(); } }
 
     const f = POW.turbo > 0 ? POW.turboF : 1;
-    const n = Math.max(POW.heavy > 0 ? 4 : 1, Math.ceil(f));
+    const n = Math.min(balls.length > 40 ? 3 : balls.length > 15 ? 5 : 12, Math.max(POW.heavy > 0 ? 4 : 1, Math.ceil(f)));
     const h = dt * f / n;
     for (let i = balls.length - 1; i >= 0; i--){
       const b = balls[i];
@@ -2274,11 +2564,16 @@
     sunUpdate(dt);
     showerUpdate(dt);
     P.dizzy = Math.max(0, (P.dizzy || 0) - dt);
+    // hoedjes-spins uit de sterrenregen komen na de regen
+    if (HS.pending > 0 && !SHOWER.on && !HS.open && !choice && !endMode){ HS.pending--; openHatSpin('star'); return; }
+    // Hardcore: geen ballen meer over = run voorbij
+    if (HC.check){ HC.check = false; if (S.hardcore && !HC.over && !balls.some(b => !b.dead) && !SUN.falling) hardcoreOver(); }
     // Robot
     const add = pps() * dt;
     if (add > 0){ S.pts += add; S.total += add; }
 
     for (let i = floaters.length - 1; i >= 0; i--){ floaters[i].age += dt; if (floaters[i].age > 1) floaters.splice(i, 1); }
+    if (floaters.length > (FX.low ? 25 : 50)) floaters.splice(0, floaters.length - (FX.low ? 25 : 50));
   }
 
   // ---------- Tekenen ----------
@@ -2627,6 +2922,15 @@
       if (mp.y + R > camTop - R && mp.y - R < cb) drawMoon(mp.x, mp.y - cb, R, 0);
     }
 
+    duoUpdate();
+    // speler (lichaam en hoofd) en hoedjes onder de ballen en sterren, zodat die eroverheen gaan;
+    // arm en batje komen pas na de ballen
+    {
+      const hand = handPos(P.x, P.y, P.rot + P.tilt, false), man = manAt(false);
+      drawMan(man, hand, cb, z);
+      for (const m of mates()){ const h2 = handPos(mateX(m), P.y, mateTilt(m), m.mirror), m2 = m.mirror ? manAt(true) : manPos(mateX(m)); drawMan(m2, h2, cb, z, m.who); }
+    }
+    drawHatStack(cb, z);
     drawRain(cb);
     // ster
     if (star){
@@ -2650,14 +2954,6 @@
       ctx.restore();
     }
 
-    // speler (lichaam en hoofd) en hoedjes onder de ballen, zodat de bal eroverheen gaat;
-    // arm en batje komen pas na de ballen
-    {
-      const hand = handPos(P.x, P.y, P.rot + P.tilt, false), man = manPos(ARM.sx || P.x);
-      drawMan(man, hand, cb, z);
-      if (POW.dual > 0){ const h2 = handPos(W - P.x, P.y, -(P.rot + P.tilt), true), m2 = manPos(W - (ARM.sx || P.x)); drawMan(m2, h2, cb, z, BUDDY); }
-    }
-    drawHatStack(cb, z);
     // ballen
     const offs = [];
     balls.forEach(b => {
@@ -2690,23 +2986,23 @@
       }
       if (b.isSun){
         if (b.y - r > cb || b.y + r < camTop){ offs.push({b, col:'#ffd23f', up:b.y < camTop}); return; }
-        drawSun(b.x, b.y - cb, r, POW.gold > 0);
+        drawSun(b.x, b.y - cb, r, POW.gold > 0, b.ang || 0);
         return;
       }
       if (b.miniSun){
         if (b.y - r > cb || b.y + r < camTop) return;
-        drawSun(b.x, b.y - cb, r, POW.gold > 0);
+        drawSun(b.x, b.y - cb, r, POW.gold > 0, b.ang || 0);
         return;
       }
       if (b.miniMoon){
         if (b.y - r > cb || b.y + r < camTop) return;
-        drawMoon(b.x, b.y - cb, r, b.spin, POW.gold > 0 ? null : b.hue, POW.gold > 0);
+        drawMoon(b.x, b.y - cb, r, b.spin + (b.ang || 0) * 5, POW.gold > 0 ? null : b.hue, POW.gold > 0);
         return;
       }
       if (b.isMoon){
         if (b.y - r > cb){ offs.push({b, col:'#d8dee6', up:false}); return; }
         if (b.y + r < camTop){ offs.push({b, col:'#d8dee6', up:true}); return; }
-        drawMoon(b.x, b.y - cb, r, b.spin, null, POW.gold > 0);
+        drawMoon(b.x, b.y - cb, r, b.spin + (b.ang || 0) * 5, null, POW.gold > 0);
         return;
       }
       const gold = POW.gold > 0;
@@ -2718,21 +3014,21 @@
       if (b.y + r < camTop){ offs.push({b, col:cols[1], up:true}); return; }
       if (b.y - r > cb){ offs.push({b, col:cols[1], up:false}); return; }
       const by = b.y - cb;
-      b.trail.forEach((t, k) => {
+      if (!(FX.low && b.temp)) b.trail.forEach((t, k) => {
         ctx.fillStyle = cols[3]((k + 1) / b.trail.length * 0.18);
         ctx.beginPath(); ctx.arc(t.x, t.y - cb, r * (0.5 + k / b.trail.length * 0.5), 0, Math.PI * 2); ctx.fill();
       });
-      // schaduw op tafel
+      // schaduw op tafel (bij drukte alleen voor je eigen ballen)
       const hgt = Math.max(0, ty - b.y);
       const sa = Math.max(0.05, 0.35 - hgt / H * 0.35);
-      ctx.fillStyle = `rgba(0,0,0,${sa})`;
-      ctx.beginPath(); ctx.ellipse(b.x, ty + 5 - cb, r * (1.2 + hgt / H), r * 0.35, 0, 0, Math.PI * 2); ctx.fill();
+      if (!(FX.low && b.temp)){ ctx.fillStyle = `rgba(0,0,0,${sa})`;
+      ctx.beginPath(); ctx.ellipse(b.x, ty + 5 - cb, r * (1.2 + hgt / H), r * 0.35, 0, 0, Math.PI * 2); ctx.fill(); }
       if (gold){
         const gg = ctx.createRadialGradient(b.x, by, r * .8, b.x, by, r * 2);
         gg.addColorStop(0, 'rgba(255,215,80,.35)'); gg.addColorStop(1, 'rgba(255,215,80,0)');
         ctx.fillStyle = gg; ctx.beginPath(); ctx.arc(b.x, by, r * 2, 0, Math.PI * 2); ctx.fill();
       }
-      if (!b.temp && S.skin.ball === 'sun' && (S.dev || META.flags.sunEnd)){ drawSun(b.x, by, r, POW.gold > 0); return; }
+      if (!b.temp && S.skin.ball === 'sun' && (S.dev || META.flags.sunEnd)){ drawSun(b.x, by, r, POW.gold > 0, b.ang || 0); return; }
       const grd = ctx.createRadialGradient(b.x - r * .35, by - r * .4, r * .1, b.x, by, r);
       grd.addColorStop(0, cols[0]); grd.addColorStop(.45, cols[1]); grd.addColorStop(1, cols[2]);
       ctx.fillStyle = grd; ctx.beginPath(); ctx.arc(b.x, by, r, 0, Math.PI * 2); ctx.fill();
@@ -2744,26 +3040,26 @@
     drawBoss(cb, z);
     // arm(en) achter het batje
     {
-      const hand = handPos(P.x, P.y, P.rot + P.tilt, false), man = manPos(ARM.sx || P.x);
+      const hand = handPos(P.x, P.y, P.rot + P.tilt, false), man = manAt(false);
       drawArm(hand, shoulderOf(man, hand), cb, z);
-      if (POW.dual > 0){
-        const h2 = handPos(W - P.x, P.y, -(P.rot + P.tilt), true), m2 = manPos(W - (ARM.sx || P.x));
-        drawArm(h2, shoulderOf(m2, h2), cb, z, BUDDY);
+      for (const m of mates()){
+        const h2 = handPos(mateX(m), P.y, mateTilt(m), m.mirror), m2 = m.mirror ? manAt(true) : manPos(mateX(m));
+        drawArm(h2, shoulderOf(m2, h2), cb, z, m.who);
       }
     }
     // batje (en tweede batje bij Dual wield)
     drawPaddle(P.x, P.y - cb, P.rot + P.tilt, false);
-    if (POW.dual > 0) drawPaddle(W - P.x, P.y - cb, -(P.rot + P.tilt), true);
+    for (const m of mates()) drawPaddle(mateX(m), P.y - cb, mateTilt(m), m.mirror, m.who);
 
     // zwevende punten
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     floaters.forEach(f => {
-      const a = 1 - f.age;
+      const a = Math.min(1, 1 - f.age);
       ctx.fillStyle = f.big ? `rgba(234,242,252,${a})` : f.gold ? `rgba(255,215,80,${a})` : f.placed ? `rgba(120,230,180,${a})` : `rgba(255,190,120,${a})`;
       ctx.font = `${Math.round((f.big ? 14 : 18) / Math.max(z, 0.2))}px "Press Start 2P", monospace`;
       const q = toS(f.x, f.y);
       LBL.push({kind:'pop', t:f.txt, x:q.x, y:q.y - f.age * 40, a, size:f.big ? 14 : 18,
-        col:f.big ? '#ffffff' : f.gold ? '#ffe14a' : f.placed ? '#7dffb0' : '#ffbe5a'});
+        col:f.col ? f.col : f.big ? '#ffffff' : f.gold ? '#ffe14a' : f.placed ? '#7dffb0' : '#ffbe5a'});
     });
     ctx.restore();
 
@@ -2773,7 +3069,7 @@
       // met de zon als bal: zon en batje blijven zichtbaar door het licht heen, zodat je kunt blijven spelen
       if (S.sunMode && !(SUN.crash > 0)){
         ctx.save(); ctx.translate(W / 2, H); ctx.scale(z, z); ctx.translate(-W / 2, 0);
-        for (const b of balls) if (!b.hidden && (b.isSun || b.miniSun)) drawSun(b.x, b.y - cb, rOf(b), POW.gold > 0);
+        for (const b of balls) if (!b.hidden && (b.isSun || b.miniSun)) drawSun(b.x, b.y - cb, rOf(b), POW.gold > 0, b.ang || 0);
         drawPaddle(P.x, P.y - cb, P.rot + P.tilt, false);
         ctx.restore();
       }
@@ -2802,8 +3098,9 @@
       ctx.fillRect(px - s * 2, py - s * 0.35, s * 4, s * 0.7); ctx.fillRect(px - s * 0.35, py - s * 2, s * 0.7, s * 4);
     }
   }
-  function drawSun(x, y, R, gold){
+  function drawSun(x, y, R, gold, spinA){
     const t = performance.now() / 1000;
+    if (spinA){ ctx.save(); ctx.translate(x, y); ctx.rotate(spinA); ctx.translate(-x, -y); drawSun(x, y, R, gold, 0); ctx.restore(); return; }
     const gl = ctx.createRadialGradient(x, y, R * 0.8, x, y, R * 2.6);
     gl.addColorStop(0, gold ? 'rgba(255,215,80,.7)' : 'rgba(255,230,120,.55)'); gl.addColorStop(1, 'rgba(255,230,120,0)');
     ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(x, y, R * 2.6, 0, Math.PI * 2); ctx.fill();
@@ -3002,10 +3299,10 @@
     {id:'astro', name:'Astro', unlock:4},
     {id:'ninja', name:'Ninja', unlock:5},
     {id:'knight',name:'Sir Tik', unlock:6},
-    {id:'dino',  name:'Dino',  unlock:7},
-    {id:'penguin',name:'Pingo', unlock:8},
-    {id:'alien', name:'Zorp',  unlock:9},
-    {id:'skelly',name:'Bones', unlock:10},
+    {id:'dino',  name:'Dino',  unlock:99, boss:3},
+    {id:'penguin',name:'Pingo', unlock:99, boss:4},
+    {id:'alien', name:'Zorp',  unlock:99, boss:5},
+    {id:'skelly',name:'Bones', unlock:99, boss:6},
     {id:'gnome', name:'Gnome', unlock:99, won:true},
   ];
   const PADDLES = [
@@ -3015,10 +3312,17 @@
     {id:'neon',    name:'Neon',       unlock:1, top:'#39ffb6', core:'#101018', bot:'#ff3dcf', handle:'#101018', grip:'#39ffb6', glow:'rgba(57,255,182,.45)'},
     {id:'gold',    name:'Golden',     unlock:3, top:'#ffd23f', core:'#fff3b0', bot:'#b8860b', handle:'#b8860b', glow:'rgba(255,210,63,.4)'},
     {id:'saber',   name:'Lightsaber', unlock:99, won:true, saber:true},
+    {id:'swatter', name:'Fly swatter', unlock:99, boss:0, swatter:true},
+    {id:'candy',   name:'Candy cane', unlock:2, top:'#ffffff', core:'#ffd6dc', bot:'#ffffff', handle:'#ffffff', grip:'#d8262b', stripes:'#d8262b'},
+    {id:'ice',     name:'Ice',        unlock:4, top:'#bfefff', core:'#f2fdff', bot:'#7fd0f0', handle:'#9adcf5', grip:'#e8fbff', glow:'rgba(150,220,255,.45)'},
+    {id:'lava',    name:'Lava',       unlock:5, lava:true, top:'#ff5a1f', core:'#ffd23f', bot:'#5a1a08', handle:'#2b1a14', grip:'#ff8a1f', glow:'rgba(255,110,30,.45)'},
+    {id:'galaxy',  name:'Galaxy',     unlock:6, galaxy:true, top:'#3a1a6a', core:'#8a4fd6', bot:'#12051f', handle:'#12051f', grip:'#8a4fd6', glow:'rgba(138,79,214,.5)'},
+    {id:'racket',  name:'Tennis racket', unlock:99, req:() => (S.best || 0) >= 100 || !!META.ach.s100, lockTxt:'STREAK 100', racket:true},
+    {id:'baguette',name:'Baguette',   unlock:99, req:() => Object.keys(META.hats || {}).length >= 10, lockTxt:'10 HATS', baguette:true},
   ];
   // hoogste verdieping ooit: vrijgespeelde personages blijven ook bij een nieuw spel
   const maxFloor = () => Math.max(S.etage, META.maxFloor || 0);
-  const unlocked = it => S.dev || (it.sun ? !!META.flags.sunEnd : it.won ? !!S.won : maxFloor() >= it.unlock);
+  const unlocked = it => S.dev || (it.req ? it.req() : it.sun ? !!META.flags.sunEnd : it.won ? !!S.won : it.boss != null ? !!META.flags['boss' + it.boss] || (it.boss === 0 && !!(S.bossDown && S.bossDown[0])) : maxFloor() >= it.unlock);
   // kleuren van de nieuwe personages
   const CSTY = {
     frog:   {skin:'#62c64c', shirt:'#b6ec7a', limb:'#62c64c', pants:'#3f9a34', shoe:'#3f9a34', sock:'#62c64c', fist:'#62c64c', line:'#1f4a14'},
@@ -3034,11 +3338,29 @@
   // kleuren van arm en hand per personage
   // Dual wield-maatje: altijd een ander personage (en ander batje) dan jij
   let BUDDY = {char:'girl', tone:2, pad:'pro'};
-  function pickBuddy(){
-    const chars = CHARS.filter(c => !c.won || unlocked(c)).map(c => c.id).filter(id => id !== curChar());
-    const pads = PADDLES.filter(p => !p.won || unlocked(p)).map(p => p.id).filter(id => id !== curPaddle().id);
-    BUDDY = {char:pick(chars), tone:Math.floor(Math.random() * TONES.length), pad:pick(pads)};
+  // Dual wield opnieuw krijgen terwijl hij nog loopt = een extra maatje erbij (max 3)
+  let BUDDIES = [];
+  function newBuddy(){
+    const taken = [curChar(), ...BUDDIES.map(x => x.char)], takenP = [curPaddle().id, ...BUDDIES.map(x => x.pad)];
+    let chars = CHARS.filter(c => !c.won || unlocked(c)).map(c => c.id).filter(id => !taken.includes(id));
+    let pads = PADDLES.filter(p => !p.won || unlocked(p)).map(p => p.id).filter(id => !takenP.includes(id));
+    if (!chars.length) chars = ['girl']; if (!pads.length) pads = ['pro'];
+    return {char:pick(chars), tone:Math.floor(Math.random() * TONES.length), pad:pick(pads), idx:BUDDIES.length + 1};
   }
+  function pickBuddy(){ BUDDIES = [newBuddy()]; BUDDY = BUDDIES[0]; }
+  // de extra batjes: 1 maatje = gespiegeld, meer maatjes = gelijk verdeeld over het veld
+  function mates(){
+    if (!(POW.dual > 0) || !BUDDIES.length) return [];
+    const n = Math.min(3, BUDDIES.length);
+    if (n === 1) return [{mirror:true, who:BUDDIES[0], dx:0}];
+    const fl = fieldL(), span = fieldR() - fl;
+    return BUDDIES.slice(0, n).map((w, i) => {
+      let x = (P.x - fl + (i + 1) * span / (n + 1)) % span; if (x < 0) x += span;
+      return {mirror:false, who:w, dx:fl + x - P.x};
+    });
+  }
+  const mateX = m => m.mirror ? W - P.x : P.x + m.dx;
+  const mateTilt = m => m.mirror ? -(P.rot + P.tilt) : P.rot + P.tilt;
   function charColors(who){
     const tone = TONES[who ? who.tone : S.skin.tone | 0] || TONES[1], c = who ? who.char : curChar();
     if (c === 'robot') return {sleeve:'#8a93a8', fore:'#b8c0d0', hand:'#6d768c', line:'#2b2f3c'};
@@ -3062,6 +3384,26 @@
   }
   // Het mannetje: staat vóór de tafel (je ziet hem op de rug) en houdt de arm vast
   function manPos(x){ return {x:clamp(x, W * 0.08, W * 0.92), feet:H * 1.04}; }
+  // Bij Dual wield staan jij en je maatje naast elkaar in plaats van over elkaar heen.
+  // Zijn de batjes dicht bij elkaar, dan schuiven de mannetjes uit elkaar; ze wisselen pas van kant
+  // als de batjes duidelijk gekruist zijn, en ze lopen er soepel heen.
+  const DUO = {a:null, b:null, side:-1, t:0};
+  function duoUpdate(){
+    const now = performance.now(), dt = Math.min(0.1, (now - (DUO.t || now)) / 1000); DUO.t = now;
+    let a = manPos(ARM.sx || P.x).x, b = manPos(W - (ARM.sx || P.x)).x;
+    const gap = H * 0.3;
+    if (POW.dual > 0){
+      if (Math.abs(a - b) >= gap) DUO.side = a < b ? -1 : 1;
+      else { a = W / 2 + DUO.side * gap / 2; b = W / 2 - DUO.side * gap / 2; }
+    }
+    if (DUO.a == null || POW.dual <= 0){ DUO.a = a; DUO.b = b; }
+    const k = Math.min(1, dt * 7);
+    DUO.a += (a - DUO.a) * k; DUO.b += (b - DUO.b) * k;
+  }
+  function manAt(buddy){
+    if (POW.dual <= 0 || BUDDIES.length > 1) return manPos(buddy ? W - (ARM.sx || P.x) : (ARM.sx || P.x));
+    return {x:buddy ? DUO.b : DUO.a, feet:H * 1.04};
+  }
   function shoulderOf(man, hand){
     const side = hand.x >= man.x ? 1 : -1;
     const g = H * 0.0085;
@@ -3080,7 +3422,8 @@
     const lift = headY > want ? (headY - want) / g : 0;
     const lookS = Math.sign(hand.x - man.x) || 1;
     // met Dual wield: jouw hoofd links van het midden, het maatje rechts, zodat ze niet overlappen
-    const hx = POW.dual > 0 ? W / 2 + (who ? 1 : -1) * W * 0.14 : W / 2;
+    const nb = POW.dual > 0 ? Math.min(3, Math.max(1, BUDDIES.length)) : 0;
+    const hx = !nb ? W / 2 : nb === 1 ? W / 2 + (who ? 1 : -1) * W * 0.14 : W * (0.5 + ((who ? who.idx : 0) - nb / 2) * 0.22);
     const headDX = lift > 0 ? (hx - man.x) / g * lookS : 0;
     return ({lift, headDX, look:Math.sign(hand.x - man.x) || 1, lean:lift > 0 ? 0 : clamp((hand.x - man.x) / (W * 2), -0.1, 0.1),
       amp:ARM.amp, walk:MAN.walk, mood:manMood(), shirt:who ? `hsl(${(who.tone * 90 + 200) % 360},70%,50%)` : ballCols()[1], num:who ? 2 : S.etage || 1, wave:hype > 0.5, who});
@@ -3100,6 +3443,9 @@
     const f = t => { t = (t + 1) % 1; return t < 1 / 6 ? p + (q - p) * 6 * t : t < .5 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p; };
     return '#' + [f(h + 1 / 3), f(h), f(h - 1 / 3)].map(v => Math.round(v * 255).toString(16).padStart(2, '0')).join('');
   };
+  // Het hoofd blijft boven het lijf; pas als de camera een paar schermen boven je speler zit,
+  // schuift het geleidelijk naar het midden (zo'n 2 tot 6 schermen hoog). L is de neklengte in blokjes.
+  const headShift = (o, L) => L > 0 ? (o.headDX || 0) * clamp((L - 235) / (706 - 235), 0, 1) : 0;
   function drawCharacter(x, fy, u, o){
     const t = performance.now() / 1000, c = o.who ? o.who.char : curChar(), tone = TONES[o.who ? o.who.tone : S.skin.tone | 0] || TONES[1];
     const g = u * 0.85, K = '#141018';
@@ -3174,7 +3520,7 @@
     // --- hoofd (met lange nek als de camera hoog zit, zodat je zijn hoofd altijd ziet) ---
     const L = Math.max(0, Math.round(o.lift || 0));
     const hy = -32 - B - L;
-    const HX = L > 0 ? (o.headDX || 0) : 0;      // hoog in de lucht: hoofd altijd in het midden van het scherm
+    const HX = headShift(o, L);      // pas echt hoog in de lucht schuift het hoofd naar het midden van het scherm
     if (L > 0){
       const neck = T ? T.limb : c === 'robot' ? '#8a93a8' : c === 'astro' ? '#eef1f6' : skin;
       if (Math.abs(HX) < 1){
@@ -3317,21 +3663,23 @@
     ctx.fillStyle = cc.line; ctx.beginPath(); ctx.arc(hand.x, hand.y - cb, w * 0.75 + 1.5 / z, 0, Math.PI * 2); ctx.fill();
     ctx.fillStyle = cc.hand; ctx.beginPath(); ctx.arc(hand.x, hand.y - cb, w * 0.75, 0, Math.PI * 2); ctx.fill();
   }
-  function drawPaddle(x, y, tilt, mirror){
+  function drawPaddle(x, y, tilt, mirror, who){
     const pw = padW();
     ctx.save();
     ctx.translate(x, y); ctx.rotate(tilt);
-    if (!mirror && P.dizzy > 0) ctx.globalAlpha = Math.sin(performance.now() / 50) > 0 ? 0.35 : 0.8;
-    if (mirror){ ctx.scale(-1, 1); ctx.globalAlpha = POW.dual < 2 && Math.sin(POW.dual * 20) < 0 ? 0.4 : 0.9; }
-    if (!mirror && P.hover && !P.held){
+    const mate = !!who;
+    if (!mate && P.dizzy > 0) ctx.globalAlpha = Math.sin(performance.now() / 50) > 0 ? 0.35 : 0.8;
+    if (mirror) ctx.scale(-1, 1);
+    if (mate) ctx.globalAlpha = POW.dual < 2 && Math.sin(POW.dual * 20) < 0 ? 0.4 : 0.9;
+    if (!mate && P.hover && !P.held){
       ctx.strokeStyle = 'rgba(234,242,252,.55)'; ctx.setLineDash([5, 5]); ctx.lineWidth = 1.5;
       roundRect(-pw / 2 - 10, -16, pw + 20, 32, 16); ctx.stroke(); ctx.setLineDash([]);
     }
-    if (P.held || mirror){
+    if (P.held || mate){
       ctx.fillStyle = POW.bouncer > 0 ? 'rgba(120,200,255,.25)' : 'rgba(255,138,31,.16)';
       roundRect(-pw / 2 - 8, -14, pw + 16, 28, 14); ctx.fill();
     }
-    paintPaddle(pw, mirror ? (PADDLES.find(p => p.id === BUDDY.pad) || curPaddle()) : curPaddle());
+    paintPaddle(pw, mate ? (PADDLES.find(p => p.id === who.pad) || curPaddle()) : curPaddle());
     ctx.restore();
   }
   // tekent het blad en handvat (van opzij) in de stijl van de gekozen skin
@@ -3353,6 +3701,35 @@
       ctx.fillStyle = '#ffffff'; roundRect(-pw / 2 + 2, -1.5, pw - 4, 3, 1.5); ctx.fill();
       return;
     }
+    if (sk.swatter){       // vliegenmepper: gaasje met een lange steel
+      ctx.save(); ctx.translate(pw / 2 - 2, 0);
+      ctx.fillStyle = '#1a1a1f'; ctx.fillRect(-2, -2.5, hl * 1.5 + 4, 5); ctx.fillStyle = '#2fa84a'; ctx.fillRect(0, -1.5, hl * 1.5, 3);
+      ctx.restore();
+      ctx.fillStyle = '#1a1a1f'; roundRect(-pw / 2 - 2, -7, pw + 4, 12, 3); ctx.fill();
+      ctx.fillStyle = '#2fa84a'; roundRect(-pw / 2, -5, pw, 8, 2); ctx.fill();
+      ctx.fillStyle = 'rgba(0,0,0,.35)'; for (let x = -pw / 2 + 4; x < pw / 2; x += 5) ctx.fillRect(x, -5, 1, 8);
+      ctx.fillRect(-pw / 2, -2, pw, 1);
+      return;
+    }
+    if (sk.baguette){      // stokbrood met sneden
+      ctx.fillStyle = '#5a3208'; roundRect(-pw / 2 - 2, -7, pw + hl * 0.9 + 4, 13, 6); ctx.fill();
+      ctx.fillStyle = '#d99a4a'; roundRect(-pw / 2, -5, pw + hl * 0.9, 9, 5); ctx.fill();
+      ctx.fillStyle = '#f0c27a'; roundRect(-pw / 2 + 2, -5, pw + hl * 0.9 - 4, 3, 2); ctx.fill();
+      ctx.strokeStyle = '#8a5418'; ctx.lineWidth = 1.5;
+      for (let x = -pw / 2 + 8; x < pw / 2 + hl * 0.8; x += 12){ ctx.beginPath(); ctx.moveTo(x, -4); ctx.lineTo(x + 6, 2); ctx.stroke(); }
+      return;
+    }
+    if (sk.racket){        // tennisracket: ovaal met snaren
+      ctx.save(); ctx.translate(pw / 2, 0);
+      ctx.fillStyle = '#1a1a1f'; ctx.fillRect(-2, -3.5, hl * 1.2 + 4, 7); ctx.fillStyle = '#ffffff'; ctx.fillRect(hl * 0.5, -2.5, hl * 0.7, 5); ctx.fillStyle = '#d8262b'; ctx.fillRect(0, -2.5, hl * 0.5, 5);
+      ctx.restore();
+      ctx.strokeStyle = '#1a1a1f'; ctx.lineWidth = 5; ctx.beginPath(); ctx.ellipse(0, 0, pw / 2, 7, 0, 0, Math.PI * 2); ctx.stroke();
+      ctx.strokeStyle = '#d8262b'; ctx.lineWidth = 3; ctx.beginPath(); ctx.ellipse(0, 0, pw / 2, 7, 0, 0, Math.PI * 2); ctx.stroke();
+      ctx.strokeStyle = 'rgba(255,255,255,.7)'; ctx.lineWidth = 0.8;
+      for (let x = -pw / 2 + 6; x < pw / 2 - 4; x += 5){ ctx.beginPath(); ctx.moveTo(x, -5); ctx.lineTo(x, 5); ctx.stroke(); }
+      ctx.beginPath(); ctx.moveTo(-pw / 2 + 3, 0); ctx.lineTo(pw / 2 - 3, 0); ctx.stroke();
+      return;
+    }
     if (sk.pan){
       ctx.save(); ctx.translate(pw / 2 - 6, 1); ctx.rotate(0.2);
       ctx.fillStyle = '#1a1a1f'; roundRect(0, -3.5, hl * 1.3, 7, 3); ctx.fill();
@@ -3371,9 +3748,14 @@
     roundRect(0, -6, hl, 12, 5); ctx.fill();
     ctx.fillStyle = sk.grip || 'rgba(0,0,0,.18)'; ctx.fillRect(6, -6, 2, 12); ctx.fillRect(12, -6, 2, 12);
     ctx.restore();
-    ctx.fillStyle = sk.top; roundRect(-pw / 2, -4, pw, 3.5, 2); ctx.fill();
+    const tNow = performance.now() / 1000;
+    const top = sk.lava ? `hsl(${14 + Math.sin(tNow * 6) * 10},100%,${52 + Math.sin(tNow * 9) * 8}%)` : sk.top;
+    ctx.fillStyle = top; roundRect(-pw / 2, -4, pw, 3.5, 2); ctx.fill();
     ctx.fillStyle = sk.core; ctx.fillRect(-pw / 2 + 1, -0.5, pw - 2, 2);
     ctx.fillStyle = sk.bot; roundRect(-pw / 2, 1.5, pw, 3.5, 2); ctx.fill();
+    if (sk.stripes){ ctx.fillStyle = sk.stripes; for (let x = -pw / 2 + 2; x < pw / 2 - 3; x += 9){ ctx.fillRect(x, -4, 4, 3.5); ctx.fillRect(x + 2, 1.5, 4, 3.5); } }
+    if (sk.galaxy){ ctx.fillStyle = '#ffffff'; for (let k = 0; k < 6; k++){ const x = -pw / 2 + ((k * 37 + tNow * 20) % pw); if (Math.sin(tNow * 4 + k * 2) > 0) ctx.fillRect(x, k % 2 ? -3 : 2.5, 1.5, 1.5); } }
+    if (sk.lava){ ctx.fillStyle = '#ffe14a'; for (let k = 0; k < 4; k++){ const x = -pw / 2 + ((k * 53 + tNow * 30) % pw); ctx.fillRect(x, 2, 2, 2); } }
   }
   function roundRect(x, y, w, h, rr){
     ctx.beginPath();
@@ -3461,10 +3843,10 @@
   // de hoedjesstapel op het hoofd van je speler (voor de ballen getekend, zodat de bal eroverheen gaat)
   function drawHatStack(cb, z){
     if (!META.hatOn.length) return;
-    const hand = handPos(P.x, P.y, P.rot + P.tilt, false), man = manPos(ARM.sx || P.x);
+    const hand = handPos(P.x, P.y, P.rot + P.tilt, false), man = manAt(false);
     const o = manOpts(man, hand, cb, z), t = performance.now() / 1000, g = H * 0.01 * 0.85;
     const B = Math.round(Math.abs(Math.sin(t * 5)) * (0.3 + o.amp) * 1.2), L = Math.max(0, Math.round(o.lift || 0));
-    const hy = -32 - B - L, HX = L > 0 ? (o.headDX || 0) : 0, c = curChar();
+    const hy = -32 - B - L, HX = headShift(o, L), c = curChar();
     ctx.save(); ctx.translate(Math.round(man.x), Math.round(man.feet - cb)); ctx.rotate(o.lean); ctx.scale(o.look >= 0 ? 1 : -1, 1);
     ctx.translate(HX * g, (hy + (HAT_Y[c] ?? 0)) * g);
     let y = 0;
@@ -3635,6 +4017,13 @@
       <button class="buy" type="button" id="buy-${u.id}"></button>`;
     row.querySelector('.up-name').textContent = u.name;
     row.querySelector('.buy').addEventListener('click', () => buy(u));
+    if (u.id === 'vast' || u.id === 'portal'){
+      const rb = document.createElement('button'); rb.type = 'button'; rb.className = 'replace-btn';
+      rb.textContent = u.id === 'vast' ? 'Re-place paddles' : 'Re-place portals';
+      rb.title = 'Pick them all up and place them again, one by one';
+      rb.addEventListener('click', () => startReplace(u.id));
+      row.querySelector('.up-main').appendChild(rb);
+    }
     $('ups').appendChild(row);
     upEls[u.id] = {row, btn:row.querySelector('.buy'), desc:row.querySelector('.up-desc'), lvl:row.querySelector('.up-lv'), key:''};
   });
@@ -3644,7 +4033,84 @@
     $('tabName').textContent = g.g; $('tabInfo').textContent = g.info;
     UP.forEach(u => { upEls[u.id].row.hidden = groupOf(u).id !== S.tab; });
     $('skins').hidden = S.tab !== 'style';
+    $('legacy').hidden = S.tab !== 'legacy';
     if (S.tab === 'style') renderSkins();
+    if (S.tab === 'legacy'){ legKey = ''; renderLegacy(); }
+  }
+  // ---------- Runs bijhouden ----------
+  // een run = één verdieping in je normale spel (tot je bouwt), of één hardcore run (tot je af bent)
+  function logRun(end){
+    const time = S.runTime || 0;
+    if (time < 5 && end !== 'built' && end !== 'moon') return;
+    const r = {mode:S.hardcore ? 'hard' : 'normal', floor:S.etage, time:Math.round(time), falls:S.runFalls || 0,
+      pts:Math.round(runPts()), streak:S.runStreak || 0, high:S.high || 0, end, t:Date.now()};
+    META.runs = [r, ...(META.runs || [])].slice(0, 60);
+    META.totTime = (META.totTime || 0) + time; META.totRuns = (META.totRuns || 0) + 1;
+    saveMeta();
+    S.runTime = 0; S.runFalls = 0; S.runStreak = 0;
+  }
+  const fmtT = sec => { sec = Math.round(sec); const h = Math.floor(sec / 3600), m = Math.floor(sec % 3600 / 60), s2 = sec % 60;
+    return h ? `${h}h ${String(m).padStart(2, '0')}m` : `${m}:${String(s2).padStart(2, '0')}`; };
+  // ---------- Vrijgespeeld: grote melding in beeld ----------
+  const UNL = {q:[], busy:false};
+  const unlockList = () => [...CHARS.map(c => ['player', c]), ...PADDLES.map(p => ['paddle', p]), ['ball', {id:'sun', name:'The Sun ball', unlock:99, sun:true}]];
+  function checkUnlocks(){
+    if (S.dev) return;
+    const now = unlockList().filter(([k, it]) => unlocked(it)).map(([k, it]) => k + ':' + it.id);
+    if (!META.unl){ META.unl = now; saveMeta(); return; }        // eerste keer: alleen onthouden
+    for (const [k, it] of unlockList()){
+      const key = k + ':' + it.id;
+      if (unlocked(it) && !META.unl.includes(key)){ META.unl.push(key); saveMeta(); showUnlock(k, it); }
+    }
+  }
+  setInterval(checkUnlocks, 800);
+  function showUnlock(kind, it, sub){
+    UNL.q.push([kind, it, sub]);
+    if (UNL.busy) return;
+    const next = () => {
+      const q = UNL.q.shift(); if (!q){ UNL.busy = false; $('unlockBox').hidden = true; return; }
+      UNL.busy = true;
+      const [k, x, sb] = q;
+      $('unlockK').textContent = k === 'player' ? 'NEW PLAYER UNLOCKED!' : k === 'paddle' ? 'NEW PADDLE UNLOCKED!' : k === 'ball' ? 'NEW BALL UNLOCKED!' : 'UNLOCKED!';
+      $('unlockN').textContent = x.name;
+      $('unlockS').textContent = sb || 'Pick it in the Style tab';
+      const box = $('unlockBox'); box.hidden = true; void box.offsetWidth; box.hidden = false;
+      preview($('unlockCv'), () => {
+        if (k === 'player'){ const keep = S.skin.char, d = S.dev; S.skin.char = x.id; S.dev = true;
+          drawCharacter(42, 82, ['alien', 'knight', 'frog'].includes(x.id) ? 2.3 : 2.75, {look:1, lean:0, amp:0, walk:0, mood:'happy', shirt:ballCols()[1], num:S.etage || 1, wave:false}); S.skin.char = keep; S.dev = d; }
+        else if (k === 'paddle'){ ctx.save(); ctx.translate(38, 44); ctx.rotate(-0.35); paintPaddle(46, x); ctx.restore(); }
+        else if (k === 'ball') drawSun(42, 42, 20);
+        else if (x.icon){ ctx.save(); ctx.translate(18, 18); ctx.scale(2, 2); ctx.strokeStyle = '#ff6b6b'; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.stroke(new Path2D(x.icon)); ctx.restore(); }
+      });
+      [659, 784, 988, 1319].forEach((f, i) => tone(f, 0.16, 0.08, 'square', i * 0.08)); tone(1319, 0.5, 0.06, 'triangle', 0.34);
+      setTimeout(next, 3000);
+    };
+    next();
+  }
+  // ---------- Legacy-tab ----------
+  let legKey = '';
+  function renderLegacy(){
+    const key = S.trophies + '|' + LEG.map(L => legLv(L.id)).join(',');
+    if (key === legKey) return; legKey = key;
+    $('legTro').innerHTML = svg('trophy', 22) + '<br>' + S.trophies;
+    const box = $('legList'); box.innerHTML = '';
+    LEG.forEach(L => {
+      const l = legLv(L.id), maxed = l >= L.max, c = legCost(L), can = !maxed && (S.dev || S.trophies >= c);
+      const row = document.createElement('div'); row.className = 'up leg' + (can ? ' is-ready' : '');
+      row.innerHTML = `<div class="up-ic">${svg(L.icon)}</div><div class="up-main"><div class="up-name"></div><div class="up-desc"></div><div class="up-lv"></div></div><button class="buy" type="button"></button>`;
+      row.querySelector('.up-name').textContent = L.name; row.querySelector('.up-desc').textContent = L.desc;
+      row.querySelector('.up-lv').innerHTML = (L.max <= 10 ? Array.from({length:L.max}, (_, k) => `<span class="pip${k < l ? ' on' : ''}"></span>`).join('') : '') + `<span style="margin-left:4px">${l}/${L.max}</span>`;
+      const b = row.querySelector('.buy'); b.textContent = maxed ? 'Max' : c + ' tr.'; b.className = 'buy' + (maxed ? ' max' : can ? ' ready' : ''); b.disabled = !can;
+      b.setAttribute('aria-label', maxed ? L.name + ': maxed' : `Buy ${L.name} for ${c} trophies`);
+      b.addEventListener('click', () => {
+        if (!(legLv(L.id) < L.max && (S.dev || S.trophies >= legCost(L)))) return;
+        if (!S.dev) S.trophies -= legCost(L); S.leg[L.id] = legLv(L.id) + 1;
+        applyLegacy();
+        audioInit(); blip(988, .08, .1, 'square'); setTimeout(() => blip(1319, .12, .1, 'square'), 80);
+        Object.values(upEls).forEach(el => el.key = ''); save(); renderPanel(); renderLegacy(); checkAch();
+      });
+      box.appendChild(row);
+    });
   }
   // ---------- Skins-menu ----------
   function preview(cnv, fn, size){
@@ -3654,19 +4120,20 @@
     try { fn(); } finally { ctx = saved; }
   }
   function renderSkins(){
-    const mk = (box, items, cur, onPick, draw) => {
+    const mk = (box, items, cur, onPick, draw, secret) => {
       box.innerHTML = '';
       items.forEach(it => {
         const ok = unlocked(it);
         const b = document.createElement('button'); b.type = 'button';
         b.className = 'sk' + (it.id === cur ? ' cur' : '') + (ok ? '' : ' locked');
-        b.setAttribute('aria-label', it.name + (ok ? '' : it.won ? ' (unlocks when you beat the Moon)' : ` (unlocks at floor ${it.unlock})`));
+        const hide = secret && !ok;      // nog niet vrijgespeeld: geen naam, alleen een silhouet
+        b.setAttribute('aria-label', (hide ? 'Secret player' : it.name) + (ok ? '' : it.won ? ' (unlocks when you beat the Moon)' : it.lockTxt ? ` (unlocks: ${it.lockTxt.toLowerCase()})` : it.boss === 0 ? ' (unlocks when you beat the Mega Moth)' : it.boss ? ` (unlocks when you beat the boss of floor ${it.boss})` : ` (unlocks at floor ${it.unlock})`));
         const cv2 = document.createElement('canvas'); b.appendChild(cv2);
-        const nm = document.createElement('span'); nm.textContent = it.name; b.appendChild(nm);
-        if (!ok){ const l = document.createElement('div'); l.className = 'lock'; l.textContent = it.sun ? 'SECRET' : it.won ? 'BEAT MOON' : 'FLOOR ' + it.unlock; b.appendChild(l); }
+        const nm = document.createElement('span'); nm.textContent = hide ? '???' : it.name; b.appendChild(nm);
+        if (!ok){ const l = document.createElement('div'); l.className = 'lock'; l.textContent = it.lockTxt ? it.lockTxt : it.sun ? 'SECRET' : it.won ? 'BEAT MOON' : it.boss === 0 ? 'BEAT MOTH' : it.boss ? 'BOSS F' + it.boss : 'FLOOR ' + it.unlock; b.appendChild(l); }
         b.addEventListener('click', () => { if (!ok) return; onPick(it.id); save(); renderSkins(); });
         box.appendChild(b);
-        preview(cv2, () => draw(it));
+        preview(cv2, () => { draw(it); if (hide){ ctx.save(); ctx.globalCompositeOperation = 'source-in'; ctx.fillStyle = '#7a86d8'; ctx.fillRect(0, 0, 84, 84); ctx.restore(); } });
       });
     };
     mk($('skChars'), CHARS, curChar(), id => { S.skin.char = id; audioInit(); if (id === 'gnome') playGnome(); }, it => {
@@ -3675,7 +4142,7 @@
       const tall = ['alien', 'knight', 'frog'].includes(it.id);
       drawCharacter(42, 82, tall ? 2.3 : 2.75, {look:1, lean:0, amp:0, walk:0, mood:'happy', shirt:ballCols()[1], num:S.etage || 1, wave:false});
       S.skin.char = keep; S.dev = d;
-    });
+    }, true);
     const BALLS = [{id:'normal', name:'Classic', unlock:0}, {id:'sun', name:'The Sun', unlock:99, sun:true}];
     mk($('skBalls'), BALLS, (S.skin.ball === 'sun' && unlocked(BALLS[1])) ? 'sun' : 'normal', id => { S.skin.ball = id; }, it => {
       if (it.id === 'sun') drawSun(42, 42, 20);
@@ -3696,7 +4163,7 @@
   showTab();
   $('prestIc').innerHTML = svg('tower');
   let prestArm = null;
-  function prestReady(){ return S.etage < ETAGE_MAX && bossDown(S.etage) && lv('veld') >= VELD_MAX && S.pts >= etageCost(); }
+  function prestReady(){ return S.etage < ETAGE_MAX && bossDown(S.etage) && lv('veld') >= veldNeed() && S.pts >= etageCost(); }
   $('prestToggle').addEventListener('click', () => {
     const c = $('prest').classList.toggle('collapsed');
     $('prestToggle').setAttribute('aria-expanded', c ? 'false' : 'true');
@@ -3704,18 +4171,21 @@
   });
   function renderPrest(){
     const hallM = altAt(fieldTop());
-    $('prestNow').textContent = `Floor ${S.etage} · hall ${fmtM(hallM)} tall · points x${presMult().toLocaleString('en-US')}`;
-    const needVeld = lv('veld') < VELD_MAX, grow = altAt(fieldTop() - ETAGE_PX()) - hallM;
+    $('prestNow').textContent = `Floor ${S.etage} · points x${fmtX(presMult())} · upgrades cost x${fmtX(costScale(S.etage))} · ${S.trophies} trophies`;
+    const nextX = fmtX(presMultAt(S.etage + 1) * (1 + 0.2 * legLv('pts'))), gain = trophyGain();
+    const nc = CHARS.find(c => c.unlock === S.etage + 1 && !c.won && !c.boss && !unlocked(c));
+    const reward = `+${gain} trophies, points x${nextX}${nc ? ', a new secret player' : ''} (upgrades cost x${fmtX(costScale(S.etage + 1))})`;
+    const needVeld = lv('veld') < veldNeed(), grow = altAt(fieldTop() - ETAGE_PX()) - hallM;
     $('prestGrow').textContent = S.etage >= ETAGE_MAX ? 'Your hall reaches far into space' : `Your hall grows ${fmtM(grow)} taller`;
-    $('prestReq').textContent = S.etage >= ETAGE_MAX ? (allMaxed() ? 'Ready for the Moon! Hit stars until the roulette lands on the Moonshot.' : `Beat all bosses to reach the Moon: ${bossesBeaten()}/9 done.`)
-      : !bossDown(S.etage) ? `Beat the boss of this floor first: ${BOSSES[S.etage]} (${BOSS.on ? 'fighting now!' : S.bossHits + '/' + bossNeed(S.etage) + ' hits until he shows up'}).`
-      : needVeld ? `Unlock the whole field first (${lv('veld')}/${VELD_MAX}).`
-      : `After: hall ${fmtM(hallM + grow)} tall and points x${(presMult() + 1).toLocaleString('en-US')}.`;
+    $('prestReq').textContent = S.etage >= ETAGE_MAX ? (allMaxed() ? 'Ready for the Moon! Hit stars until the roulette lands on the Moonshot.' : `Beat all bosses to reach the Moon: ${bossesBeaten()}/7 done.`)
+      : !bossDown(S.etage) ? `Beat the boss of this floor first: ${BOSSES[S.etage]} (${BOSS.on ? 'fighting now!' : bossReady() ? 'press FIGHT when ready' : 'unlock the whole field first: ' + bossProg() + '/' + VELD_MAX}).`
+      : needVeld ? `Unlock more field first (${lv('veld')}/${veldNeed()}).`
+      : `Ready! You get ${reward}.`;
     // checklist: wat heb je nog nodig voor de volgende verdieping?
     if (S.etage < ETAGE_MAX){
       const reqs = [
-        [lv('veld') >= VELD_MAX, `Unlock the whole field (${lv('veld')}/${VELD_MAX}) · tab Field`],
-        [bossDown(S.etage), hasBoss(S.etage) ? `Beat the boss: ${BOSSES[S.etage]}${bossDown(S.etage) ? '' : BOSS.on ? ' (fighting now!)' : ` (${S.bossHits}/${bossNeed(S.etage)} hits)`}` : 'No boss on this floor'],
+        [lv('veld') >= veldNeed(), `Unlock ${veldNeed() >= VELD_MAX ? 'the whole field' : veldNeed() + ' field pieces'} (${Math.min(lv('veld'), veldNeed())}/${veldNeed()}) · tab Field`],
+        [bossDown(S.etage), hasBoss(S.etage) ? `Beat the boss: ${BOSSES[S.etage]}${bossDown(S.etage) ? '' : BOSS.on ? ' (fighting now!)' : bossReady() ? ' (ready: press FIGHT)' : ` (unlock the whole field first: ${bossProg()}/${VELD_MAX})`}` : 'No boss on this floor'],
         [S.pts >= etageCost(), `Save up ${fmt(etageCost())} points (${fmt(Math.min(S.pts, etageCost()))} now)`],
       ];
       $('prestList').innerHTML = reqs.map(([ok, t]) => `<li class="${ok ? 'ok' : 'no'}"><span class="ck">${ok ? '✔' : '✖'}</span><span>${t.replace(/</g, '&lt;')}</span></li>`).join('');
@@ -3723,11 +4193,15 @@
       $('prestName').textContent = 'Build floor ' + (S.etage + 1);
       $('prestSum').textContent = prestReady() ? 'Ready to build!' : `${done}/${reqs.length} done · click for details`;
       $('prestSum').classList.toggle('ok', prestReady());
-      $('prestReq').textContent = prestReady() ? `Ready! After: hall ${fmtM(hallM + grow)} tall and points x${(presMult() + 1).toLocaleString('en-US')}.` : '';
+      $('prestReq').textContent = prestReady() ? `Ready! You get ${reward}. Upgrades reset, but your Legacy stays.`
+        : `Building now would give ${reward}. The more points you score here, the more trophies.`;
+      $('prestSum').textContent = prestReady() ? `Ready! +${gain} trophies` : $('prestSum').textContent;
+      // één keer per verdieping een duidelijke melding als je kunt bouwen
+      if (prestReady() && S.readyToast !== S.etage){ S.readyToast = S.etage; toast(`+${gain} trophies, points x${nextX}`, `FLOOR ${S.etage + 1} READY TO BUILD`); }
     } else { $('prestList').innerHTML = ''; $('prestName').textContent = 'Top floor'; $('prestSum').textContent = allMaxed() ? 'Ready for the Moon!' : 'Click for what the Moon needs'; $('prestSum').classList.toggle('ok', allMaxed()); }
     const btn = $('prestBtn'), ok = prestReady();
     if (!ok && prestArm){ clearTimeout(prestArm); prestArm = null; }
-    btn.textContent = S.etage >= ETAGE_MAX ? 'Maxed' : prestArm ? 'Sure? You lose your upgrades' : ok ? `Build floor ${S.etage + 1} for ${fmt(etageCost())} pts` : 'Locked · finish the list above';
+    btn.textContent = S.etage >= ETAGE_MAX ? 'Maxed' : prestArm ? 'Sure? Upgrades reset, Legacy stays' : ok ? `Build floor ${S.etage + 1}: +${trophyGain()} trophies` : 'Locked · finish the list above';
     btn.className = 'prest-btn' + (prestArm ? ' armed' : ok ? ' ready' : '');
     btn.disabled = !ok;
   }
@@ -3738,26 +4212,33 @@
     doPrestige();
   });
   function doPrestige(){
+    logRun('built');
+    const gain = trophyGain();
+    const keepBats = S.bats.slice(0, legLv('bats'));
     S.etage++;
+    S.trophies += gain; S.trophyTotal = (S.trophyTotal || 0) + gain; S.runStart = S.total;
     if (!S.dev && S.etage > (META.maxFloor || 0)){
       META.maxFloor = S.etage; saveMeta();
       const nc = CHARS.find(c => c.unlock === S.etage && !c.won);
-      if (nc) setTimeout(() => toast(nc.name + ' (tab Style)', 'NEW PLAYER UNLOCKED'), 900);
+      // de melding in beeld komt vanzelf via checkUnlocks
     }
-    S.pts = 0; S.lv = {}; S.bats = []; S.portals = []; S.bossHits = 0; BOSS.on = false; BOMBS = []; HAZ = []; DRONES = [];
-    streak = 0; carry = null; sel = -1; hoverBat = -1; P.rot = 0;
+    S.pts = etageCost() * 0.2 * legLv('start'); S.lv = {vast:keepBats.length}; S.bats = keepBats; S.portals = [];
+    applyLegacy(); S.bossHits = 0; S.upBuys = 0; BOSS.on = false; BOMBS = []; HAZ = []; DRONES = [];
+    streak = 0; carry = null; PLACEQ = []; sel = -1; hoverBat = -1; P.rot = 0;
     Object.assign(POW, POW0); star = null; starTimer = 8; if (choice) closeChoice();
-    balls = []; syncBalls();
+    balls = []; HC.spawn = true; syncBalls();
+    if (S.hardcore){ META.hcTopFloor = Math.max(META.hcTopFloor || 0, S.etage); saveMeta(); }
     Object.values(upEls).forEach(el => el.key = '');
     S.view = S.etage;
-    floaters.push({x:W / 2, y:floorBottom(S.etage) - H * 0.4, txt:'Floor ' + S.etage + ' built! New ball color', age:0, big:true});
+    floaters.push({x:W / 2, y:floorBottom(S.etage) - H * 0.4, txt:'Floor ' + S.etage + ' built! +' + gain + ' trophies', age:0, big:true});
+    setTimeout(() => toast(`${gain} trophies · spend them in Legacy`, 'TROPHIES EARNED'), 400);
     blip(520, .3, .12, 'triangle'); setTimeout(() => blip(780, .3, .12, 'triangle'), 160);
     save(); renderPanel(); updateHint();
   }
   function buy(u){
     if (lv(u.id) >= u.max || (u.req && !u.req())) return;
     const c = cost(u); if (S.pts < c) return;
-    S.pts -= c; S.lv[u.id] = lv(u.id) + 1; markSeen('up', u.id);
+    S.pts -= c; S.lv[u.id] = lv(u.id) + 1; markSeen('up', u.id); S.upBuys = (S.upBuys || 0) + 1;
     audioInit(); blip(880, .09, .1, 'square');
     if (u.id === 'portal'){
       const pr = {ax:0.35, ay:0.35, bx:0.65, by:0.35};
@@ -3772,10 +4253,22 @@
       carry = {bat:bt, mode:'place'};
       updateCursor(); updateHint();
     }
+    if (S.hardcore && u.id === 'bal' && !S.finale && !S.sunMode) balls.push(newBall(balls.filter(b => !b.temp).length));
     syncBalls(); save(); renderPanel();
+  }
+  // Alles opnieuw neerzetten: je pakt ze één voor één op en klikt waar ze moeten komen
+  let PLACEQ = [];
+  function startReplace(id){
+    if (choice || endMode || menuOpen) return;
+    audioInit();
+    PLACEQ = id === 'vast' ? S.bats.map(bt => ({bat:bt, mode:'place'})) : S.portals.map(pr => ({portal:pr, end:'a', mode:'pplace'}));
+    if (!PLACEQ.length) return;
+    sel = -1; carry = PLACEQ.shift(); blip(660, .08, .1, 'square');
+    updateCursor(); updateHint();
   }
   function renderPanel(){
     const ready = {};
+    for (const [id, n] of [['vast', S.bats.length], ['portal', S.portals.length]]){ const rb = upEls[id] && upEls[id].row.querySelector('.replace-btn'); if (rb) rb.hidden = !n; }
     UP.forEach(u => {
       const el = upEls[u.id], l = lv(u.id), maxed = l >= u.max, c = cost(u);
       const locked = !!(u.req && !u.req());
@@ -3797,6 +4290,8 @@
       el.row.classList.toggle('is-locked', locked);
     });
     if (prestReady()) ready.veld = (ready.veld || 0) + 1;
+    { const n = LEG.filter(L => legLv(L.id) < L.max && S.trophies >= legCost(L)).length; if (n) ready.legacy = n; }
+    if (S.tab === 'legacy') renderLegacy();
     renderPrest();
     GROUPS.forEach(g => {
       const b = tabEls[g.id].querySelector('.badge');
@@ -3836,12 +4331,52 @@
     if ($('devPwIn').value.trim().toLowerCase() === DEV_PW){ $('devPw').hidden = true; $('devPwIn').value = ''; setDev(true); blip(1200, .1, .08, 'square'); }
     else { $('devPwErr').hidden = false; $('devPwIn').select(); blip(140, .25, .1, 'sawtooth'); }
   }
-  $('devStar').addEventListener('click', () => { if (!S.finale && !paused) spawnStar(); });
+  // developer-knoppen werken ook tijdens de maan/zon-finale
+  const devMsg = t => floaters.push({x:W / 2, y:Math.min(P.y - 80, cam.cb - H * 0.3), txt:t, age:0, big:true});
+  $('devStar').addEventListener('click', () => { if (paused) return; spawnStar(); devMsg('Star!'); });
+  $('devSpin').addEventListener('click', () => { if (paused || choice) return; const b = balls.find(x => !x.hidden) || balls[0]; if (b) openChoice(b); });
   $('devHat').addEventListener('click', () => { if (!paused) openHatSpin('dev'); });
-  $('devMoon').addEventListener('click', () => { if (!S.finale){ POW.moon = 30; floaters.push({x:W / 2, y:P.y - 80, txt:'Moonshot: hit the ball up!', age:0, big:true}); } });
-  $('devFloor').addEventListener('click', () => { S.bossDown[S.etage] = true; S.etage = Math.min(ETAGE_MAX, S.etage + 1); S.view = S.etage; save(); renderPanel(); });
-  $('devShower').addEventListener('click', () => { if (!S.finale) startShower(); });
-  $('devBoss').addEventListener('click', () => { if (!BOSS.on && !S.finale){ S.bossDown[S.etage] = false; spawnBoss(); } });
+  $('devMoon').addEventListener('click', () => { POW.moon = 30; devMsg('Moonshot: hit the ball up!'); });
+  $('devFloor').addEventListener('click', () => {
+    if (S.etage >= ETAGE_MAX){ devMsg('Already on the top floor'); return; }
+    S.bossDown[S.etage] = true; S.etage = Math.min(ETAGE_MAX, S.etage + 1); S.view = S.etage; setView(S.etage); devMsg('Floor ' + S.etage); save(); renderPanel();
+  });
+  $('devShower').addEventListener('click', () => { startShower(); devMsg('Star shower!'); });
+  function fightBoss(){ if (!bossReady() || paused) return; audioInit(); $('bossGo').hidden = true; spawnBoss(); }
+  $('bossGo').addEventListener('click', fightBoss);
+  addEventListener('keydown', e => { if ((e.key === 'b' || e.key === 'B') && !e.repeat) fightBoss(); });
+  $('devBoss').addEventListener('click', () => { if (BOSS.on){ devMsg('A boss is already here'); return; } S.bossDown[S.etage] = false; spawnBoss(); });
+  // Alles vrijspelen: spelers, batjes, zonnebal, alle hoedjes, achievements, codex en hardcore
+  function unlockAllProgress(){
+    META.maxFloor = ETAGE_MAX;
+    for (let k = 0; k <= ETAGE_MAX; k++) META.flags['boss' + k] = true;
+    Object.assign(META.flags, {moonWon:true, sunEnd:true, star:true, shower:true});
+    HATS.forEach(h => { META.hats[h.id] = Math.max(META.hats[h.id] || 0, 1); });
+    UP.forEach(u => META.seen.up[u.id] = true);
+    [...Object.keys(POWERS), ...Object.keys(CURSES), 'moon'].forEach(k => META.seen.pow[k] = true);
+    BOSS_DEFS.forEach(d => META.seen.boss[d.name] = true);
+    S.won = true; S.best = Math.max(S.best || 0, 100);
+    for (const [id] of ACH) if (!META.ach[id]) META.ach[id] = Date.now();
+    META.unl = unlockList().map(([k, it]) => k + ':' + it.id);     // geen stapel meldingen
+    saveMeta(); save(); renderPanel(); showTab(); renderHc();
+  }
+  // Alles wissen: beide saves en alle blijvende voortgang (hoedjes, spelers, achievements, records)
+  function wipeAllProgress(){
+    try { localStorage.removeItem(KEY); localStorage.removeItem(HKEY); } catch(e){}
+    META = {seen:{up:{}, boss:{}, pow:{}}, ach:{}, flags:{}, maxFloor:0, hats:{}, hatOn:[]};
+    saveMeta();
+    const muted = S.muted, retro = S.retro;
+    S.hardcore = false; HC.over = true; resetGame(); HC.over = false;
+    S.muted = muted; S.retro = retro; S.skin = {char:'boy', tone:1, paddle:'classic'}; S.tab = 'batje'; S.dev = false;
+    Object.values(upEls).forEach(el => el.key = '');
+    save(); renderPanel(); showTab(); renderDev(); renderHc(); hadSave = false;
+  }
+  const armBtn = (btn, label, fn) => {
+    if (!btn.classList.contains('armed')){ btn.classList.add('armed'); btn.textContent = 'Sure? Click again'; setTimeout(() => { btn.classList.remove('armed'); btn.textContent = label; }, 3000); return; }
+    btn.classList.remove('armed'); btn.textContent = label; fn();
+  };
+  $('devUnlock').addEventListener('click', e => armBtn(e.currentTarget, 'Unlock all progress', () => { unlockAllProgress(); devMsg('Everything unlocked!'); }));
+  $('devWipe').addEventListener('click', e => armBtn(e.currentTarget, 'Wipe all progress', () => { wipeAllProgress(); floaters.push({x:W / 2, y:H * 0.4, txt:'All progress wiped', age:0, big:true}); }));
   $('devAll').addEventListener('click', () => {
     S.etage = ETAGE_MAX;
     for (let k = 0; k <= ETAGE_MAX; k++) S.bossDown[k] = true;
@@ -3866,7 +4401,12 @@
     resetGame();
   });
   function resetGame(){
-    const muted = S.muted, tab = S.tab, skin = S.skin, retro = S.retro; S = fresh(); S.muted = muted; S.tab = tab; S.skin = skin; S.retro = retro;
+    if (!HC.over) logRun('restart');
+    const hc = !!S.hardcore;
+    const muted = S.muted, tab = S.tab, skin = S.skin, retro = S.retro; S = fresh(); S.muted = muted; S.tab = tab; S.skin = skin; S.retro = retro; S.hardcore = hc;
+    HC.spawn = true; HC.over = false; HC.check = false;
+    if (hc){ META.hcRuns = (META.hcRuns || 0) + 1; saveMeta(); }
+    renderHc();
     Object.values(upEls).forEach(el => el.key = ''); streak = 0; carry = null; hoverBat = -1; sel = -1;
     Object.assign(POW, POW0); star = null; starTimer = 8; closeChoice(); P.rot = 0; BOSS.on = false; BOMBS = []; HAZ = []; DRONES = []; RAIN = []; SHOWER.on = false;
     balls = []; syncBalls(); save(); renderPanel(); updateHint(); renderDev();
@@ -3874,6 +4414,7 @@
 
   // Nieuwe bal: alle ballen weg en één verse bal laten vallen
   function dropNewBall(){
+    if (S.hardcore) return;
     if (choice || endMode || menuOpen || SUN.falling || SUN.impact > 0) return;
     balls = []; streak = 0;
     if (!S.sunMode && !S.finale){
@@ -3883,6 +4424,52 @@
     blip(700, .08, .1, 'square');
   }
   $('newBall').addEventListener('click', dropNewBall);
+  const hcUnlocked = () => S.dev || !!META.flags.moonWon;
+  function renderHc(){
+    $('newBall').hidden = !!S.hardcore;
+    const el = $('hcBadge'); el.hidden = !S.hardcore;
+    if (S.hardcore){ const bst = META.hcBest; el.textContent = 'HARDCORE' + (bst ? ' · best ' + fmt(bst.pts) : ''); }
+  }
+  // wisselen tussen je normale spel en je hardcore run (elk met een eigen save)
+  function switchMode(hc){
+    save();
+    const keep = {muted:S.muted, tab:S.tab, skin:S.skin, retro:S.retro};
+    let n = null;
+    try { const raw = localStorage.getItem(hc ? HKEY : KEY); if (raw) n = JSON.parse(raw); } catch(e){}
+    const isNew = hc && !n;
+    S = Object.assign(fresh(), n || {}, keep); S.hardcore = hc;
+    Object.values(upEls).forEach(el => el.key = ''); streak = 0; carry = null; hoverBat = -1; sel = -1;
+    Object.assign(POW, POW0); star = null; starTimer = 8; closeChoice(); P.rot = 0; BOSS.on = false; BOMBS = []; HAZ = []; DRONES = []; RAIN = []; SHOWER.on = false;
+    HC.spawn = true; HC.over = false; HC.check = false;
+    balls = []; syncBalls(); clampItems(); save(); renderPanel(); updateHint(); renderDev(); showTab(); renderHc();
+    if (isNew){ META.hcRuns = (META.hcRuns || 0) + 1; saveMeta(); }
+    if (hc) setTimeout(() => toast('Lose all your balls and the run is over', 'HARDCORE MODE'), 300);
+    checkAch();
+  }
+  function hardcoreOver(){
+    if (HC.over || !S.hardcore) return;
+    HC.over = true;
+    const rt = S.runTime || 0, rf = S.runFalls || 0;
+    logRun('over');
+    const run = {pts:S.total, floor:S.etage, streak:S.best, high:S.high, t:Date.now()};
+    const prev = META.hcBest, rec = !prev || run.pts > prev.pts;
+    if (rec){ META.hcBest = run; }
+    META.hcTopFloor = Math.max(META.hcTopFloor || 0, S.etage);
+    saveMeta(); checkAch();
+    endMode = 'hc'; paused = true;
+    $('endIc').innerHTML = svg('balls');
+    $('endKicker').textContent = 'Hardcore · game over';
+    $('endTitle').textContent = rec ? 'New hardcore record!' : 'No balls left';
+    $('endText').textContent = rec ? `Your best hardcore run ever: ${fmt(run.pts)} points, up to floor ${run.floor}.`
+      : `Your record is still ${fmt(prev.pts)} points (floor ${prev.floor}). One more try?`;
+    $('endStats').innerHTML = `<div>Points<b>${fmt(run.pts)}</b></div><div>Floor<b>${run.floor}</b></div><div>Best streak<b>${fmt(run.streak)}</b></div><div>Time<b>${fmtT(rt)}</b></div><div>Falls<b>${rf}</b></div><div>Record<b>${fmt((META.hcBest || run).pts)}</b></div>`;
+    $('endGo').textContent = 'New hardcore run';
+    $('endNew').textContent = 'Back to normal game';
+    $('ending').hidden = false;
+    if (rec){ [523, 659, 784, 1047, 1319].forEach((f, i) => tone(f, 0.15, 0.08, 'square', i * 0.09)); }
+    else { tone(300, 0.3, 0.1, 'sawtooth'); tone(200, 0.5, 0.1, 'sawtooth', 0.25); }
+    setTimeout(() => $('endGo').focus({preventScroll:true}), 30);
+  }
   addEventListener('keydown', e => { if ((e.key === 'n' || e.key === 'N') && !e.repeat) dropNewBall(); });
   let lastPow = '';
   function renderPowers(){
@@ -3893,7 +4480,7 @@
     if (POW.bouncer > 0) list.push(['bouncer', 'Bouncer ' + POW.bounceF + 'x', POW.bouncer]);
     if (POW.big > 0) list.push(['big', 'Big ball', POW.big]);
     if (POW.gold > 0) list.push(['gold', 'Golden ball ' + POW.goldF + 'x', POW.gold]);
-    if (POW.dual > 0) list.push(['dual', 'Dual wield', POW.dual]);
+    if (POW.dual > 0) list.push(['dual', 'Dual wield' + (BUDDIES.length > 1 ? ' x' + (Math.min(3, BUDDIES.length) + 1) : ''), POW.dual]);
     const extra = balls.filter(b => b.temp).length;
     if (extra) list.push(['split', 'Split +' + extra, null]);
     if (POW.flip > 0) list.push(['flip', 'Switch input', POW.flip, true]);
@@ -3913,7 +4500,7 @@
       const d = Math.max(0, MOON_M - altAt(P.y));
       txt = 'Moon: ' + (d >= 1000 ? Math.round(d / 1000).toLocaleString('en-US') + ' km' : Math.round(d).toLocaleString('en-US') + ' m') + ' away · '
         + (POW.moon > 0 ? (allMaxed() ? 'Moonshot ready: hit the ball up!' : 'test flight: hit the ball up')
-          : !allMaxed() ? `bosses beaten ${bossesBeaten()}/9`
+          : !allMaxed() ? `bosses beaten ${bossesBeaten()}/7`
           : 'wait for a star with the Moonshot');
     }
     if (txt !== lastMoon){ lastMoon = txt; $('moondist').innerHTML = svg('moon') + '<span>' + txt + '</span>'; }
@@ -3922,14 +4509,18 @@
   function renderHud(){
     const s = (S.dev ? 'dev' : fmt(S.pts)) + '|' + streak + '|' + lv('robot') + '|' + S.etage;
     if (s === lastHud) return; lastHud = s;
-    $('pts').textContent = S.dev ? '∞' : fmt(S.pts);
+    { const t = S.dev ? '∞' : fmt(S.pts), el = $('pts'); el.textContent = t;
+      // lange getallen kleiner, zodat ze niet over de maan-afstand heen lopen
+      el.style.fontSize = t.length > 5 ? Math.max(16, Math.round(32 * 5 / t.length)) + 'px' : ''; }
     $('streak').textContent = streak;
     $('mult').textContent = fmtMult(mult());
-    $('pps').textContent = [S.etage ? `Floor ${S.etage} · x${presMult().toLocaleString('en-US')}` : '', pps() > 0 ? 'Robot +' + fmt(pps()) + '/s' : ''].filter(Boolean).join(' · ');
+    $('pps').textContent = [S.etage || legLv('pts') ? `Floor ${S.etage} · x${fmtX(presMult())}` : '', pps() > 0 ? 'Robot +' + fmt(pps()) + '/s' : ''].filter(Boolean).join(' · ');
   }
 
   // 15-bit kleur (5 bits per kanaal) met 4x4 Bayer-dithering, net als de PS1-hardware
   const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5].map(v => (v / 16 - 0.5) * 8);
+  // opzoektabel: per Bayer-drempel en kleurwaarde het afgeronde resultaat
+  const BLUT = (() => { const L = new Uint8Array(16 * 256); for (let k = 0; k < 16; k++) for (let v = 0; v < 256; v++){ const r = Math.round(v + BAYER[k]); L[k * 256 + v] = (r < 0 ? 0 : r > 255 ? 255 : r) & 0xF8; } return L; })();
   function retroFilter(){
     if (S.retro === false) return;
     const w = cv.width, h = cv.height;
@@ -3938,12 +4529,10 @@
     const d = img.data;
     for (let y = 0; y < h; y++){
       const row = (y & 3) << 2;
-      for (let x = 0; x < w; x++){
-        const i = (y * w + x) << 2, t = BAYER[row | (x & 3)];
-        let r = d[i] + t, g = d[i + 1] + t, b = d[i + 2] + t;
-        d[i]     = (r < 0 ? 0 : r > 255 ? 255 : r) & 0xF8;
-        d[i + 1] = (g < 0 ? 0 : g > 255 ? 255 : g) & 0xF8;
-        d[i + 2] = (b < 0 ? 0 : b > 255 ? 255 : b) & 0xF8;
+      let i = y * w * 4;
+      for (let x = 0; x < w; x++, i += 4){
+        const o = (row | (x & 3)) << 8;
+        d[i] = BLUT[o + d[i]]; d[i + 1] = BLUT[o + d[i + 1]]; d[i + 2] = BLUT[o + d[i + 2]];
       }
     }
     ctx.putImageData(img, 0, 0);
@@ -3951,8 +4540,12 @@
 
   // ---------- Lus ----------
   let last = performance.now(), panelT = 0;
+  const FX = {ema:16, low:false};
   function frame(now){
-    const dt = Math.min(1 / 30, Math.max(0.001, (now - last) / 1000)); last = now;
+    const raw = now - last;
+    const dt = Math.min(1 / 30, Math.max(0.001, raw / 1000)); last = now;
+    FX.ema += (Math.min(100, raw) - FX.ema) * 0.08;
+    FX.low = FX.low ? (FX.ema > 19 || balls.length > 40) : (FX.ema > 24 || balls.length > 60);
     if (W > 0){
       if (S.dev) S.pts = 1e300;   // developer mode: oneindig punten
       if (!paused && !menuOpen) applyPointer();
@@ -3977,20 +4570,26 @@
     ['neg',     'Bad luck',         'Get a negative power from the roulette',    () => META.flags.neg],
     ['dizzy',   'Seeing stars',     'Get hit by a boss attack',                  () => META.flags.dizzy],
     ['f1',      'Going up',         'Build your first floor',                    () => S.etage >= 1],
-    ['f5',      'Skyscraper',       'Build floor 5',                             () => S.etage >= 5],
-    ['f10',     'Top floor',        'Build floor 10',                            () => S.etage >= 10],
+    ['f5',      'Skyscraper',       'Build floor 3',                             () => S.etage >= 3],
+    ['f10',     'Top floor',        'Build floor 6',                             () => S.etage >= 6],
     ['boss1',   'Boss slayer',      'Defeat a boss',                             () => Object.keys(S.bossDown || {}).length > 0],
-    ['bossall', 'Exterminator',     'Defeat all 9 bosses',                       () => [2,3,4,5,6,7,8,9,10].every(k => S.bossDown && S.bossDown[k])],
+    ['bossall', 'Exterminator',     'Defeat all 7 bosses',                       () => [0,1,2,3,4,5,6].every(k => S.bossDown && S.bossDown[k])],
     ['space',   'Houston',          'Hit a ball into space (100 km)',            () => S.high >= 100000],
     ['pan',     'Chef',             'Hit the ball with the frying pan',          () => META.flags.pan],
     ['moon',    'Moonwalker',       'Beat the Moon',                             () => !!S.won],
     ['gnomed',  "You've been gnomed",'Hear the gnome',                           () => META.flags.gnomed],
     ['saber',   'Jedi',             'Hit the ball with the lightsaber',          () => META.flags.saber],
+    ['hcstart', 'Hardcore',         'Start a hardcore run',                      () => (META.hcRuns || 0) > 0],
+    ['hcfloor', 'Iron will',        'Build floor 3 in a hardcore run',           () => (META.hcTopFloor || 0) >= 3 || (S.hardcore && S.etage >= 3)],
+    ['trophy',  'Trophy cabinet',   'Earn trophies by building a floor',         () => (S.trophyTotal || 0) > 0],
+    ['legacy',  'Legacy',           'Buy 10 Legacy upgrades',                    () => LEG.reduce((a, L) => a + legLv(L.id), 0) >= 10],
+    ['skyhigh', 'Sky high',         'Get a SKY HIGH! height bonus',              () => S.high >= 40],
+    ['s50',     'Half a hundred',   'Reach a streak of 50',                      () => S.best >= 50],
     ['hat',     'Mad hatter',       'Win a hat from the star roulette',          () => Object.keys(META.hats).length > 0],
     ['leghat',  'Legendary!',       'Get a legendary hat',                       () => HATS.some(h => h.r === 'legendary' && META.hats[h.id])],
     ['hattower','Hat tower',        'Wear 25 hats at the same time',             () => META.hatOn.length >= 25],
     ['allhats', 'Hat collector',    'Collect all 100 hats',                      () => HATS.every(h => META.hats[h.id])],
-    ['roster',  'Full team',        'Unlock all 10 floor players',               () => (META.maxFloor || 0) >= 10],
+    ['roster',  'Full team',        'Unlock all 10 floor and boss players',      () => !S.dev && CHARS.every(c => c.won || unlocked(c))],
     ['sun',     'Solar eclipse',    'Secret: find the hidden ending',             () => META.flags.sunEnd],
   ];
   let toastQ = [], toastBusy = false;
@@ -4000,7 +4599,7 @@
     const next = () => {
       const q = toastQ.shift(); if (!q){ toastBusy = false; $('toast').hidden = true; return; }
       toastBusy = true; const [n, kick] = q;
-      $('toast').innerHTML = svg(kick === 'ACHIEVEMENT UNLOCKED' ? 'star' : kick.includes('HAT') ? 'hat' : 'shirt') + '<div><div class="t-k"></div><div class="t-n"></div></div>';
+      $('toast').innerHTML = svg(kick === 'ACHIEVEMENT UNLOCKED' ? 'star' : kick.includes('HAT') ? 'hat' : kick.includes('TROPH') ? 'trophy' : kick.includes('FLOOR') ? 'tower' : kick.includes('AWAY') ? 'robot' : kick.includes('STREAK') ? 'spin' : kick.includes('HARDCORE') ? 'balls' : 'shirt') + '<div><div class="t-k"></div><div class="t-n"></div></div>';
       $('toast').querySelector('.t-k').textContent = kick;
       $('toast').querySelector('.t-n').textContent = n; $('toast').hidden = false;
       tone(880, 0.12, 0.1, 'square'); tone(1320, 0.2, 0.1, 'square', 0.12);
@@ -4020,14 +4619,20 @@
 
   // ---------- Startscherm, uitleg en codex ----------
   let menuOpen = true;
-  function showPage(id){ ['pmHome', 'pmHowPage', 'pmAchPage'].forEach(p => $(p).hidden = p !== id); }
+  function showPage(id){ ['pmHome', 'pmHowPage', 'pmAchPage', 'pmStatsPage'].forEach(p => $(p).hidden = p !== id); }
   function openMenu(){
     menuOpen = true;
     hadSave = hadSave || S.total > 0 || S.hits > 0;
     $('pmContinue').hidden = !hadSave;
     $('pmContinue').textContent = hadSave && S.hits > 0 ? 'Continue' : 'Play';
-    $('pmNew').classList.remove('armed'); $('pmNew').textContent = 'New game';
-    $('pmSub').textContent = hadSave ? `Saved game · floor ${S.etage} · ${fmt(S.total)} points earned` : 'From a sports hall to the Moon';
+    $('pmNew').classList.remove('armed'); $('pmNew').textContent = S.hardcore ? 'New hardcore run' : 'New game';
+    $('pmSub').textContent = S.hardcore ? `Hardcore run · floor ${S.etage} · ${fmt(S.total)} points` : hadSave ? `Saved game · floor ${S.etage} · ${fmt(S.total)} points earned` : 'From a sports hall to the Moon';
+    const hb = $('pmHard'), ok = hcUnlocked();
+    hb.classList.toggle('locked', !ok);
+    hb.textContent = S.hardcore ? 'Back to normal game' : ok ? 'Hardcore mode' : 'Hardcore mode · locked: hit the Moon first';
+    hb.setAttribute('aria-disabled', ok ? 'false' : 'true');
+    const bst = META.hcBest;
+    $('pmHc').hidden = !ok || !bst; if (bst) $('pmHc').textContent = `Hardcore record: ${fmt(bst.pts)} points · floor ${bst.floor} · streak ${fmt(bst.streak)}`;
     $('pmAchCount').textContent = `(${Object.keys(META.ach).length}/${ACH.length})`;
     showPage('pmHome'); $('menu').hidden = false;
     setTimeout(() => ($('pmContinue').hidden ? $('pmNew') : $('pmContinue')).focus({preventScroll:true}), 30);
@@ -4037,10 +4642,33 @@
   $('pmNew').addEventListener('click', e => {
     audioInit();
     const b = e.currentTarget;
-    if (hadSave && !b.classList.contains('armed')){ b.classList.add('armed'); b.textContent = 'Sure? Your save is replaced'; return; }
+    if (hadSave && !b.classList.contains('armed')){ b.classList.add('armed'); b.textContent = S.hardcore ? 'Sure? This run ends' : 'Sure? Your save is replaced'; return; }
     resetGame(); hadSave = true; closeMenu();
   });
+  $('pmHard').addEventListener('click', () => {
+    if (!S.hardcore && !hcUnlocked()){ blip(140, .2, .1, 'sawtooth'); return; }
+    audioInit(); switchMode(!S.hardcore); hadSave = true; closeMenu();
+  });
   $('pmHow').addEventListener('click', () => { showPage('pmHowPage'); renderCodex(); });
+  function renderStats(){
+    const runs = META.runs || [];
+    const cur = {mode:S.hardcore ? 'hard' : 'normal', floor:S.etage, time:Math.round(S.runTime || 0), falls:S.runFalls || 0, pts:Math.round(runPts()), streak:S.runStreak || 0, end:'playing'};
+    const all = [cur, ...runs];
+    const sum = k => all.reduce((a, r) => a + (r[k] || 0), 0);
+    const hb = META.hcBest;
+    const fastest = runs.filter(r => r.end === 'built' && r.mode === 'normal').sort((a, b) => a.time - b.time)[0];
+    $('stTot').innerHTML = [
+      ['Runs', fmt(all.length)], ['Time played', fmtT(sum('time'))], ['Falls', fmt(sum('falls'))],
+      ['Points', fmt(sum('pts'))], ['Best streak', fmt(Math.max(S.best || 0, ...all.map(r => r.streak || 0)))],
+      ['Fastest floor', fastest ? fmtT(fastest.time) + (fastest.floor ? ' (F' + fastest.floor + ')' : ' (Hall)') : '-'],
+      ['Hardcore record', hb ? fmt(hb.pts) : '-'], ['Moon reached', META.flags.moonWon ? 'Yes' : 'Not yet'],
+    ].map(([k, v]) => `<div>${k}<b>${v}</b></div>`).join('');
+    const endTxt = {playing:'Playing now', built:'Floor built', over:'Game over', moon:'Moon!', restart:'Restarted'};
+    const n = all.length;
+    $('stRuns').innerHTML = all.map((r, i) => `<tr class="${i === 0 ? 'cur' : ''}"><td>${n - i}</td><td class="${r.mode === 'hard' ? 'hard' : ''}">${r.mode === 'hard' ? 'Hardcore' : 'Normal'}</td>
+      <td>${r.floor === 0 ? 'Hall' : r.floor}</td><td>${fmtT(r.time)}</td><td>${r.falls}</td><td>${fmt(r.pts)}</td><td>${r.streak}</td><td>${endTxt[r.end] || r.end}</td></tr>`).join('');
+  }
+  $('pmStats').addEventListener('click', () => { showPage('pmStatsPage'); renderStats(); });
   $('pmAch').addEventListener('click', () => { showPage('pmAchPage'); renderAch(); });
   document.querySelectorAll('[data-back]').forEach(b => b.addEventListener('click', () => showPage('pmHome')));
   $('openMenu').addEventListener('click', openMenu);
@@ -4056,17 +4684,18 @@
     bouncer:'Your paddle hits the ball back 3x as hard.', big:'The ball becomes 10x as big for 20 seconds.', gold:'Triple points per hit for 10 seconds.',
     dual:'A buddy with a different skin plays a mirrored second paddle.', flip:'Negative: your mouse movements are reversed.', half:'Negative: all paddles are half as big.',
     wild:'Negative: every bounce goes a random direction.', heavy:'Negative: gravity is 20x as strong.', solo:'Negative: you play with just 1 ball for 20 seconds.',
-    moon:'A hard shot straight up, from any floor. Shows up more often the higher you get. Once all 9 bosses are beaten it reaches the Moon.'};
+    moon:'A hard shot straight up, from any floor. Shows up more often the higher you get. Once all 7 bosses are beaten it reaches the Moon.'};
   const BOSS_TXT = {
-    'Pigeon Boss':'Floor 2. Swoops in figure eights, drops poop and dives at your paddle.',
-    'Giant Eagle':'Floor 3. Circles wide, fires a fan of 5 feathers and dives.',
-    'Storm Cloud':'Floor 4. Drifts after you. Lightning strikes where you stand after a warning flash, plus rain.',
-    'Jumbo Jet':'Floor 5. Races from edge to edge and drops crates.',
-    'Rocket Rex':'Floor 6. Bobs up and down, fires homing missiles and spark showers.',
-    'UFO Commander':'Floor 7. Teleports around, fires zigzag lasers and a tractor beam that pulls balls up.',
-    'Alien Squid':'Floor 8. Wobbles, spits goo and raises a shield that blocks damage.',
-    'Satellite Sentinel':'Floor 9. Orbits with 3 drones that deflect balls, sweeping laser and missiles.',
-    'Moon Guardian':'Floor 10. Three phases, each with new moves: meteors, lasers, drones, lightning and more.'};
+    'Pigeon Boss':'Swoops in figure eights, drops poop and dives at your paddle.',
+    'Giant Eagle':'Circles wide, fires a fan of 5 feathers and dives.',
+    'Storm Cloud':'Drifts after you. Lightning strikes where you stand after a warning flash, plus rain.',
+    'Jumbo Jet':'Races from edge to edge and drops crates.',
+    'Rocket Rex':'Bobs up and down, fires homing missiles and spark showers.',
+    'UFO Commander':'Teleports around, fires zigzag lasers and a tractor beam that pulls balls up.',
+    'Alien Squid':'Wobbles, spits goo and raises a shield that blocks damage.',
+    'Satellite Sentinel':'Orbits with 3 drones that deflect balls, sweeping laser and missiles.',
+    'Mega Moth':'Lives in the hall and loves the lights. Flutters around slowly and drops clouds of dust. The easiest boss.',
+    'Moon Guardian':'Three phases, each with new moves: meteors, lasers, drones, lightning and more.'};
   function renderCodex(){
     const tabs = [['basics', 'Basics'], ['up', 'Upgrades'], ['pow', 'Powers'], ['boss', 'Bosses']];
     $('pmTabs').innerHTML = '';
@@ -4083,9 +4712,11 @@
         '<b>Controls:</b> your paddle follows the mouse. Left and right click tilt it, R levels it. Scroll out to see the whole building, scroll in on a floor to zoom in, or use the floor buttons.',
         '<b>Upgrades:</b> spend points in the panel on the right. Scroll the panel to see everything.',
         '<b>Stars:</b> hit a golden star to spin the roulette for a power. After enough hits a star shower starts.',
-        '<b>Floors:</b> unlock the whole field, beat the floor boss and build a new floor. You lose your upgrades but earn a permanent points bonus.',
-        '<b>Bosses:</b> from floor 2 every floor has a boss. Hit it with balls: harder and bigger balls do more damage. Dodge its attacks or your paddle gets dizzy.',
-        '<b>The Moon:</b> beat all 9 bosses, then spin the Moonshot from a star (gold in the roulette) and hit the ball. Then keep the falling Moon up 10 times.',
+        '<b>Floors:</b> unlock enough field, beat the floor boss and build a new floor (6 in total). Your upgrades reset, but you earn trophies for permanent Legacy upgrades and a bigger points bonus.',
+        '<b>Height bonus:</b> hit a ball above your field (higher than your paddle can go) and you get bonus points at its highest point. The higher, the more. A new height record counts triple.',
+        '<b>Bosses:</b> every floor has a boss, starting with a giant moth in the hall. It can only be fought once you unlocked the whole field; then you press FIGHT (or B) when you are ready. Hit it with balls: harder and bigger balls do more damage. Dodge its attacks or your paddle gets dizzy.',
+        '<b>The Moon:</b> beat all 7 bosses, then spin the Moonshot from a star (gold in the roulette) and hit the ball. Then keep the falling Moon up 10 times.',
+        '<b>Hardcore mode:</b> unlocked once you hit the Moon. Lost balls never come back, not even the extra balls you bought. When no ball is left, the run is over. Your best hardcore score is kept.',
         '<b>Codex:</b> upgrades, powers and bosses show up here once you have seen them in the game.'
       ].map(t => `<p style="margin:0">${t}</p>`).join('');
       return;
@@ -4094,7 +4725,7 @@
     if (codexTab === 'up') items = UP.map(u => ({id:u.id, seen:META.seen.up[u.id], name:u.name, desc:u.g + ' · ' + u.desc, icon:UPICON[u.id]}));
     if (codexTab === 'pow') items = [...Object.keys(POWERS).map(k => [k, POWERS[k], false]), ...Object.keys(CURSES).map(k => [k, CURSES[k], true]), ['moon', MOONSHOT, false]]
       .map(([k, d, bad]) => ({id:k, seen:META.seen.pow[k], name:d.name, desc:POWER_TXT[k], icon:d.icon, bad}));
-    if (codexTab === 'boss') items = BOSS_DEFS.map((d, i) => ({id:d.name, seen:META.seen.boss[d.name], name:d.name, desc:BOSS_TXT[d.name], icon:'star', bad:true, floor:i + FIRST_BOSS}));
+    if (codexTab === 'boss') items = BOSS_FLOORS.map(k => defOf(k)).map((d, i) => ({id:d.name, seen:META.seen.boss[d.name], name:d.name, desc:(BOSS_FLOORS[i] ? `Floor ${BOSS_FLOORS[i]}. ` : 'The hall. ') + BOSS_TXT[d.name], icon:'star', bad:true, floor:BOSS_FLOORS[i]}));
     const found = items.filter(i => i.seen).length;
     const head = document.createElement('p'); head.className = 'cx-d'; head.style.gridColumn = '1/-1'; head.style.margin = '0 0 4px';
     head.textContent = `Discovered ${found} of ${items.length}`; L.appendChild(head);
@@ -4127,6 +4758,11 @@
   // wat je in een bestaand spel al gekocht/verslagen hebt, telt als gezien
   UP.forEach(u => { if (lv(u.id) > 0) META.seen.up[u.id] = true; });
   if (S.etage > (META.maxFloor || 0)){ META.maxFloor = S.etage; saveMeta(); }
+  if (S.won && !META.flags.moonWon){ META.flags.moonWon = true; saveMeta(); }
+  renderHc();
+  // terwijl je weg was, bleef je robot doortikken (de helft van het tempo, maximaal 8 uur)
+  { const away = S.lastSeen ? Math.min(8 * 3600, (Date.now() - S.lastSeen) / 1000) : 0;
+    if (away > 60 && pps() > 0){ const v = pps() * away * 0.5; S.pts += v; S.total += v; setTimeout(() => toast(`Your robot earned ${fmt(v)} points`, 'WHILE YOU WERE AWAY'), 1200); } }
   Object.keys(S.bossDown || {}).forEach(k => { if (S.bossDown[k] && hasBoss(+k)) META.seen.boss[defOf(+k).name] = true; });
   saveMeta();
   resize(); updateHint(); renderPanel(); renderDev();
