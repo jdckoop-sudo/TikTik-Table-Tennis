@@ -1,4 +1,4 @@
-D<!doctype html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -84,12 +84,28 @@ D<!doctype html>
   .buy.max{background:#dff1e8;color:var(--good)}
   .buy:focus-visible{outline:2px solid var(--table);outline-offset:2px}
   .prest{background:linear-gradient(160deg,#13253a,#1d3b5e);color:#eaf2fc;border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:10px}
-  .prest-top{display:flex;gap:12px;align-items:center}
+  .prest-top{all:unset;box-sizing:border-box;display:flex;gap:10px;align-items:center;cursor:pointer;width:100%}
+  .prest-top:focus-visible{outline:2px solid #ffe14a;outline-offset:2px}
+  .prest-hd{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+  .prest-sum{font-family:var(--vt);font-size:17px;color:#ffb3b3}
+  .prest-sum.ok{color:#7dffb0}
+  .prest-arrow{font-family:var(--px);font-size:9px;color:#ffe14a}
+  .prest.collapsed{padding:8px 10px;gap:0}
+  .prest.collapsed .prest-now,.prest.collapsed .prest-desc,.prest.collapsed .prest-list,.prest.collapsed .prest-req{display:none}
+  .prest.collapsed .prest-ic{width:30px;height:30px}
+  .prest.collapsed .prest-ic svg{width:18px;height:18px}
+  .prest.collapsed .prest-btn:not(.ready):not(.armed){display:none}
+  .prest.collapsed .prest-btn{margin-top:8px;padding:9px}
   .prest-ic{width:42px;height:42px;border-radius:11px;background:#ffd23f;color:#13253a;display:grid;place-items:center;flex:none}
   .prest-ic svg{width:24px;height:24px}
   .prest-name{font-family:"Big Shoulders Display",Impact,sans-serif;font-weight:900;font-size:22px;line-height:1}
   .prest-now{font-size:12px;color:#b9c9dc;margin-top:3px;font-variant-numeric:tabular-nums}
   .prest-desc{margin:0;font-size:12.5px;line-height:1.45;color:#d4dfeb}
+  .prest-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px;font-family:var(--vt);font-size:18px;line-height:1.05}
+  .prest-list li{display:flex;gap:8px;align-items:baseline}
+  .prest-list .ck{font-family:var(--px);font-size:9px;width:14px;flex:none;text-align:center}
+  .prest-list li.ok{color:#7dffb0}
+  .prest-list li.no{color:#ffb3b3}
   .prest-req{font-size:12px;font-weight:700;color:#ffd23f}
   .prest-btn{all:unset;box-sizing:border-box;text-align:center;font-weight:700;font-size:14px;padding:10px 12px;border-radius:10px;background:rgba(234,242,252,.12);color:#9fb2c8;cursor:not-allowed;font-variant-numeric:tabular-nums}
   .prest-btn.ready{background:#ffd23f;color:#13253a;cursor:pointer;box-shadow:0 2px 0 #b8900f}
@@ -309,13 +325,63 @@ D<!doctype html>
   .reel::after{background:linear-gradient(270deg,#070b33,rgba(7,11,51,0))}
   .cell{border-radius:0;font-family:var(--vt);font-size:17px;font-weight:400;background:#1c2a9c}
   .cell.neg{background:#5a1022}
-  .cell.moon{background:#3a3d52;color:#e9eef5}
+  .cell.moon{background:linear-gradient(#fff08a,#ffc21a 55%,#c98a00);color:#2a1300}
+  .cell.moon .cell-n{color:#2a1300}
   .res-desc{font-family:var(--vt);font-size:20px;line-height:1.1;color:#fff}
   .end-stats div{border-radius:0;background:#070b33;border:2px solid var(--ps-line);font-family:var(--px);font-size:7px;letter-spacing:0;color:var(--ps-yellow)}
   .end-stats b{font-family:var(--vt);font-size:28px;font-weight:400;color:#7dffb0}
   .end-ic{border-radius:0;border:2px solid #fff}
   .btn.res-go{background:linear-gradient(#fff08a,#ffc21a 55%,#f08a0c);color:#2a1300}
   #choiceResult.bad .choice-kicker{color:#ff8a8a}
+  .scrollhint{position:sticky;bottom:-16px;margin:0 -16px -16px;padding:18px 0 8px;text-align:center;font-family:var(--px);font-size:8px;color:var(--ps-yellow);
+    background:linear-gradient(rgba(11,18,85,0),#0b1255 55%);pointer-events:none;text-shadow:2px 2px 0 #000;animation:sh 1.2s steps(2) infinite;z-index:3}
+  @keyframes sh{50%{transform:translateY(3px)}}
+  @media (prefers-reduced-motion: reduce){ .scrollhint{animation:none} }
+  .panel{scrollbar-width:auto;scrollbar-color:#ffe14a #0b1255}
+  .panel::-webkit-scrollbar{width:12px}
+  .panel::-webkit-scrollbar-track{background:#0b1255}
+  .panel::-webkit-scrollbar-thumb{background:#ffe14a;border:2px solid #0b1255}
+  .ps-menu{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding-inline:16px;padding-block:16px;box-sizing:border-box;
+    background:rgba(3,5,20,.78) repeating-linear-gradient(to bottom, rgba(0,0,0,.18) 0 1px, transparent 1px 3px);overflow:auto}
+  .pm-box{width:min(760px,100%);max-height:100%;overflow:auto;box-sizing:border-box;padding:22px;color:#fff;background:linear-gradient(180deg,#2536b8,#0d1560);
+    border:4px solid var(--ps-silver);border-top-color:#eef0f6;border-left-color:#dfe2ec;border-bottom-color:#5f6376;border-right-color:#6d7185;box-shadow:0 0 0 2px #000, 10px 10px 0 rgba(0,0,0,.45)}
+  #pmHome{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+  .pm-title{font-family:var(--px);font-size:clamp(22px,4.4vw,38px);line-height:1.3;margin:6px 0 0;
+    background:linear-gradient(180deg,#fff7b0 0%,#ffe14a 45%,#ff9a1a 100%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(3px 3px 0 #7a0f12) drop-shadow(2px 2px 0 #000)}
+  .pm-sub{font-family:var(--vt);font-size:22px;margin:0;color:#cfd6ff}
+  .pm-btns{display:flex;flex-direction:column;gap:10px;width:min(340px,100%);margin-top:6px}
+  .pm-btn{all:unset;box-sizing:border-box;text-align:center;font-family:var(--px);font-size:12px;padding:14px 12px;cursor:pointer;color:#10143a;
+    background:linear-gradient(#f1f2f8,#9ea3b8);box-shadow:inset 3px 3px 0 #fff, inset -3px -3px 0 #5f6376, 3px 3px 0 #000}
+  .pm-btn:hover,.pm-btn:focus-visible{background:linear-gradient(#fff08a,#ffc21a 55%,#f08a0c);color:#2a1300;outline:none}
+  .pm-btn.armed{background:var(--ps-red);color:#fff}
+  .pm-btn[hidden]{display:none}
+  .pm-foot{font-family:var(--vt);font-size:18px;color:#9aa6e6;margin:4px 0 0}
+  .pm-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .pm-head h2{font-family:var(--px);font-weight:400;font-size:15px;margin:0;color:var(--ps-yellow);text-shadow:2px 2px 0 #000}
+  .pm-back{all:unset;cursor:pointer;font-family:var(--px);font-size:9px;padding:8px 10px;color:#10143a;background:linear-gradient(#f1f2f8,#9ea3b8);box-shadow:inset 2px 2px 0 #fff, inset -2px -2px 0 #5f6376, 2px 2px 0 #000}
+  .pm-back:focus-visible{outline:2px solid var(--ps-yellow)}
+  .pm-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+  .pm-tab{all:unset;cursor:pointer;font-family:var(--px);font-size:8px;padding:8px 10px;color:#b7c0f2;background:#070b33;border:2px solid var(--ps-line)}
+  .pm-tab[aria-selected="true"]{color:#10143a;background:linear-gradient(#fff08a,#ffc21a);border-color:#fff}
+  .pm-tab:focus-visible{outline:2px solid #fff}
+  .pm-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:8px}
+  .pm-list.text{display:flex;flex-direction:column;gap:10px;font-family:var(--vt);font-size:20px;line-height:1.15;color:#e8ecff}
+  .pm-list.text b{color:var(--ps-yellow);font-weight:400}
+  .cx{display:flex;gap:10px;align-items:flex-start;padding:10px;background:linear-gradient(180deg,#2c3fc4,#1a2894);border:2px solid var(--ps-line)}
+  .cx.unknown{background:#070b33;border-style:dashed}
+  .cx-ic{width:36px;height:36px;flex:none;display:grid;place-items:center;background:#ffe14a;color:#1a1200;border:2px solid #000}
+  .cx.bad .cx-ic{background:#e0364f;color:#fff}
+  .cx.unknown .cx-ic{background:#2b2f55;color:#6b78d6}
+  .cx-ic svg{width:20px;height:20px}
+  .cx-n{font-family:var(--px);font-size:9px;line-height:1.5;color:#fff}
+  .cx-d{font-family:var(--vt);font-size:18px;line-height:1.05;color:#cfd6ff;margin-top:3px}
+  .cx.unknown .cx-n{color:#6b78d6}
+  .cx.done{border-color:var(--ps-yellow)}
+  .toast{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:10px;padding:10px 14px;
+    background:linear-gradient(180deg,#2536b8,#0d1560);border:3px solid #ffe14a;box-shadow:4px 4px 0 #000;color:#fff;pointer-events:none;max-width:calc(100vw - 32px);box-sizing:border-box}
+  .toast svg{width:22px;height:22px;flex:none;color:#ffe14a}
+  .toast .t-k{font-family:var(--px);font-size:8px;color:var(--ps-yellow)}
+  .toast .t-n{font-family:var(--vt);font-size:22px}
   @media (max-width:820px){
     .app{grid-template-columns:1fr;height:auto;min-height:100%}
     .stage{height:64vh;min-height:360px}
@@ -379,7 +445,7 @@ D<!doctype html>
         <div id="choiceResult" hidden>
           <div class="choice-kicker" id="resKicker">Gambling</div>
           <div class="reel" id="reel"><div class="reel-track" id="reelTrack"></div><div class="reel-marker"></div></div>
-          <div class="reel-legend"><span><i style="background:#1c2a9c"></i>Power</span><span><i style="background:#5a1022"></i>Negative power</span><span><i style="background:#3a3d52"></i>Moonshot</span></div>
+          <div class="reel-legend"><span><i style="background:#1c2a9c"></i>Power</span><span><i style="background:#5a1022"></i>Negative power</span><span><i style="background:#ffc21a"></i>Moonshot</span></div>
           <div class="res-body" id="resBody" hidden>
             <div class="res-head"><span class="opt-ic" id="resIc"></span><h3 id="resName"></h3><span class="opt-tag" id="resTag"></span></div>
             <p class="res-desc" id="resDesc"></p>
@@ -408,20 +474,23 @@ D<!doctype html>
       <div class="stat"><div class="k">Earned</div><div class="v" id="total">0</div></div>
       <div class="stat"><div class="k">Highest ball</div><div class="v" id="high">0 m</div></div>
     </div>
-    <div class="tabs" role="tablist" aria-label="Upgrades" id="tabs"></div>
-    <div class="tab-title"><h2 id="tabName"></h2><span id="tabInfo"></span></div>
-    <div class="prest" id="prest" hidden>
-      <div class="prest-top">
+    <div class="prest collapsed" id="prest">
+      <button class="prest-top" id="prestToggle" type="button" aria-expanded="false">
         <span class="prest-ic" id="prestIc"></span>
-        <div>
-          <div class="prest-name">Build a new floor</div>
-          <div class="prest-now" id="prestNow"></div>
-        </div>
-      </div>
+        <span class="prest-hd">
+          <span class="prest-name" id="prestName">Next floor</span>
+          <span class="prest-sum" id="prestSum"></span>
+        </span>
+        <span class="prest-arrow" id="prestArrow">▼</span>
+      </button>
+      <div class="prest-now" id="prestNow"></div>
       <p class="prest-desc"><span id="prestGrow">Your hall grows 5 meters taller</span> and all your points count extra from now on. You do lose your points, all upgrades, bounce paddles and portals. Your records stay.</p>
+      <ul class="prest-list" id="prestList"></ul>
       <div class="prest-req" id="prestReq"></div>
       <button class="prest-btn" id="prestBtn" type="button"></button>
     </div>
+    <div class="tabs" role="tablist" aria-label="Upgrades" id="tabs"></div>
+    <div class="tab-title"><h2 id="tabName"></h2><span id="tabInfo"></span></div>
     <div class="ups" id="ups" role="tabpanel"></div>
     <div class="skins" id="skins" hidden>
       <div class="sk-sub">Player</div>
@@ -444,12 +513,42 @@ D<!doctype html>
       </div>
     </div>
     <div class="foot">
+      <button class="btn" id="openMenu" type="button">Menu (Esc)</button>
       <button class="btn" id="dev" type="button">Developer mode: off</button>
       <button class="btn" id="retro" type="button">Retro look: on</button>
       <button class="btn" id="sound" type="button">Sound: on</button>
       <button class="btn danger" id="reset" type="button">Start over</button>
     </div>
+    <div class="scrollhint" id="scrollhint" aria-hidden="true">▼ Scroll for more ▼</div>
   </aside>
+</div>
+
+<div class="ps-menu" id="menu">
+  <div class="pm-box">
+    <div id="pmHome">
+      <h1 class="pm-title">Tik Tik<br>Table Tennis</h1>
+      <p class="pm-sub" id="pmSub">From a sports hall to the Moon</p>
+      <div class="pm-btns">
+        <button class="pm-btn" id="pmContinue" type="button">Continue</button>
+        <button class="pm-btn" id="pmNew" type="button">New game</button>
+        <button class="pm-btn" id="pmHow" type="button">How to play &amp; codex</button>
+        <button class="pm-btn" id="pmAch" type="button">Achievements <span id="pmAchCount"></span></button>
+      </div>
+      <p class="pm-foot">Press Esc during play to open this menu</p>
+    </div>
+    <div id="pmHowPage" hidden>
+      <div class="pm-head"><button class="pm-back" type="button" data-back>◀ Back</button><h2>How to play</h2></div>
+      <div class="pm-tabs" id="pmTabs"></div>
+      <div class="pm-list" id="pmList"></div>
+    </div>
+    <div id="pmAchPage" hidden>
+      <div class="pm-head"><button class="pm-back" type="button" data-back>◀ Back</button><h2>Achievements</h2></div>
+      <div class="pm-list ach" id="achList"></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+<div hidden>
 </div>
 
 <script>
@@ -512,6 +611,15 @@ D<!doctype html>
   if (!S.bossDown) S.bossDown = {}; S.bossHits = S.bossHits || 0;
   S.moonTicks = S.moonTicks || 0;
   function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){} }
+  // Meta: wat je ooit gezien hebt (codex) en achievements. Blijft bewaard bij een nieuw spel.
+  const MKEY = KEY + '-meta';
+  let META = {seen:{up:{}, boss:{}, pow:{}}, ach:{}, flags:{}};
+  try { const r = localStorage.getItem(MKEY); if (r){ const m = JSON.parse(r); META = {seen:Object.assign({up:{}, boss:{}, pow:{}}, m.seen || {}), ach:m.ach || {}, flags:m.flags || {}}; } } catch(e){}
+  const saveMeta = () => { try { localStorage.setItem(MKEY, JSON.stringify(META)); } catch(e){} };
+  function markSeen(kind, id){ if (!META.seen[kind][id]){ META.seen[kind][id] = true; saveMeta(); } }
+  function flag(f){ if (!META.flags[f]){ META.flags[f] = true; saveMeta(); checkAch(); } }
+  let hadSave = false;
+  try { hadSave = !!localStorage.getItem(KEY) && (S.total > 0 || S.hits > 0); } catch(e){}
   setInterval(save, 5000);
   addEventListener('visibilitychange', () => { if (document.hidden) save(); });
   addEventListener('pagehide', save);
@@ -573,7 +681,7 @@ D<!doctype html>
 
   // ---------- Geluid ----------
   let ac = null;
-  function audioInit(){ if (!ac) { try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){} } if (ac && ac.state === 'suspended') ac.resume(); }
+  function audioInit(){ if (!ac) { try { ac = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){} } if (ac && ac.state === 'suspended') ac.resume(); if (ac && typeof loadGnome === 'function') loadGnome(); }
   function blip(freq, dur, vol, type){
     if (!ac || S.muted) return;
     const t = ac.currentTime, o = ac.createOscillator(), g = ac.createGain();
@@ -581,6 +689,111 @@ D<!doctype html>
     o.frequency.exponentialRampToValueAtTime(freq * .6, t + dur);
     g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(.0001, t + dur);
     o.connect(g).connect(ac.destination); o.start(t); o.stop(t + dur + .02);
+  }
+
+  // losse synth-bouwstenen
+  function tone(freq, dur, vol, type, t0, slideTo, dest){
+    if (!ac || S.muted) return;
+    const t = ac.currentTime + (t0 || 0), o = ac.createOscillator(), g = ac.createGain();
+    o.type = type || 'sine'; o.frequency.setValueAtTime(freq, t);
+    if (slideTo) o.frequency.exponentialRampToValueAtTime(slideTo, t + dur);
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g).connect(dest || ac.destination); o.start(t); o.stop(t + dur + 0.05);
+  }
+  function noise(dur, vol, fq, t0, q){
+    if (!ac || S.muted) return;
+    const t = ac.currentTime + (t0 || 0), n = Math.floor(ac.sampleRate * dur), buf = ac.createBuffer(1, n, ac.sampleRate), d = buf.getChannelData(0);
+    for (let i = 0; i < n; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / n);
+    const src = ac.createBufferSource(), f = ac.createBiquadFilter(), g = ac.createGain();
+    src.buffer = buf; f.type = 'bandpass'; f.frequency.value = fq || 1500; f.Q.value = q || 1; g.gain.value = vol;
+    src.connect(f).connect(g).connect(ac.destination); src.start(t);
+  }
+  // "stem": toon met klinker-achtige filter
+  function voice(f0, f1, dur, vowel, vol, t0, type){
+    if (!ac || S.muted) return;
+    const t = ac.currentTime + (t0 || 0), o = ac.createOscillator(), g = ac.createGain();
+    const F = {a:[800, 1200], o:[500, 900], e:[450, 2000], i:[300, 2300], u:[350, 800]}[vowel] || [700, 1200];
+    o.type = type || 'sawtooth'; o.frequency.setValueAtTime(f0, t); o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+    const f1n = ac.createBiquadFilter(), f2n = ac.createBiquadFilter(); f1n.type = f2n.type = 'bandpass';
+    f1n.frequency.value = F[0]; f2n.frequency.value = F[1]; f1n.Q.value = 6; f2n.Q.value = 8;
+    const mix = ac.createGain(); mix.gain.value = 1;
+    g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(vol, t + 0.03); g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(f1n).connect(mix); o.connect(f2n).connect(mix); mix.connect(g).connect(ac.destination);
+    o.start(t); o.stop(t + dur + 0.05);
+  }
+  // Batje-geluid per skin
+  function hitSound(){
+    const id = curPaddle().id, p = 620 + Math.min(streak, 40) * 12;
+    if (id === 'pan' || id === 'saber') flag(id === 'pan' ? 'pan' : 'saber');
+    if (id === 'pan'){          // echte koekenpan: metalen BONG met boventonen
+      [[330, .5], [527, .3], [793, .22], [1180, .14], [1614, .08]].forEach(([f, v]) => tone(f * (0.97 + Math.random() * .06), 1.1, v * 0.35, 'sine'));
+      noise(0.05, 0.25, 3000, 0, 2);
+    } else if (id === 'saber'){ // lightsaber-botsing
+      tone(140, 0.3, 0.07, 'sawtooth', 0, 90); tone(p * 1.5, 0.1, 0.03, 'square', 0, p * 0.8); noise(0.15, 0.06, 2400, 0, 3);
+    } else if (id === 'neon') tone(p * 1.4, 0.12, 0.1, 'square', 0, p * 2.4);
+    else if (id === 'gold'){ tone(p * 2, 0.5, 0.1, 'sine'); tone(p * 3, 0.4, 0.05, 'sine'); }
+    else if (id === 'pro'){ tone(p * 1.2, 0.05, 0.14, 'triangle'); noise(0.02, 0.12, 4000, 0, 2); }
+    else blip(p, .07, .12, 'triangle');
+  }
+  // Stemmetjes van je speler: af en toe bij een tik, altijd bij een misser of een lange reeks
+  let lastVoice = 0;
+  function maybeVoice(ev){
+    const now = performance.now();
+    const gnome = curChar() === 'gnome';
+    if (now - lastVoice < (gnome ? 1200 : 1800)) return;
+    if (ev === 'hit' && !(streak % (gnome ? 5 : 10) === 0 && streak > 0) && Math.random() > (gnome ? 0.35 : 0.12)) return;
+    lastVoice = now;
+    const c = curChar(), sad = ev === 'miss';
+    if (c === 'boy'){ sad ? voice(200, 120, 0.4, 'o', 0.18) : (voice(180, 260, 0.12, 'u', 0.18), voice(260, 220, 0.14, 'a', 0.18, 0.13)); }
+    else if (c === 'girl'){ sad ? voice(380, 240, 0.4, 'o', 0.15) : (voice(420, 560, 0.1, 'i', 0.15), voice(560, 480, 0.15, 'a', 0.15, 0.11)); }
+    else if (c === 'robot'){ const n = sad ? [400, 300, 200] : [600, 900, 1200]; n.forEach((f, i) => tone(f, 0.08, 0.1, 'square', i * 0.09)); }
+    else if (c === 'cat'){ sad ? voice(700, 350, 0.5, 'a', 0.14, 0, 'triangle') : (voice(500, 900, 0.18, 'i', 0.14, 0, 'triangle'), voice(900, 600, 0.3, 'a', 0.14, 0.17, 'triangle')); }
+    else if (c === 'astro'){ noise(0.08, 0.2, 2000, 0, 1); tone(sad ? 300 : 900, 0.06, 0.08, 'square', 0.1); tone(sad ? 200 : 1200, 0.06, 0.08, 'square', 0.2); noise(0.08, 0.2, 2000, 0.3, 1); }
+    else if (c === 'gnome') gnomed();
+  }
+  // Het echte gnome-geluid (door de speler aangeleverd), ingebakken als data
+  const GNOME_SND = 'data:audio/mpeg;base64,SUQzBAAAAAABAFRYWFgAAAASAAADbWFqb3JfYnJhbmQAbXA0MgBUWFhYAAAAEQAAA21pbm9yX3ZlcnNpb24AMABUWFhYAAAAHAAAA2NvbXBhdGlibGVfYnJhbmRzAGlzb21tcDQyAFRTU0UAAAAPAAADTGF2ZjU4LjI5LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASW5mbwAAAA8AAAAhAAA2sAALCwsTExMaGhoiIiIqKioxMTE5OTlAQEBISEhQUFBXV1dfX19nZ2dubm52dnZ+fn6FhYWNjY2VlZWcnJykpKSrq6uzs7O7u7vCwsLKysrS0tLZ2dnh4eHp6enw8PD4+Pj///8AAAAATGF2YzU4LjU0AAAAAAAAAAAAAAAAJAZAAAAAAAAANrCdrBUTAAAAAAAAAAAAAAAAAAAAAP/7kGQAD/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABExBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmRAj/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+5JkQI/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//uSZECP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmRAj/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+5JkQI/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//uSZECP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmRAj/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+5JkQI/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//uSZECP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmRAj/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+5JkQI/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//uSZECP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmRAj/AAAGkAAAAIAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+5JkQI/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAANIAAAARVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVTEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV//uSZECP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVAQS25JbFCQXlDhcXYG9vCU9p8Ik3V6e9zc0fHNkGSY7u+WUaFBvm8Jg2vlY4dsXJlpxJtKsTig3AViGL6XLYhERSKh/IXw4D/W8oZFjwIl0QZEE5DIUh0HeqnAwBSEMU6rgF3PsnDIvnSJmUAhhcHFXs7YXND0PfDcQJ1n+eZ1ohWv/7kmRBD/AAAGkAAAAIAAANIAAAAQAgAgABAAAgAAA0gAAABHWkBbCWJNRHECkQKvniXRCESSrxBEaQc/jwnUdGM9BcE6da8jLrO4WvACATMa3HpaoA3kAPJRsMk1aGFM2D8aWieXjd5/XXh+C2bpeKJqIgAyEDlyyMAAg/FQmSVhpm+h6PGAU8lGysOHHV7Y4T6fuEbsFqwG1zTlcKdUz3/YGBYY3UCkNzTkXD8zAEQoB+FgJ+OYBAOdMFgAnClWxgI0uafUpL15UZEcLgWBnjUIbg/Km7/zMnmYEht4JbF4Yxa3G51y43Bi1GQN60+Xwe1yWZzE6zoFEWWtxlAng8D/H2cQmicS6sTjWhYn5txVxHc8pkI2GwGQf6KFjDVoe+OiH379XoWTBAF/T5ez/cme1UPFvd1QtcHmchfE6AdocMRPp9tHrM4xOQARgQtnJY8hnIlSVjzQxJikD7R5lqE7kWEPS9whUQADHpeDEG44EFBMLittnkhpOhPdj65HdTUWm3ypEy1AgggVOkUDphYCuWLtcm4bbE2qPgFx+A4iP/+5Jk/4j2uWisGQ/G0AAADSAAAAEdxaC+h+H+SAAANIAAAAS4zwvgACQJBdH9ZxXCtuNCbokNJgZPyoTQ/AoHo7lQahgI5SA4U0wUVNRzXLfgSVMxPVCQU1Taf3IX6Eux4VyseA0Wk9I4V4EBG8hLCm3Y7Xo0bDpgtI48Ce+ZnQkMkJKfnZxUTgoM0jpPqfJhIiPERXLhNQTcqHilJUlj0RDwzgHS5WMFr1bVbu9r7xHMFpKIssRMLlr7hoc1Bos+GxiFwB/g2BDFCW84AHwN06hP2xPoWkyzCHgOY/wtYmQS8t4kwDWgwXYDGGrXRnn2H+AYCoDVl+LRTF4WgHQCXbk4nTzuXcTOENwxANcIOvODAaDjKzv14cCjKMm85gHK5bU6ffQ3hPyFqpZLetohKQLogtguBoOtpxQIe+cFOtm+SsWNC6TZXRcEmj0/IwMgdgTN2zONYuMBI5a8BQPFhmr9YkdXgmFcRwlebEsrACBQ8kAgo1jGXvosWLKORw8TIjOEn/Qwf9PH2J2jhW/E0t+aTS8R/RPHdQA1woGTwNMg//uSZNuG9q5oNimYYmAAAA0gAAABGxmc9ge9k8AAADSAAAAEl7/lLqOSmUgAaEAgO60xmyqL1Ibq4aSyI0UHmI3JhK3kmG8ZnYDqDsEoXxC44HUeQsg+LIiKVNaWmreAnQyBVpXtzAVw7TVS286SFRHa/BrYbtJT9lj7ljfub06XBmtPB3dvjKEOBZQ8cKmVyhXYZC7esyMQ5UKY/sJOIcBxL6+/QtSt8NPKdPqyxnI9DzjbUOIhyxqJBVLnJEVzern+EPVeny1F2mbBRSjqcxuKQWqFebdB7VrrxUb5CAeBUjcmnt1YUykZ5/qEABgLN22ja3050bqdRZW5oiXaokyA4pdQqKZeGYFqrTFkLpVeSHScCxWBpMvE08uUXVbCqsxUSKCQpFshhbrpkpFlzxUjKckGQstpegWkxkqsRVLBvJFbfzprGGEnkZgHG7cXKZgfvZUW3HsXNxTAy15SM7wsN3FCIxrMKpJAca9jDKeyAkXoKnhWa02o6XVkcblwTBmm4krTEjRpl7Kg+NnxS6aNQJYi577WvslUXLS0thZvNv/7kmTDCPaDWUEzD08yAAANIAAAARqdkQSMPZkIAAA0gAAABG6jQRQTHMn5hMcoXTgeX3dvtpy8vuW2jM2pT4deZeJVBS0i1cwyYxlxy0b0I4F1wcdAUyR22DtdLht6oSY0prMjLkA5gZYUqCRr7TALWMXRDLlsUTQA1G4tea4uxesfW5ACxzXMgmpLglBCQh5+tJXIkT80CsKIuBoLLcXBUKwsKmWDlZGfVVYwszAnSvfE8MlCTMUDnKZwdbTQzjUTpvklONuN863KJCNx7hHtmIzhFajPPJXs+jnOpUQGTbAyqU50douCnjXY1ehiQVCLVeY6lYC/iToXsviIQZmE4UDB92xuPEUpyTyMbWmKyMGBgFwBhfUArJ7l/qsniKhsWEYSg+FQRBIH4GqmhQggM8zwR92JLVpF6soMShwKgKmwkAFPLvuiBZprluGOLsEitWX2XniSoi2oOJGV4yABYVqTNEnwTxtklH8xklI+E5kED7KYWNFkZMskAdC0jj1N40YdmW6ePGoihNBCD9QhKp9XVEkLwqTzLwJJEctRktr/+5Jkrwf29l9Cgw9OYAAADSAAAAEbWW8WrOHnyAAANIAAAARhU52A22tC45cz7OwYigWo+Gq6ZYwrD8UUVWqxDlS2HQ6RB4qdXxm+zGTeJBPaI/dJNLyGmWSGF9Tw4IKkR68UZ5JW977vvL9jUcZkiK8/FahScUrHBG/Ou2DCVQYAAYiGmPg7QDR185+nFhMOLgsELQNF8xClFWdQWhk2BawMJMx5nKca8TEiLbMUTEQRsQQaKoKyQy9n7sIQRN2THg3A3gDsk5QrQ8BYAYokQdNkQeDQXQlBSHSij2czCJikBwwn7O9LmkzrQBuMh7FwEjP81rsyYUnfnOc7spyvt5WeeHBLhEmWkiyMLWr2e11xhDVIxqU7lecjMxQXI5nCCtG6q2ROlzOuAttWZGRxir6XjoxOOm1kRDCwM0czCeISo7+tu/fthfyngK96cLUfkAdqFqddmk/zYbAAAAQOWVqJBRpFJusx8jxgRpjyQR4P+C4Ig3EIRliuCRZaGoRBQUFEEwgqptRR4PQ26tjMwQIdEjkvpYAOg/Yl4UQelLmg//uSZJEC9ttbSCt5efIAAA0gAAABGw1rJw1h58AAADSAAAAEhcMf47hZxGT4JAJRdHAQpDRdxBBylzIAX1BCvk+UJBygJYNE/hYEQXeilO+EUS5iK040SuEeYZOzzRbdEftzlAeHojjR6mQhUi5nwxLbjPGPlyOyF0Q5ZaDvV5/TtTihOjzcKp5mhrT9gVtjRzFn6udppqU+ztUVHNRtjqafVM6rtdqZ65NTDFWkQdrB0Ic27aGAAABAOS1OOeGnhm0AOkgZaWgMYtCjIzpQxQcBGEfi9ooaCh2LM/TqAjAKcKYAqy5yiCfyYsnQKVOXwjc7KB5Y0guioU/UKV7GFV1eKfjzwuvNsiVvaYshG99i5qvBLQIWDUKDlxQuBKxHJhaEA6lKXgT4QFFksQtAsBTEpGASvJbXJTtrAyVZWToQ2M7yNg+UPiJ6/Oh+1oBn75Mp9yZLqpfPQ8Zx6zcMiSGMM7kY/Q5eZoq7mc54a3R/I/Xc7DWJc8HM/4rGu6PbwsRaRI0N5HhucV43ua+p3JogzsoALriINTAIACUAisJDK//7kmR2BfbtWktDWHtyAAANIAAAARsFbTKusxdAAAA0gAAABF3zreHzRMITBIJlhzBUCwsDQQEic6gznM6FgDLuQ7gkUyFfbssTdqrD1pyKSA+iAAX4doKhAVgsaBfEPBFEsRw7jH4T6g1NsBchEpKOoTFSg/RmUZoVzgkJCqfsr4z9GPqUsQHZ6YUuPQuLiQkHWL1hgsPCohFdCWmSthebl8nnMZ8uHg7gBW9JcSWwIeBH4LnnEp4nqB5RZaZGJZFJrCHKnJ7GWVl4KYPo0maiUO0FvlPQUtzXJZP0nHYdy5YoYy/ToQZIJe/d7iVXwKYnIETIAFHNJNBH0MThBMnkCBHjQfTQQCW2lzpu6XNQbYOz58ocRVkLWG2mJmQv1WcjU1I6O9SsAeq8/sbyqP7H3z9ua+n8mvlNWJxSTUUWnebsYy3CDopAMktRKTQ+3SKwAxOI50UojT1PG20A2JmRTEujVJUisogSBMIhVyg9/5i/EmxvvANVpkMKPJqtupqluuaHVBVsPQAAi28XpGuXM3JdNyGo2GCPxH43QQ7SyuL/+5JkWgf2uVrNgx3IkgAADSAAAAEacW88rr8TwAAANIAAAAS8d+TQZAzxvrDTvyPU1jzdFUwo7rxS2S4NJbtDc1hIrrBK9SC3hwAB0AwAAgABAxeQk/cE0CAqZKgqYBgeYHhwChEMHgGaGpsv2/Gi6SRcDN5x5m4vzHUeKsb3cVNzM5SKSM4KaMuXOFERiKJSHWShFMZ+rqMibv2Jvf/2dxk8sRCPUeF9omOV5FXTlFgLq5/GbIi3NlWlMl3FqYI8jky2b4TVpXyqxaTpOnTApUg9C6XQ1GHHcgxSpQNu5Z0WegPfRoDwYR9u9Ldkjwyuk3KYnlSQ3LJS8VJ+dd/3LgyISCx/zWUtt5VG51p+VSiZb2zL5I+cXdziftoqwq5CgHGGCwenLw0wTBmbGIRgdCW9QmGyOY500LZMbUJ+0x3OEtxE6x7e/LKnX887uG8xSJvokT0r0YhzGsxGSPfE8/+sQWBXpM4nuYKsZW55P2RRq1D0qqnGJEROdN7xzs+Yo7HhsaswPHYFeq2ttOOQ0244zROM+kSS94rRD0IJqXME//uSZEOD9bxb0IOZeZAAAA0gAAABFkVtRK7l5kAAADSAAAAEmlhXzLiHS2u2+h+KBqVrMxODqOxw8tt7QpMrD/x/2+s22vsKw1vXJmVgpEjLIfDNrAStbgzSiashgYFJhxPIKQs6HwCku4tIiw2DLQFqpBTEmP1mOlk02fLc9iLPcG6zlliivYb/VvGVeBZQzquDxWMT9retjVv/c0N6pIatlcDnjJ1hlruEXA6so5gaknAjx9rhxhbhZjvWjKWjUWbwkLIO2pE6ELaXN9tDWxfTzOzqEaqPXY3ledUdbcGCE9huenBmUqkgWiP1VmsuktibNIVv60u/fNGFiFBzOpEe8evTAf3UABEowAvdzmILDywdFATeH+wc3WHb1LEmjsTBJYiixLA09zDM2u53zGzXqqdd7qUvN8KYRGDPO+hbp/PKD8hqPfLMj4tBBzIZaptbloZYsZLDZHVRAgUPeBgsNGC9ScH4igDDaa7OCaUeYpbiJtFb13r//t7z9Iu/G8ZL5AAAhAIF1NqRYShGRIzpjOWfjLh54wUGDwCZCpGApv/7kGRNgfPhW1TbTELwAAANIAAAARDZa1CNsQvAAAA0gAAABKvWLzhwPhux09LES5xb/KY1sE0yHU7/Pj2BZGfGgpJEo6//LSWLlC73Q4PkqbWQannQd+IawyXbzHL9iQSCcwQjJC6uD4LWsRigOGKWH5rD7iXJWHfKl47uDEe4n//1VJGQz3VQZLmwyQABQQAribhdbdw0TjBwM0qJO6WRJBKRl7RY3DE7fDqGRLLekqIfodSPQjrWjoVaFhIIaCANLXWK//+iCnogYibxekDGHnNN1U3Xk1yt98nFjVFCWqz2gYIkNXYvMFIl120qkVccfN3///+/sTntoKRC9hAAQRAgAHPbu80VeJsxCJGGzAYcoCS6AsAwG779jgnupNSKDLTEAxk930uf3F2vnU+ImKMogBATGZhZxx47+OoHJRs5AiTazpKZ8zaFUlXDn700Q0NQ6ZMo4k9ThyuMBSePocgeExVNqrLPU/zqLzaP////HDXTn1e9G0xBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVrIADIP/7kmSKgPOTWFXbeEGyAAANIAAAAQ9xaVeNpQ2AAAA0gAAABAAus+r+QC7rzjokxNkCMC2aCYrBSOM0D8xrn0NftSN5YYi20K41xcnLKLGRUQtuVAUJZjIm5/m/4idjnOZpSqpKG19dMV8sv9aQlNc/JoNzUoWphaHOo4AA2KZHaioMr/CnuT/9civ0QIFVAAAEBOJWxksPtDL6FYA1Ws54A2IlL4BGHPSRXSXuXwYbMypM6iIT7OpHcWO/hVnbJmHt7JJnV4Vom1sT402edmye4//xsgFCa7hJE4UHVwvvzqPUA2TpHkt+wqt8raX8KTbI/PZ3izhUm2ipAEplZBREVVPWy/NZ+o6p1achNekp7sGv/////SrZZhhu7QwbYSpMQU1FMy4xMDCqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqpwAAEAMuZQ/rL3IUrMJDjOoQy9Ra+xomCCgTRHavAk/L8dUM1BLCmsutKBToFA2ViZPNHrNRVxFpEpRRYAy7TVO9b/+5JkwQPzc1lW20gU8gAADSAAAAESQWdSjT0tgAAANIAAAAT/7fHSfkKqJoPIHidBi6S5wgiA7A58ykNpu6dTVdqzKOmESSrbiyolUbktbqBbOIgBAjbYjFeG5TpeDMJqVcF1P/////aqabNzzA5G9AAQXM7TbsQbqj0ZcQn4tZuyeZ8SmOgxmgOlUj+9STLkP1NyiMySSFQESpc/Bv4jP4M5BVPCixURKhbCzyy2Uz6LdCzyCCH2/Timj+2Zs+WXCmeubdFXzvOGY1niGoW9fsaLF0McQNkcHL1gKKjf8uUTDbq7fCZJXmYzFGUqlgO7M90SzLJejyRq7Jqrzk6gprFqMMT5gXf5ONByJ4lEnm/f////ygehGo4lZREwkii1TEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVW0AAAAJXLvUGgF/lckxGdoEhWYMNCTERMw4JL4WY3CkKx7p6zbUh5D5W1EplbAnQxDmqDeSWsOW0OFia+7tj4eLBDkPKf2//uSZOAD9HJaVSNpNPAAAA0gAAABFg1tTQ281cAAADSAAAAE7MvxhHYolVzGrI6SVR1EoCQV10fKZZ+7bW1VJWpmsYqkw0zKSq2F1BUIZkNwNWyvC9dA2xO76KvNmdY0intZ////7h3p1S7DPUhNBB7ADWk+0M1VCABA0OmI0eP3o1CcRUeAo9l2CdsKJjywd2r+O0kCRl42JkgarGvMtgeHZYwx/HFcmEQfLYzKIFuxOzS8icbz1K2+RJmIi7MfSca57rveZwsnb83HFrzhq9ViRecmAdEpY16mq1at+kWUOjZjXXUKFyBIcj8avcdGbxPgMikVDFePqhRA8kUyqyjqlJAyb5etENWNZtBticz8zM58zrbN3VDux16NLE43VUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVZABAABK9ncANiSjAQ4bgmGPSBhQ4JGAcGRcRopg4Gt8vCITrle7JWfA6eExOJKmx8ZPDvX3aH9+ZPZ9cjRFmhNMSf/7kmTiB/SXW1Sjb0rwAAANIAAAARX1bUsOZYvAAAA0gAAABKfP53LqLUqqzFzZsIg2HgeYUHJhRPlRQs0IsMq90IQwOjJzqpNXNNPgpRKLEmHjjDiWYPBFD2HFCrlxwkLSCyRMGA+u/9f2so6vWPHoMcKYAAAI8FoijxSDiJSJsM6c55h5yaS3GTiBj5yYeIEFQYWKIZrYftnT6s5aDDZkCRdBuG45GZVhKBEE0qJSsiVAYVudmwlUiGSTApqLSUWkrNAbyEmyKU0nO1Rt5DT2lEWCbg0ZETG9qQqXPU+EkLp5ZbBlk6FCdypS+0RjQLDwgYWZTEBU+VIIJNchMhtC6qrl2w8ng8PTlE0IWY+vOMuEiGDYVpABl3BEwCxggdJMQU1FMy4xMDBVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVQBQSsyCgeDCo22EHrY0JLEkUGEoKNjBAsACJnCeaAJzSKqWzDxHFgVOqhJDozPFCMxZElIfmPJVhOb6ell45YjPbHLhl34uXLn/+5Jk4AL0ilpUQ2xDYgAADSAAAAEVuW1FDbExAAAANIAAAATksXWxdcqllHbM1rxyDURbX5Q7hyRVFgWOcVNJoVglLJNVFQOhOAiEMTJR3YrV8LTa8NLCCHpR4e17Nf3Oy5IrUm1BpR1zQscUAlb4I9DA4QqyIw2B7M6JxCsYX5FMZcgFRCEBoNLlFnYMkqyyP8zC3lKXJSqZTHaoGMkFwziFCCwmIjpm1tKkpCKWBU+2QFAmqCxoqKWVlVJs1eETkU0KFCyiXehhOPQxQkKCahNEiThRVgmnG0MIkMGlRSoTIlXAMThmFuLEqTYIjAFDIZUFKj62kVxldNJilRE1SbMcuNXJE9DlNcLMCpqMopT8irD2av+Pv1LY0lNmksKMTEFNRTMuMTAwqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq//uSZOOO9KRaUAtsQ+AAAA0gAAABFi2VCCy9LMgAADSAAAAEqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqoHhbRXhykCHuQAkZPCfmGbh1oAsROSRFCVRMipLIu5yHWjGlZVrEvsAWGHESQMJAhZAeiSIkRQGIJoLRSONKPQWjUmnFmWrZo40o+LypNOLhNVSccWUfC5qTTizLVU0caUfC0ak0osy82ao0q43NmWeNypo40osDVQlYarv2iJV0iUVVMNUlXSJRVU7REq4aoNVUxBTUUzLjEwMFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7kmSJj/SNSiQJ7zFyAAANIAAAAQAAAaQAAAAgAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVU=';
+  let gnomeBuf = null, gnomeLoading = false, gnomeWant = false;
+  function playGnome(){
+    if (!ac || S.muted) return;
+    if (!gnomeBuf){ gnomeWant = true; loadGnome(); return; }
+    const src = ac.createBufferSource(), g = ac.createGain(); g.gain.value = 1.4;
+    src.buffer = gnomeBuf; src.connect(g).connect(ac.destination); src.start();
+  }
+  function loadGnome(){
+    if (!ac || gnomeBuf || gnomeLoading) return;
+    gnomeLoading = true;
+    // zelf decoderen (geen fetch nodig, dat blokkeert de beveiliging van sommige pagina's)
+    try {
+      const bin = atob(GNOME_SND.split(',')[1]), arr = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+      ac.decodeAudioData(arr.buffer, b => { gnomeBuf = b; if (gnomeWant){ gnomeWant = false; playGnome(); } }, () => { gnomeLoading = false; });
+    } catch(e){ gnomeLoading = false; }
+  }
+  function gnomed(){
+    flag('gnomed');
+    floaters.push({x:P.x, y:P.y - H * 0.15, txt:"You've been gnomed!", age:-0.3, big:true});
+    playGnome();
+  }
+  // Lightsaber: zoemen zolang hij in je hand zit, zwiepen bij snel bewegen
+  const SABER = {o:null, o2:null, g:null, lastSwing:0};
+  function saberUpdate(){
+    const on = !!ac && !S.muted && curPaddle().id === 'saber' && !paused;
+    if (on && !SABER.o){
+      SABER.g = ac.createGain(); SABER.g.gain.value = 0.0001; SABER.g.connect(ac.destination);
+      const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 600; lp.connect(SABER.g);
+      SABER.o = ac.createOscillator(); SABER.o.type = 'sawtooth'; SABER.o.frequency.value = 90; SABER.o.connect(lp); SABER.o.start();
+      SABER.o2 = ac.createOscillator(); SABER.o2.type = 'sawtooth'; SABER.o2.frequency.value = 92.5; SABER.o2.connect(lp); SABER.o2.start();
+      SABER.lp = lp;
+      tone(80, 0.5, 0.05, 'sawtooth', 0, 160);            // aanzet-geluid
+    }
+    if (!on && SABER.o){ try { SABER.o.stop(); SABER.o2.stop(); } catch(e){} SABER.o = SABER.o2 = null; return; }
+    if (!on) return;
+    const spd = Math.hypot(P.vx, P.vy) / H, t = ac.currentTime;
+    SABER.g.gain.setTargetAtTime(0.0035 + Math.min(0.006, spd * 0.003), t, 0.08);   // heel zacht zoemen op de achtergrond
+    SABER.o.frequency.setTargetAtTime(90 + Math.min(60, spd * 25), t, 0.05);
+    SABER.lp.frequency.setTargetAtTime(350 + Math.min(700, spd * 250), t, 0.05);
+    if (spd > 2.2 && performance.now() - SABER.lastSwing > 350){ SABER.lastSwing = performance.now(); noise(0.25, 0.04, 900, 0, 2); tone(110, 0.25, 0.02, 'sawtooth', 0, 70); }
   }
 
   // ---------- Wereld ----------
@@ -990,18 +1203,21 @@ D<!doctype html>
   // De maan raken kan pas op verdieping 10 met genoeg upgrade-niveaus (oneindige upgrades tellen tot 10)
   const MOON_UPG = 50;
   const upgCount = () => UP.reduce((n, u) => n + Math.min(lv(u.id), u.max === Infinity ? 10 : u.max), 0);
-  const allMaxed = () => S.etage >= ETAGE_MAX && upgCount() >= MOON_UPG && !!(S.bossDown && S.bossDown[ETAGE_MAX]);
+  // De maan is haalbaar zodra je alle 9 bazen hebt verslagen
+  const BOSS_FLOORS = [2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const bossesBeaten = () => BOSS_FLOORS.filter(k => S.bossDown && S.bossDown[k]).length;
+  const allMaxed = () => bossesBeaten() >= BOSS_FLOORS.length;
   const MOONSHOT = {name:'Moonshot', icon:'moon', short:'Moon',
     tag:() => allMaxed() ? 'final goal' : 'test flight',
     desc:() => allMaxed()
       ? 'Your next hit launches the ball straight at the Moon. Keep your paddle ready, for 30 seconds.'
-      : `Your next hit launches the ball as high as your hall allows. It only reaches the Moon from floor ${ETAGE_MAX} with ${MOON_UPG} upgrade levels.`,
+      : `Your next hit launches the ball hard, far above your hall. It reaches the Moon once you have beaten all 9 bosses (${bossesBeaten()}/9).`,
     apply:() => { POW.moon = 30; }};
   // Hoe hoog een Maanschot komt zonder alles vol: boven je plafond, maar nooit tot de maan
   function moonshotTargetY(){
     const moonBottom = moonPos().y + MOON_R() * 0.5;
     if (allMaxed()) return moonBottom;
-    return Math.max(moonBottom + H * 0.8, fieldTop() - H * (1.2 + 0.15 * S.etage));
+    return Math.max(moonBottom + H * 0.8, fieldTop() - H * (2.5 + 0.3 * S.etage));   // altijd een harde knal omhoog
   }
   let moonHintT = 0;
   function launchMoonshot(b){
@@ -1080,7 +1296,7 @@ D<!doctype html>
   const MOON_R = () => Math.min(W * 0.2, H * 0.26);
   // Bigger ball: in 10 stappen van normaal naar een halve maan (dezelfde groei per stap)
   const ballScale = () => Math.pow(Math.max(1, MOON_R() * 0.5 / ballR()), lv('balgroot') / 10);
-  const rOf = b => (b && b.isMoon) ? MOON_R() : Math.min(MOON_R() * 0.9, ballR() * ballScale() * (POW.big > 0 ? 10 : 1));
+  const rOf = b => (b && b.isMoon) ? MOON_R() : (b && b.miniMoon) ? MOON_R() * 0.45 : Math.min(MOON_R() * 0.9, ballR() * ballScale() * (POW.big > 0 ? 10 : 1));
 
   function spawnStar(){
     star = {x:fieldL() + (fieldR() - fieldL()) * (0.1 + Math.random() * 0.8), y:(() => { const lo = Math.max(fieldTop() + 20, cam.top + 60), hi = Math.min(tableY() - 60, cam.cb - 120); return hi > lo ? lo + (hi - lo) * (0.1 + Math.random() * 0.7) : Math.max(fieldTop() + 20, (cam.top + cam.cb) / 2); })(), life:starLife(), max:starLife(), rot:0};
@@ -1092,11 +1308,12 @@ D<!doctype html>
     const base = Math.random() * 360;
     for (let k = 1; k < n; k++){
       balls.push({x:b.x, y:b.y, ox:b.x, oy:b.y, vx:b.vx + (Math.random() - .5) * 1.1 * H, vy:b.vy - (0.2 + Math.random() * 0.9) * H,
-        spin:0, trail:[], temp:true, hue:(base + k * 360 / n) % 360});
+        spin:0, trail:[], temp:true, hue:(base + k * 360 / n) % 360, miniMoon:!!b.isMoon});
     }
   }
   // Een ster start altijd de roulette: je kiest niet zelf
   function openChoice(b){
+    flag('star');
     paused = true;
     choice = {ball:b};
     $('choicePick').hidden = true;
@@ -1105,7 +1322,8 @@ D<!doctype html>
     gamble();
   }
   function choose(){}
-  const moonChance = () => allMaxed() ? 0.6 : 0.08 + 0.02 * S.etage;   // op verdieping 10 zonder genoeg upgrades: 28%
+  // hoe hoger je komt, hoe vaker het Maanschot; niet tijdens de finale
+  const moonChance = () => S.finale ? 0 : allMaxed() ? 0.6 : 0.1 + 0.04 * S.etage;
   function drawOutcome(){
     if (Math.random() < negChance()){ const id = pick(Object.keys(CURSES)); return {neg:true, id, def:CURSES[id]}; }
     if (Math.random() < moonChance()) return {neg:false, id:'moon', def:MOONSHOT, moon:true};
@@ -1144,6 +1362,7 @@ D<!doctype html>
     if (!choice) return;
     const d = out.def;
     if (out.neg || out.moon) d.apply(); else d.apply(out.v, choice.ball, !!out.dbl);
+    markSeen('pow', out.id); if (out.neg) flag('neg');
     choice.result.spinning = false;
     const c = $('cell-' + win); if (c) c.classList.add('win');
     $('choiceResult').classList.toggle('bad', out.neg);
@@ -1207,6 +1426,7 @@ D<!doctype html>
     if (S.showerHits >= showerNeed()) startShower();
   }
   function startShower(){
+    flag('shower');
     Object.assign(SHOWER, {on:true, t:7, spawn:0});
     S.showerHits = 0;
     floaters.push({x:W / 2, y:(cam.top + cam.cb) / 2, txt:'STAR SHOWER!', age:-0.6, big:true});
@@ -1294,6 +1514,7 @@ D<!doctype html>
   function bossHome(k){ return bossArea(k).home; }
   function spawnBoss(){
     const k = S.etage, d = defOf(k);
+    markSeen('boss', d.name);
     Object.assign(BOSS, {on:true, k, hp:bossMaxHp(k), max:bossMaxHp(k), x:W / 2, y:bossHome(k), t:0, flash:0, hurt:0, dead:0,
       cds:{}, dive:0, shield:0, vis:1, tp:0, face:1, fly:{dir:1, x:-0.3 * W, wait:0}});
     d.atk.forEach(([a, cd], i) => BOSS.cds[a] = 1.5 + i * 0.7);
@@ -1309,6 +1530,7 @@ D<!doctype html>
   }
   function hitPaddle(txt){
     if (P.dizzy > 0) return;
+    flag('dizzy');
     P.dizzy = 1.3; streak = 0; MAN.oops = performance.now();
     floaters.push({x:P.x, y:P.y - 40, txt:txt || 'Dizzy!', age:0, big:true});
     blip(150, .3, .15, 'sawtooth');
@@ -1612,8 +1834,14 @@ D<!doctype html>
     if (streak > S.best) S.best = streak;
     const v = hitValue() * mult() * (factor || 1) * (POW.gold > 0 ? POW.goldF : 1) * presMult();
     S.pts += v; S.total += v; S.hits++;
-    floaters.push({x:b.x, y:b.y - 14, txt:'+' + fmt(v), age:0, placed:!!placed, gold:POW.gold > 0});
-    blip((placed ? 420 : 620) + Math.min(streak, 40) * 12, .07, .12, placed ? 'sine' : 'triangle');
+    if (placed){
+      const f = floaters.find(f => f.placed && f.age < 0.5 && Math.hypot(f.x - b.x, f.y - b.y) < H * 0.15);
+      if (f){ f.sum = (f.sum || 0) + v; f.txt = '+' + fmt(f.sum); f.age = 0; }
+      else floaters.push({x:b.x, y:b.y - 14, txt:'+' + fmt(v), sum:v, age:0, placed:true});
+      if (floaters.length > 40) floaters.splice(0, floaters.length - 40);
+    } else floaters.push({x:b.x, y:b.y - 14, txt:'+' + fmt(v), age:0, gold:POW.gold > 0});
+    if (placed) blip(420 + Math.min(streak, 40) * 12, .07, .12, 'sine'); else hitSound();
+    if (!placed) maybeVoice('hit');
   }
   function moonTick(b){
     S.moonTicks++;
@@ -1623,6 +1851,7 @@ D<!doctype html>
   function miss(b, i){
     if (b.isMoon){ b.hidden = true; b.wait = 1e9; blip(70, 1, .2, 'sawtooth'); setTimeout(() => showEnd('crash'), 500); return; }
     MAN.oops = performance.now();
+    maybeVoice('miss');
     if (!SHOWER.on) S.showerHits = Math.floor(S.showerHits / 2);   // mis = de helft van je sterrenregen-voortgang kwijt
     if (streak >= 3) floaters.push({x:b.x, y:tableY() - 24, txt:'Miss! Streak ' + streak, age:0, big:true});
     hype *= 0.3;
@@ -1655,12 +1884,15 @@ D<!doctype html>
     b.vx = tx * vt + nx * vn; b.vy = ty * vt + ny * vn;
     b.x = pd.x + tx * t + nx * (r + 4); b.y = pd.y + ty * t + ny * (r + 4);
     if (P.held && incoming > Math.sqrt(2 * g * H * 0.035) && vn > Math.sqrt(2 * g * H * 0.03)){
+      b.chain = 0;
       scoreHit(b);
       if (b.isMoon) moonTick(b);
       else if (POW.moon > 0 && !b.temp) launchMoonshot(b);
     }
   }
+  let BALL_ID = 1;
   function integrate(b, h, k, n, i){
+    if (!b.id) b.id = BALL_ID++;
     const r = rOf(b), g = gravity() * (b.isMoon ? 0.45 : 1);
     b.ox = b.x; b.oy = b.y;
     const vyBefore = b.vy;
@@ -1704,12 +1936,18 @@ D<!doctype html>
       const vn = b.vx * nx + b.vy * ny;
       if (vn * side >= 0) continue;
       if (!(Math.abs(s) < r + 3 || (s >= 0) !== (s0 >= 0))) continue;
-      const e = Math.min(1, 0.9 + 0.025 * lv('springveer'));
+      const e = Math.min(0.9, 0.8 + 0.025 * lv('springveer'));   // altijd wat energieverlies
       b.vx -= (1 + e) * vn * nx; b.vy -= (1 + e) * vn * ny;
       if (POW.wild > 0){ b.vx += (Math.random() - .5) * 1.4 * H; b.vy *= 0.6 + Math.random() * 0.9; }
       b.x = cx + dx * t + nx * side * (r + 3);
       b.y = cy + dy * t + ny * side * (r + 3);
-      if (Math.abs(vn) > Math.sqrt(2 * g * H * 0.035)) scoreHit(b, 0.5 * (1 + 0.25 * lv('kaatsrubber')), true);
+      // Punten voor kaatsen: max 3 per tik van je eigen batje, en per kaatsbatje niet vaker dan elke 0,4 s
+      const now = performance.now();
+      bt._last = bt._last || {};
+      if (Math.abs(vn) > Math.sqrt(2 * g * H * 0.035) && (b.chain || 0) < 3 && now - (bt._last[b.id] || 0) > 400){
+        b.chain = (b.chain || 0) + 1; bt._last[b.id] = now;
+        scoreHit(b, 0.5 * (1 + 0.25 * lv('kaatsrubber')), true);
+      }
     }
 
     // Portalen
@@ -1786,8 +2024,7 @@ D<!doctype html>
     }
 
     // Ster
-    if (S.finale) star = null;
-    else if (!star){ starTimer -= dt; if (starTimer <= 0) spawnStar(); }
+    if (!star){ starTimer -= dt; if (starTimer <= 0) spawnStar(); }
     else { star.life -= dt; star.rot += dt * 1.2; if (star.life <= 0){ star = null; starTimer = nextStar(); } }
 
     const f = POW.turbo > 0 ? POW.turboF : 1;
@@ -1834,11 +2071,15 @@ D<!doctype html>
   });
   const CLOUDS = (() => { const r = rnd(99), a = []; for (let k = 0; k < 22; k++) a.push({alt:1200 + r() * 8000, x:r(), w:0.25 + r() * 0.4, sp:0.004 + r() * 0.01}); return a; })();
   const SKY = [[0, [16, 35, 58]], [300, [14, 32, 54]], [3000, [11, 26, 46]], [12000, [7, 17, 31]], [50000, [3, 8, 20]], [100000, [1, 2, 8]]];
+  // Dag: zodra je de maan te pakken hebt, wordt het licht en schijnt er een blije zon
+  const DAY = [[0, [126, 200, 255]], [300, [110, 188, 250]], [3000, [86, 164, 240]], [12000, [60, 130, 220]], [50000, [30, 70, 160]], [100000, [10, 22, 70]]];
+  const isDay = () => !!(S.finale || S.won);
   function skyCol(alt){
+    const SKY_ = isDay() ? DAY : SKY;
     alt = Math.max(0, alt);
-    for (let k = 1; k < SKY.length; k++){
-      if (alt <= SKY[k][0] || k === SKY.length - 1){
-        const [a0, c0] = SKY[k - 1], [a1, c1] = SKY[k];
+    for (let k = 1; k < SKY_.length; k++){
+      if (alt <= SKY_[k][0] || k === SKY_.length - 1){
+        const [a0, c0] = SKY_[k - 1], [a1, c1] = SKY_[k];
         const t = clamp((alt - a0) / (a1 - a0), 0, 1);
         return `rgb(${c0.map((v, i) => Math.round(v + (c1[i] - v) * t)).join(',')})`;
       }
@@ -1851,7 +2092,7 @@ D<!doctype html>
     g.addColorStop(0, skyCol(altTop)); g.addColorStop(1, skyCol(altBot));
     ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
     // sterren: boven de stad zie je er steeds meer
-    const sa = 0.12 + 0.88 * clamp((Math.log10(Math.max(1, altMid)) - 2) / 3, 0, 1);
+    const sa = (isDay() ? clamp((Math.log10(Math.max(1, altMid)) - 4.3) / 1, 0, 1) : 0.12 + 0.88 * clamp((Math.log10(Math.max(1, altMid)) - 2) / 3, 0, 1));
     const now = performance.now() / 1000, off = (Math.max(0, ty - cb) * 0.03) % H;
     for (const st of STARS){
       const tw = reduceMotion ? 1 : 0.7 + 0.3 * Math.sin(now * 1.3 + st.t);
@@ -1867,7 +2108,11 @@ D<!doctype html>
     }
     // de maan aan de hemel: groeit naarmate je hoger komt, tot hij echt boven je hangt
     const wm = moonPos(), wmTop = H + (wm.y + MOON_R() - cb) * z;
-    if (!S.finale && wmTop < 0){
+    if (isDay()){
+      const p = clamp(Math.log10(Math.max(1, altMid)) / Math.log10(MOON_M), 0, 1);
+      const winY = H + (H * 0.13 - cb) * z, skyY = H * 0.14, inHall = winY < skyY;
+      drawSun(W / 2, inHall ? winY : skyY, (22 + 30 * p) * (inHall ? z : 1));
+    } else if (!S.finale && wmTop < 0){
       const p = clamp(Math.log10(Math.max(1, altMid)) / Math.log10(MOON_M), 0, 1);
       const mr = 17 + (MOON_R() * 0.85 - 17) * Math.pow(p, 5);
       const skyY = H * (0.13 - 0.3 * Math.pow(p, 4));
@@ -1955,7 +2200,8 @@ D<!doctype html>
     const XL = z < 0.999 ? -W * (1 / z) : 0, XW = z < 0.999 ? W * (1 + 2 / z) : W;
     // hal
     const bg = ctx.createLinearGradient(0, 0, 0, H);
-    bg.addColorStop(0, '#1d2c5e'); bg.addColorStop(0.5, '#34498c'); bg.addColorStop(1, '#4a63a8');
+    if (isDay()){ bg.addColorStop(0, '#6f95d8'); bg.addColorStop(0.5, '#8fb2ec'); bg.addColorStop(1, '#a9c6f5'); }
+    else { bg.addColorStop(0, '#1d2c5e'); bg.addColorStop(0.5, '#34498c'); bg.addColorStop(1, '#4a63a8'); }
     // hal-muur met een echt raam erin: door het gat zie je de lucht en DE maan, dezelfde die je later raakt
     const WIN = {x:W * 0.33, y:H * 0.03, w:W * 0.34, h:H * 0.2};
     ctx.fillStyle = bg;
@@ -2181,6 +2427,11 @@ D<!doctype html>
         ctx.beginPath(); ctx.arc(W / 2, spawnY() - cb, ballR() * (2 - t), 0, Math.PI * 2); ctx.stroke();
         return;
       }
+      if (b.miniMoon){
+        if (b.y - r > cb || b.y + r < camTop) return;
+        drawMoon(b.x, b.y - cb, r, b.spin, b.hue);
+        return;
+      }
       if (b.isMoon){
         if (b.y - r > cb){ offs.push({b, col:'#d8dee6', up:false}); return; }
         if (b.y + r < camTop){ offs.push({b, col:'#d8dee6', up:true}); return; }
@@ -2257,12 +2508,34 @@ D<!doctype html>
     });
   }
   const CRATERS = (() => { const r = rnd(5), a = []; for (let k = 0; k < 9; k++){ const an = r() * 6.28, d = Math.sqrt(r()) * 0.75; a.push({x:Math.cos(an) * d, y:Math.sin(an) * d, s:0.08 + r() * 0.14}); } return a; })();
-  function drawMoon(x, y, R, rot){
+  function drawSun(x, y, R){
+    const t = performance.now() / 1000;
+    const gl = ctx.createRadialGradient(x, y, R * 0.8, x, y, R * 2.6);
+    gl.addColorStop(0, 'rgba(255,230,120,.55)'); gl.addColorStop(1, 'rgba(255,230,120,0)');
+    ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(x, y, R * 2.6, 0, Math.PI * 2); ctx.fill();
+    ctx.save(); ctx.translate(x, y); ctx.rotate(reduceMotion ? 0 : t * 0.3);
+    ctx.fillStyle = '#ffb21f';
+    for (let i = 0; i < 12; i++){ ctx.rotate(Math.PI / 6); ctx.fillRect(R * 1.12, -R * 0.1, R * 0.45, R * 0.2); }
+    ctx.restore();
+    ctx.fillStyle = '#141018'; ctx.beginPath(); ctx.arc(x, y, R + 2, 0, Math.PI * 2); ctx.fill();
+    const g = ctx.createRadialGradient(x - R * 0.3, y - R * 0.3, R * 0.1, x, y, R);
+    g.addColorStop(0, '#fff6b0'); g.addColorStop(0.6, '#ffd23f'); g.addColorStop(1, '#f5a000');
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, R, 0, Math.PI * 2); ctx.fill();
+    // blij gezichtje
+    ctx.fillStyle = '#141018';
+    ctx.beginPath(); ctx.arc(x - R * 0.35, y - R * 0.18, R * 0.1, 0, Math.PI * 2); ctx.arc(x + R * 0.35, y - R * 0.18, R * 0.1, 0, Math.PI * 2); ctx.fill();
+    ctx.strokeStyle = '#141018'; ctx.lineWidth = Math.max(1.5, R * 0.08); ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.arc(x, y + R * 0.05, R * 0.42, Math.PI * 0.18, Math.PI * 0.82); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,110,90,.55)'; ctx.beginPath(); ctx.arc(x - R * 0.55, y + R * 0.18, R * 0.13, 0, Math.PI * 2); ctx.arc(x + R * 0.55, y + R * 0.18, R * 0.13, 0, Math.PI * 2); ctx.fill();
+  }
+  function drawMoon(x, y, R, rot, hue){
+    const tint = hue != null;
     const gl = ctx.createRadialGradient(x, y, R * 0.9, x, y, R * 1.6);
-    gl.addColorStop(0, 'rgba(220,230,245,.25)'); gl.addColorStop(1, 'rgba(220,230,245,0)');
+    gl.addColorStop(0, tint ? `hsla(${hue},90%,70%,.3)` : 'rgba(220,230,245,.25)'); gl.addColorStop(1, 'rgba(220,230,245,0)');
     ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(x, y, R * 1.6, 0, Math.PI * 2); ctx.fill();
     const g = ctx.createRadialGradient(x - R * 0.35, y - R * 0.35, R * 0.1, x, y, R);
-    g.addColorStop(0, '#f1f3f6'); g.addColorStop(0.7, '#c9cfd8'); g.addColorStop(1, '#9aa3b0');
+    if (tint){ g.addColorStop(0, `hsl(${hue},90%,88%)`); g.addColorStop(0.7, `hsl(${hue},70%,62%)`); g.addColorStop(1, `hsl(${hue},60%,40%)`); }
+    else { g.addColorStop(0, '#f1f3f6'); g.addColorStop(0.7, '#c9cfd8'); g.addColorStop(1, '#9aa3b0'); }
     ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, R, 0, Math.PI * 2); ctx.fill();
     ctx.save(); ctx.translate(x, y); ctx.rotate(rot * 0.2);
     for (const c of CRATERS){
@@ -2282,7 +2555,7 @@ D<!doctype html>
     for (let r = 0; r < rows; r++){
       const seatY = top + r * rowH + rowH * 0.62, sc = 0.72 + r * 0.07, sp = 21 * sc;
       // traptrede van de tribune
-      ctx.fillStyle = r % 2 ? '#2b3f86' : '#24387a';
+      ctx.fillStyle = isDay() ? (r % 2 ? '#5c80c4' : '#5475b8') : (r % 2 ? '#2b3f86' : '#24387a');
       ctx.fillRect(XL, seatY, XW, rowH * 0.42);
       ctx.fillStyle = 'rgba(234,242,252,.05)'; ctx.fillRect(XL, seatY, XW, 2);
       const k0 = Math.floor(XL / sp), k1 = Math.ceil((XL + XW) / sp);
@@ -2313,7 +2586,8 @@ D<!doctype html>
     }
     // publiek iets naar achteren duwen, zodat de bal de aandacht houdt
     const ov = ctx.createLinearGradient(0, top, 0, top + rows * rowH);
-    ov.addColorStop(0, 'rgba(22,34,80,.55)'); ov.addColorStop(1, 'rgba(22,34,80,.25)');
+    if (isDay()){ ov.addColorStop(0, 'rgba(120,160,230,.35)'); ov.addColorStop(1, 'rgba(120,160,230,.1)'); }
+    else { ov.addColorStop(0, 'rgba(22,34,80,.55)'); ov.addColorStop(1, 'rgba(22,34,80,.25)'); }
     ctx.fillStyle = ov; ctx.fillRect(XL, top - H * 0.04, XW, rows * rowH + H * 0.04);
   }
   // ---------- Dingen in de lucht: vogels, luchtballon, vliegtuig, spaceshuttle, ISS, satellieten ----------
@@ -2427,6 +2701,7 @@ D<!doctype html>
     {id:'robot', name:'Robo',  unlock:0},
     {id:'cat',   name:'Meow',  unlock:2},
     {id:'astro', name:'Astro', unlock:4},
+    {id:'gnome', name:'Gnome', unlock:99, won:true},
   ];
   const PADDLES = [
     {id:'classic', name:'Classic',    unlock:0, top:'#d7263d', core:'#c99a64', bot:'#1a1a1f', handle:'#c99a64'},
@@ -2434,21 +2709,23 @@ D<!doctype html>
     {id:'pan',     name:'Frying pan', unlock:0, pan:true},
     {id:'neon',    name:'Neon',       unlock:1, top:'#39ffb6', core:'#101018', bot:'#ff3dcf', handle:'#101018', grip:'#39ffb6', glow:'rgba(57,255,182,.45)'},
     {id:'gold',    name:'Golden',     unlock:3, top:'#ffd23f', core:'#fff3b0', bot:'#b8860b', handle:'#b8860b', glow:'rgba(255,210,63,.4)'},
+    {id:'saber',   name:'Lightsaber', unlock:99, won:true, saber:true},
   ];
-  const unlocked = it => S.dev || S.etage >= it.unlock;
+  const unlocked = it => S.dev || (it.won ? !!S.won : S.etage >= it.unlock);
   const curChar = () => { const c = CHARS.find(c => c.id === S.skin.char); return c && unlocked(c) ? c.id : 'boy'; };
   const curPaddle = () => { const p = PADDLES.find(p => p.id === S.skin.paddle); return p && unlocked(p) ? p : PADDLES[0]; };
   // kleuren van arm en hand per personage
   // Dual wield-maatje: altijd een ander personage (en ander batje) dan jij
   let BUDDY = {char:'girl', tone:2, pad:'pro'};
   function pickBuddy(){
-    const chars = CHARS.map(c => c.id).filter(id => id !== curChar());
-    const pads = PADDLES.map(p => p.id).filter(id => id !== curPaddle().id);
+    const chars = CHARS.filter(c => !c.won || unlocked(c)).map(c => c.id).filter(id => id !== curChar());
+    const pads = PADDLES.filter(p => !p.won || unlocked(p)).map(p => p.id).filter(id => id !== curPaddle().id);
     BUDDY = {char:pick(chars), tone:Math.floor(Math.random() * TONES.length), pad:pick(pads)};
   }
   function charColors(who){
     const tone = TONES[who ? who.tone : S.skin.tone | 0] || TONES[1], c = who ? who.char : curChar();
     if (c === 'robot') return {sleeve:'#8a93a8', fore:'#b8c0d0', hand:'#6d768c', line:'#2b2f3c'};
+    if (c === 'gnome') return {sleeve:'#2f5fd0', fore:tone, hand:tone, line:'#2a1608'};
     if (c === 'astro') return {sleeve:'#eef1f6', fore:'#dfe4ee', hand:'#ff8a1f', line:'#4a5068'};
     const sl = who ? `hsl(${(who.tone * 90 + 200) % 360},70%,50%)` : ballCols()[1];
     if (c === 'cat')   return {sleeve:sl, fore:'#ff9a3c', hand:'#ffd9b0', line:'#5a2a08'};
@@ -2483,7 +2760,9 @@ D<!doctype html>
     const g = H * 0.0085, headY = man.feet - 26 * g, want = cb - 70 / z;
     const lift = headY > want ? (headY - want) / g : 0;
     const lookS = Math.sign(hand.x - man.x) || 1;
-    const headDX = lift > 0 ? (W / 2 - man.x) / g * lookS : 0;
+    // met Dual wield: jouw hoofd links van het midden, het maatje rechts, zodat ze niet overlappen
+    const hx = POW.dual > 0 ? W / 2 + (who ? 1 : -1) * W * 0.14 : W / 2;
+    const headDX = lift > 0 ? (hx - man.x) / g * lookS : 0;
     drawCharacter(man.x, man.feet - cb, H * 0.01, {lift, headDX, look:Math.sign(hand.x - man.x) || 1, lean:lift > 0 ? 0 : clamp((hand.x - man.x) / (W * 2), -0.1, 0.1),
       amp:ARM.amp, walk:MAN.walk, mood:manMood(), shirt:who ? `hsl(${(who.tone * 90 + 200) % 360},70%,50%)` : ballCols()[1], num:who ? 2 : S.etage || 1, wave:hype > 0.5, who});
   }
@@ -2506,10 +2785,10 @@ D<!doctype html>
     const t = performance.now() / 1000, c = o.who ? o.who.char : curChar(), tone = TONES[o.who ? o.who.tone : S.skin.tone | 0] || TONES[1];
     const g = u * 0.85, K = '#141018';
     const human = c === 'boy' || c === 'girl';
-    const shirt = c === 'robot' ? '#9aa3b8' : c === 'astro' ? '#eef1f6' : c === 'cat' ? '#ff9a3c' : hslHex(o.shirt);
+    const shirt = c === 'robot' ? '#9aa3b8' : c === 'astro' ? '#eef1f6' : c === 'cat' ? '#ff9a3c' : c === 'gnome' ? '#2f5fd0' : hslHex(o.shirt);
     const skin = c === 'cat' ? '#ff9a3c' : c === 'robot' ? '#b8c0d0' : c === 'astro' ? tone : tone;
     const limb = c === 'robot' ? '#8a93a8' : c === 'astro' ? '#eef1f6' : skin;
-    const pants = c === 'robot' ? '#6d768c' : c === 'astro' ? '#dfe4ee' : c === 'cat' ? '#fff3e6' : '#ffb21f';
+    const pants = c === 'robot' ? '#6d768c' : c === 'astro' ? '#dfe4ee' : c === 'cat' ? '#fff3e6' : c === 'gnome' ? '#6b4122' : '#ffb21f';
     const hair = c === 'girl' ? '#6b3b1a' : '#8a4a14';
     const bounce = Math.round(Math.abs(Math.sin(t * 5)) * (0.3 + o.amp) * 1.2);
     const step = Math.round(Math.sin(o.walk) * 1.2);
@@ -2621,6 +2900,15 @@ D<!doctype html>
       if (o.mood === 'happy'){ dot(1, my - 1, 4, 2, '#7a1522'); dot(2, my, 2, 1, '#ff7a8a'); }
       else if (o.mood === 'oops') dot(2, my - 1, 2, 2, '#7a1522');
       else { dot(1, my - 1, 3, 1, K); dot(4, my - 2, 1, 1, K); }
+      if (c === 'gnome'){
+        // grote rode puntmuts
+        layer([[-8, hy - 1, 16, 3, '#d8262b'], [-6, hy - 5, 12, 4, '#d8262b'], [-4, hy - 9, 9, 4, '#d8262b'], [-2, hy - 13, 7, 4, '#d8262b'], [1, hy - 16, 5, 3, '#d8262b'], [4, hy - 18, 3, 2, '#d8262b']]);
+        dot(-8, hy + 1, 16, 1, shade('#d8262b', .75)); dot(-6, hy - 5, 2, 4, '#ff5a5a');
+        // witte baard en snor
+        layer([[-6, ey + 3, 13, 4, '#f4f5fa'], [-4, ey + 7, 9, 3, '#f4f5fa'], [-2, ey + 10, 5, 2, '#f4f5fa']]);
+        dot(0, ey + 3, 6, 1, '#dfe2ea'); dot(2, ey + 4, 2, 1, '#7a1522');
+        dot(3, ey + 2, 2, 2, '#ff9a8a');      // rode neus
+      }
       if (c === 'cat'){
         dot(2, ey + 2, 2, 1, '#ff5f8a');
         ctx.fillStyle = '#5a2a08'; ctx.fillRect(6 * g, (ey + 3) * g, 3 * g, 0.4 * g); ctx.fillRect(6 * g, (ey + 4.2) * g, 3 * g, 0.4 * g);
@@ -2683,6 +2971,22 @@ D<!doctype html>
   // tekent het blad en handvat (van opzij) in de stijl van de gekozen skin
   function paintPaddle(pw, sk){
     const hl = Math.max(34, pw * 0.3);
+    if (sk.saber){
+      const hue = (performance.now() / 8) % 360, col = `hsl(${hue},100%,60%)`;
+      // handvat
+      ctx.save(); ctx.translate(pw / 2 - 2, 0);
+      ctx.fillStyle = '#2b2d38'; ctx.fillRect(0, -4, hl * 0.9, 8);
+      ctx.fillStyle = '#b8c0d0'; ctx.fillRect(2, -4, 4, 8); ctx.fillRect(hl * 0.35, -4, 3, 8); ctx.fillRect(hl * 0.6, -4, 3, 8);
+      ctx.fillStyle = '#d8262b'; ctx.fillRect(hl * 0.45, -2, 3, 3);
+      ctx.restore();
+      // gloed + regenboogkling
+      for (const [w, a] of [[22, .12], [14, .22], [8, .45]]){ ctx.fillStyle = `hsla(${hue},100%,60%,${a})`; roundRect(-pw / 2 - w / 2, -w / 2, pw + w / 2, w, w / 2); ctx.fill(); }
+      const gr = ctx.createLinearGradient(-pw / 2, 0, pw / 2, 0);
+      for (let i = 0; i <= 4; i++) gr.addColorStop(i / 4, `hsl(${(hue + i * 40) % 360},100%,62%)`);
+      ctx.fillStyle = gr; roundRect(-pw / 2, -3.5, pw, 7, 3.5); ctx.fill();
+      ctx.fillStyle = '#ffffff'; roundRect(-pw / 2 + 2, -1.5, pw - 4, 3, 1.5); ctx.fill();
+      return;
+    }
     if (sk.pan){
       ctx.save(); ctx.translate(pw / 2 - 6, 1); ctx.rotate(0.2);
       ctx.fillStyle = '#1a1a1f'; roundRect(0, -3.5, hl * 1.3, 7, 3); ctx.fill();
@@ -2739,7 +3043,6 @@ D<!doctype html>
     const g = GROUPS.find(x => x.id === S.tab);
     $('tabName').textContent = g.g; $('tabInfo').textContent = g.info;
     UP.forEach(u => { upEls[u.id].row.hidden = groupOf(u).id !== S.tab; });
-    $('prest').hidden = S.tab !== 'veld';
     $('skins').hidden = S.tab !== 'style';
     if (S.tab === 'style') renderSkins();
   }
@@ -2757,16 +3060,16 @@ D<!doctype html>
         const ok = unlocked(it);
         const b = document.createElement('button'); b.type = 'button';
         b.className = 'sk' + (it.id === cur ? ' cur' : '') + (ok ? '' : ' locked');
-        b.setAttribute('aria-label', it.name + (ok ? '' : ` (unlocks at floor ${it.unlock})`));
+        b.setAttribute('aria-label', it.name + (ok ? '' : it.won ? ' (unlocks when you beat the Moon)' : ` (unlocks at floor ${it.unlock})`));
         const cv2 = document.createElement('canvas'); b.appendChild(cv2);
         const nm = document.createElement('span'); nm.textContent = it.name; b.appendChild(nm);
-        if (!ok){ const l = document.createElement('div'); l.className = 'lock'; l.textContent = 'FLOOR ' + it.unlock; b.appendChild(l); }
+        if (!ok){ const l = document.createElement('div'); l.className = 'lock'; l.textContent = it.won ? 'BEAT MOON' : 'FLOOR ' + it.unlock; b.appendChild(l); }
         b.addEventListener('click', () => { if (!ok) return; onPick(it.id); save(); renderSkins(); });
         box.appendChild(b);
         preview(cv2, () => draw(it));
       });
     };
-    mk($('skChars'), CHARS, curChar(), id => { S.skin.char = id; }, it => {
+    mk($('skChars'), CHARS, curChar(), id => { S.skin.char = id; audioInit(); if (id === 'gnome') playGnome(); }, it => {
       const keep = S.skin.char; S.skin.char = it.id;
       const d = S.dev; S.dev = true;   // voorbeeld tekenen, ook als hij nog op slot zit
       drawCharacter(42, 82, 2.75, {look:1, lean:0, amp:0, walk:0, mood:'happy', shirt:ballCols()[1], num:S.etage || 1, wave:false});
@@ -2787,18 +3090,37 @@ D<!doctype html>
   $('prestIc').innerHTML = svg('tower');
   let prestArm = null;
   function prestReady(){ return S.etage < ETAGE_MAX && bossDown(S.etage) && lv('veld') >= VELD_MAX && S.pts >= etageCost(); }
+  $('prestToggle').addEventListener('click', () => {
+    const c = $('prest').classList.toggle('collapsed');
+    $('prestToggle').setAttribute('aria-expanded', c ? 'false' : 'true');
+    $('prestArrow').textContent = c ? '▼' : '▲';
+  });
   function renderPrest(){
     const hallM = altAt(fieldTop());
     $('prestNow').textContent = `Floor ${S.etage} · hall ${fmtM(hallM)} tall · points x${presMult().toLocaleString('en-US')}`;
     const needVeld = lv('veld') < VELD_MAX, grow = altAt(fieldTop() - ETAGE_PX()) - hallM;
     $('prestGrow').textContent = S.etage >= ETAGE_MAX ? 'Your hall reaches far into space' : `Your hall grows ${fmtM(grow)} taller`;
-    $('prestReq').textContent = S.etage >= ETAGE_MAX ? (allMaxed() ? 'Ready for the Moon! Hit stars until the roulette lands on the Moonshot.' : `Top floor! Now buy upgrades: ${upgCount()}/${MOON_UPG} levels needed to reach the Moon.`)
+    $('prestReq').textContent = S.etage >= ETAGE_MAX ? (allMaxed() ? 'Ready for the Moon! Hit stars until the roulette lands on the Moonshot.' : `Beat all bosses to reach the Moon: ${bossesBeaten()}/9 done.`)
       : !bossDown(S.etage) ? `Beat the boss of this floor first: ${BOSSES[S.etage]} (${BOSS.on ? 'fighting now!' : S.bossHits + '/' + bossNeed(S.etage) + ' hits until he shows up'}).`
       : needVeld ? `Unlock the whole field first (${lv('veld')}/${VELD_MAX}).`
       : `After: hall ${fmtM(hallM + grow)} tall and points x${(presMult() + 1).toLocaleString('en-US')}.`;
+    // checklist: wat heb je nog nodig voor de volgende verdieping?
+    if (S.etage < ETAGE_MAX){
+      const reqs = [
+        [lv('veld') >= VELD_MAX, `Unlock the whole field (${lv('veld')}/${VELD_MAX}) · tab Field`],
+        [bossDown(S.etage), hasBoss(S.etage) ? `Beat the boss: ${BOSSES[S.etage]}${bossDown(S.etage) ? '' : BOSS.on ? ' (fighting now!)' : ` (${S.bossHits}/${bossNeed(S.etage)} hits)`}` : 'No boss on this floor'],
+        [S.pts >= etageCost(), `Save up ${fmt(etageCost())} points (${fmt(Math.min(S.pts, etageCost()))} now)`],
+      ];
+      $('prestList').innerHTML = reqs.map(([ok, t]) => `<li class="${ok ? 'ok' : 'no'}"><span class="ck">${ok ? '✔' : '✖'}</span><span>${t.replace(/</g, '&lt;')}</span></li>`).join('');
+      const done = reqs.filter(r => r[0]).length;
+      $('prestName').textContent = 'Build floor ' + (S.etage + 1);
+      $('prestSum').textContent = prestReady() ? 'Ready to build!' : `${done}/${reqs.length} done · click for details`;
+      $('prestSum').classList.toggle('ok', prestReady());
+      $('prestReq').textContent = prestReady() ? `Ready! After: hall ${fmtM(hallM + grow)} tall and points x${(presMult() + 1).toLocaleString('en-US')}.` : '';
+    } else { $('prestList').innerHTML = ''; $('prestName').textContent = 'Top floor'; $('prestSum').textContent = allMaxed() ? 'Ready for the Moon!' : 'Click for what the Moon needs'; $('prestSum').classList.toggle('ok', allMaxed()); }
     const btn = $('prestBtn'), ok = prestReady();
     if (!ok && prestArm){ clearTimeout(prestArm); prestArm = null; }
-    btn.textContent = S.etage >= ETAGE_MAX ? 'Maxed' : prestArm ? 'Sure? You lose your upgrades' : `Build for ${fmt(etageCost())} pts`;
+    btn.textContent = S.etage >= ETAGE_MAX ? 'Maxed' : prestArm ? 'Sure? You lose your upgrades' : ok ? `Build floor ${S.etage + 1} for ${fmt(etageCost())} pts` : 'Locked · finish the list above';
     btn.className = 'prest-btn' + (prestArm ? ' armed' : ok ? ' ready' : '');
     btn.disabled = !ok;
   }
@@ -2823,7 +3145,7 @@ D<!doctype html>
   function buy(u){
     if (lv(u.id) >= u.max || (u.req && !u.req())) return;
     const c = cost(u); if (S.pts < c) return;
-    S.pts -= c; S.lv[u.id] = lv(u.id) + 1;
+    S.pts -= c; S.lv[u.id] = lv(u.id) + 1; markSeen('up', u.id);
     audioInit(); blip(880, .09, .1, 'square');
     if (u.id === 'portal'){
       const pr = {ax:0.35, ay:0.35, bx:0.65, by:0.35};
@@ -2886,7 +3208,7 @@ D<!doctype html>
     if (!S.dev){ S.devBackup = S.pts; S.dev = true; }
     else { S.dev = false; S.pts = S.devBackup || 0; }
     Object.values(upEls).forEach(el => el.key = '');
-    renderDev(); save(); renderPanel();
+    renderDev(); save(); renderPanel(); showTab();
   });
   $('devStar').addEventListener('click', () => { if (!S.finale && !paused) spawnStar(); });
   $('devMoon').addEventListener('click', () => { if (!S.finale){ POW.moon = 30; floaters.push({x:W / 2, y:P.y - 80, txt:'Moonshot: hit the ball up!', age:0, big:true}); } });
@@ -2917,7 +3239,7 @@ D<!doctype html>
     resetGame();
   });
   function resetGame(){
-    const muted = S.muted, tab = S.tab; S = fresh(); S.muted = muted; S.tab = tab;
+    const muted = S.muted, tab = S.tab, skin = S.skin, retro = S.retro; S = fresh(); S.muted = muted; S.tab = tab; S.skin = skin; S.retro = retro;
     Object.values(upEls).forEach(el => el.key = ''); streak = 0; carry = null; hoverBat = -1; sel = -1;
     Object.assign(POW, POW0); star = null; starTimer = 8; closeChoice(); P.rot = 0; BOSS.on = false; BOMBS = []; HAZ = []; DRONES = []; RAIN = []; SHOWER.on = false;
     balls = []; syncBalls(); save(); renderPanel(); updateHint(); renderDev();
@@ -2951,9 +3273,7 @@ D<!doctype html>
       const d = Math.max(0, MOON_M - altAt(P.y));
       txt = 'Moon: ' + (d >= 1000 ? Math.round(d / 1000).toLocaleString('en-US') + ' km' : Math.round(d).toLocaleString('en-US') + ' m') + ' away · '
         + (POW.moon > 0 ? (allMaxed() ? 'Moonshot ready: hit the ball up!' : 'test flight: hit the ball up')
-          : S.etage < ETAGE_MAX ? `floors ${S.etage}/${ETAGE_MAX} built`
-          : upgCount() < MOON_UPG ? `upgrade levels ${upgCount()}/${MOON_UPG}`
-          : !bossDown(ETAGE_MAX) ? 'beat the Moon Guardian'
+          : !allMaxed() ? `bosses beaten ${bossesBeaten()}/9`
           : 'wait for a star with the Moonshot');
     }
     if (txt !== lastMoon){ lastMoon = txt; $('moondist').innerHTML = svg('moon') + '<span>' + txt + '</span>'; }
@@ -2995,15 +3315,174 @@ D<!doctype html>
     const dt = Math.min(1 / 30, Math.max(0.001, (now - last) / 1000)); last = now;
     if (W > 0){
       if (S.dev) S.pts = 1e300;   // developer mode: oneindig punten
-      if (!paused) applyPointer();
-      if (!paused) step(dt);
+      if (!paused && !menuOpen) applyPointer();
+      if (!paused && !menuOpen) step(dt);
       updateCam(dt);
+      saberUpdate();
       draw(); retroFilter(); drawLabels(); renderLift(); renderBossBar(); renderShowerBar(); renderHud(); renderPowers(); renderMoonDist();
-      panelT += dt; if (panelT > 0.2){ panelT = 0; renderPanel(); }
+      panelT += dt; if (panelT > 0.2){ panelT = 0; renderPanel(); checkAch(); updScrollHint(); }
     }
     requestAnimationFrame(frame);
   }
+  // ---------- Achievements ----------
+  const ACH = [
+    ['first',   'First tik',        'Hit the ball once',                         () => S.hits >= 1],
+    ['s25',     'On a roll',        'Reach a streak of 25',                      () => S.best >= 25],
+    ['s100',    'Unstoppable',      'Reach a streak of 100',                     () => S.best >= 100],
+    ['k1',      'Pocket money',     'Earn 1,000 points in one game',             () => S.total >= 1e3],
+    ['m1',      'Millionaire',      'Earn 1 million points in one game',         () => S.total >= 1e6],
+    ['b1',      'Billionaire',      'Earn 1 billion points in one game',         () => S.total >= 1e9],
+    ['star',    'Wish upon a star', 'Hit a golden star',                         () => META.flags.star],
+    ['shower',  'Star shower',      'Trigger a star shower',                     () => META.flags.shower],
+    ['neg',     'Bad luck',         'Get a negative power from the roulette',    () => META.flags.neg],
+    ['dizzy',   'Seeing stars',     'Get hit by a boss attack',                  () => META.flags.dizzy],
+    ['f1',      'Going up',         'Build your first floor',                    () => S.etage >= 1],
+    ['f5',      'Skyscraper',       'Build floor 5',                             () => S.etage >= 5],
+    ['f10',     'Top floor',        'Build floor 10',                            () => S.etage >= 10],
+    ['boss1',   'Boss slayer',      'Defeat a boss',                             () => Object.keys(S.bossDown || {}).length > 0],
+    ['bossall', 'Exterminator',     'Defeat all 9 bosses',                       () => [2,3,4,5,6,7,8,9,10].every(k => S.bossDown && S.bossDown[k])],
+    ['space',   'Houston',          'Hit a ball into space (100 km)',            () => S.high >= 100000],
+    ['pan',     'Chef',             'Hit the ball with the frying pan',          () => META.flags.pan],
+    ['moon',    'Moonwalker',       'Beat the Moon',                             () => !!S.won],
+    ['gnomed',  "You've been gnomed",'Hear the gnome',                           () => META.flags.gnomed],
+    ['saber',   'Jedi',             'Hit the ball with the lightsaber',          () => META.flags.saber],
+  ];
+  let toastQ = [], toastBusy = false;
+  function toast(name){
+    toastQ.push(name);
+    if (toastBusy) return;
+    const next = () => {
+      const n = toastQ.shift(); if (!n){ toastBusy = false; $('toast').hidden = true; return; }
+      toastBusy = true;
+      $('toast').innerHTML = svg('star') + '<div><div class="t-k">ACHIEVEMENT UNLOCKED</div><div class="t-n"></div></div>';
+      $('toast').querySelector('.t-n').textContent = n; $('toast').hidden = false;
+      tone(880, 0.12, 0.1, 'square'); tone(1320, 0.2, 0.1, 'square', 0.12);
+      setTimeout(next, 2600);
+    };
+    next();
+  }
+  function checkAch(){
+    let changed = false;
+    for (const [id, name, , test] of ACH){
+      if (META.ach[id]) continue;
+      let ok = false; try { ok = !!test(); } catch(e){}
+      if (ok){ META.ach[id] = Date.now(); changed = true; toast(name); }
+    }
+    if (changed) saveMeta();
+  }
+
+  // ---------- Startscherm, uitleg en codex ----------
+  let menuOpen = true;
+  function showPage(id){ ['pmHome', 'pmHowPage', 'pmAchPage'].forEach(p => $(p).hidden = p !== id); }
+  function openMenu(){
+    menuOpen = true;
+    hadSave = hadSave || S.total > 0 || S.hits > 0;
+    $('pmContinue').hidden = !hadSave;
+    $('pmContinue').textContent = hadSave && S.hits > 0 ? 'Continue' : 'Play';
+    $('pmNew').classList.remove('armed'); $('pmNew').textContent = 'New game';
+    $('pmSub').textContent = hadSave ? `Saved game · floor ${S.etage} · ${fmt(S.total)} points earned` : 'From a sports hall to the Moon';
+    $('pmAchCount').textContent = `(${Object.keys(META.ach).length}/${ACH.length})`;
+    showPage('pmHome'); $('menu').hidden = false;
+    setTimeout(() => ($('pmContinue').hidden ? $('pmNew') : $('pmContinue')).focus({preventScroll:true}), 30);
+  }
+  function closeMenu(){ menuOpen = false; $('menu').hidden = true; last = performance.now(); }
+  $('pmContinue').addEventListener('click', () => { audioInit(); closeMenu(); });
+  $('pmNew').addEventListener('click', e => {
+    audioInit();
+    const b = e.currentTarget;
+    if (hadSave && !b.classList.contains('armed')){ b.classList.add('armed'); b.textContent = 'Sure? Your save is replaced'; return; }
+    resetGame(); hadSave = true; closeMenu();
+  });
+  $('pmHow').addEventListener('click', () => { showPage('pmHowPage'); renderCodex(); });
+  $('pmAch').addEventListener('click', () => { showPage('pmAchPage'); renderAch(); });
+  document.querySelectorAll('[data-back]').forEach(b => b.addEventListener('click', () => showPage('pmHome')));
+  $('openMenu').addEventListener('click', openMenu);
+  addEventListener('keydown', e => {
+    if (e.key !== 'Escape' || choice || endMode) return;
+    if (menuOpen){ if ($('pmHome').hidden) showPage('pmHome'); else if (hadSave) closeMenu(); }
+    else openMenu();
+  });
+
+  let codexTab = 'basics';
+  const POWER_TXT = {
+    turbo:'The ball moves 2 to 10 times as fast for a while.', split:'The ball splits into many colored balls. Extras vanish on the table.',
+    bouncer:'Your paddle hits the ball back 3x as hard.', big:'The ball becomes 10x as big for 20 seconds.', gold:'Triple points per hit for 10 seconds.',
+    dual:'A buddy with a different skin plays a mirrored second paddle.', flip:'Negative: your mouse movements are reversed.', half:'Negative: all paddles are half as big.',
+    wild:'Negative: every bounce goes a random direction.', heavy:'Negative: gravity is 20x as strong.', solo:'Negative: you play with just 1 ball for 20 seconds.',
+    moon:'A hard shot straight up, from any floor. Shows up more often the higher you get. Once all 9 bosses are beaten it reaches the Moon.'};
+  const BOSS_TXT = {
+    'Pigeon Boss':'Floor 2. Swoops in figure eights, drops poop and dives at your paddle.',
+    'Giant Eagle':'Floor 3. Circles wide, fires a fan of 5 feathers and dives.',
+    'Storm Cloud':'Floor 4. Drifts after you. Lightning strikes where you stand after a warning flash, plus rain.',
+    'Jumbo Jet':'Floor 5. Races from edge to edge and drops crates.',
+    'Rocket Rex':'Floor 6. Bobs up and down, fires homing missiles and spark showers.',
+    'UFO Commander':'Floor 7. Teleports around, fires zigzag lasers and a tractor beam that pulls balls up.',
+    'Alien Squid':'Floor 8. Wobbles, spits goo and raises a shield that blocks damage.',
+    'Satellite Sentinel':'Floor 9. Orbits with 3 drones that deflect balls, sweeping laser and missiles.',
+    'Moon Guardian':'Floor 10. Three phases, each with new moves: meteors, lasers, drones, lightning and more.'};
+  function renderCodex(){
+    const tabs = [['basics', 'Basics'], ['up', 'Upgrades'], ['pow', 'Powers'], ['boss', 'Bosses']];
+    $('pmTabs').innerHTML = '';
+    tabs.forEach(([id, name]) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'pm-tab'; b.textContent = name;
+      b.setAttribute('aria-selected', codexTab === id ? 'true' : 'false');
+      b.addEventListener('click', () => { codexTab = id; renderCodex(); });
+      $('pmTabs').appendChild(b);
+    });
+    const L = $('pmList'); L.innerHTML = ''; L.className = 'pm-list' + (codexTab === 'basics' ? ' text' : '');
+    if (codexTab === 'basics'){
+      L.innerHTML = [
+        '<b>Goal:</b> keep the ping pong ball in the air. Every hit scores points; a long streak makes each hit worth more.',
+        '<b>Controls:</b> your paddle follows the mouse. Left and right click tilt it, R levels it. Scroll out to see the whole building, scroll in on a floor to zoom in, or use the floor buttons.',
+        '<b>Upgrades:</b> spend points in the panel on the right. Scroll the panel to see everything.',
+        '<b>Stars:</b> hit a golden star to spin the roulette for a power. After enough hits a star shower starts.',
+        '<b>Floors:</b> unlock the whole field, beat the floor boss and build a new floor. You lose your upgrades but earn a permanent points bonus.',
+        '<b>Bosses:</b> from floor 2 every floor has a boss. Hit it with balls: harder and bigger balls do more damage. Dodge its attacks or your paddle gets dizzy.',
+        '<b>The Moon:</b> beat all 9 bosses, then spin the Moonshot from a star (gold in the roulette) and hit the ball. Then keep the falling Moon up 10 times.',
+        '<b>Codex:</b> upgrades, powers and bosses show up here once you have seen them in the game.'
+      ].map(t => `<p style="margin:0">${t}</p>`).join('');
+      return;
+    }
+    let items = [];
+    if (codexTab === 'up') items = UP.map(u => ({id:u.id, seen:META.seen.up[u.id], name:u.name, desc:u.g + ' · ' + u.desc, icon:UPICON[u.id]}));
+    if (codexTab === 'pow') items = [...Object.keys(POWERS).map(k => [k, POWERS[k], false]), ...Object.keys(CURSES).map(k => [k, CURSES[k], true]), ['moon', MOONSHOT, false]]
+      .map(([k, d, bad]) => ({id:k, seen:META.seen.pow[k], name:d.name, desc:POWER_TXT[k], icon:d.icon, bad}));
+    if (codexTab === 'boss') items = BOSS_DEFS.map((d, i) => ({id:d.name, seen:META.seen.boss[d.name], name:d.name, desc:BOSS_TXT[d.name], icon:'star', bad:true, floor:i + FIRST_BOSS}));
+    const found = items.filter(i => i.seen).length;
+    const head = document.createElement('p'); head.className = 'cx-d'; head.style.gridColumn = '1/-1'; head.style.margin = '0 0 4px';
+    head.textContent = `Discovered ${found} of ${items.length}`; L.appendChild(head);
+    for (const it of items){
+      const el = document.createElement('div');
+      el.className = 'cx' + (it.seen ? (it.bad ? ' bad' : '') : ' unknown');
+      el.innerHTML = `<span class="cx-ic">${it.seen ? svg(it.icon) : '?'}</span><div><div class="cx-n"></div><div class="cx-d"></div></div>`;
+      el.querySelector('.cx-n').textContent = it.seen ? it.name : '???';
+      el.querySelector('.cx-d').textContent = it.seen ? it.desc : (it.floor ? `Not seen yet · lives on floor ${it.floor}` : 'Not seen yet');
+      L.appendChild(el);
+    }
+  }
+  function renderAch(){
+    const L = $('achList'); L.innerHTML = '';
+    for (const [id, name, desc] of ACH){
+      const got = META.ach[id];
+      const el = document.createElement('div'); el.className = 'cx' + (got ? ' done' : ' unknown');
+      el.innerHTML = `<span class="cx-ic">${got ? svg('star') : '?'}</span><div><div class="cx-n"></div><div class="cx-d"></div></div>`;
+      el.querySelector('.cx-n').textContent = name; el.querySelector('.cx-d').textContent = desc + (got ? ' · done' : '');
+      L.appendChild(el);
+    }
+  }
+
+  // scroll-hint in het upgrade-paneel
+  const panelEl = document.querySelector('.panel');
+  function updScrollHint(){ const p = panelEl; $('scrollhint').hidden = p.scrollHeight - p.clientHeight - p.scrollTop < 30; }
+  panelEl.addEventListener('scroll', updScrollHint, {passive:true});
+  addEventListener('resize', updScrollHint);
+
+  // wat je in een bestaand spel al gekocht/verslagen hebt, telt als gezien
+  UP.forEach(u => { if (lv(u.id) > 0) META.seen.up[u.id] = true; });
+  Object.keys(S.bossDown || {}).forEach(k => { if (S.bossDown[k] && hasBoss(+k)) META.seen.boss[defOf(+k).name] = true; });
+  saveMeta();
   resize(); updateHint(); renderPanel(); renderDev();
+  openMenu();
   requestAnimationFrame(frame);
 })();
 </script>
