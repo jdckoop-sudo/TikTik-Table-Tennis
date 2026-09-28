@@ -4235,20 +4235,23 @@
     blip(520, .3, .12, 'triangle'); setTimeout(() => blip(780, .3, .12, 'triangle'), 160);
     save(); renderPanel(); updateHint();
   }
+  // nieuwe batjes en portals verschijnen vlak boven je speler, op de verdieping die je nu ziet
+  function nearY(off){ return clamp(P.y - off / Math.max(0.05, cam.z || 1), fieldTop() + 20, tableY() - 30) / H; }
   function buy(u){
     if (lv(u.id) >= u.max || (u.req && !u.req())) return;
     const c = cost(u); if (S.pts < c) return;
     S.pts -= c; S.lv[u.id] = lv(u.id) + 1; markSeen('up', u.id); S.upBuys = (S.upBuys || 0) + 1;
     audioInit(); blip(880, .09, .1, 'square');
     if (u.id === 'portal'){
-      const pr = {ax:0.35, ay:0.35, bx:0.65, by:0.35};
+      const py = nearY(H * 0.3);
+      const pr = {ax:0.35, ay:py, bx:0.65, by:py};
       S.portals.push(pr);
       carry = {portal:pr, end:'a', mode:'pplace'}; sel = -1;
       updateCursor(); updateHint();
     }
     if (u.id === 'veld') clampItems();
     if (u.id === 'vast'){
-      const bt = {x:0.5, y:0.45, a:0};
+      const bt = {x:clamp(P.x / W, 0.1, 0.9), y:nearY(H * 0.25), a:0};
       S.bats.push(bt);
       carry = {bat:bt, mode:'place'};
       updateCursor(); updateHint();
@@ -4381,8 +4384,8 @@
     S.etage = ETAGE_MAX;
     for (let k = 0; k <= ETAGE_MAX; k++) S.bossDown[k] = true;
     UP.forEach(u => { S.lv[u.id] = u.max === Infinity ? Math.max(lv(u.id), 25) : u.max; });
-    while (S.bats.length < lv('vast')){ const k = S.bats.length; S.bats.push({x:0.18 + 0.16 * k, y:0.6, a:0}); }
-    while (S.portals.length < lv('portal')){ const k = S.portals.length; S.portals.push({ax:0.25, ay:0.4 - 0.15 * k, bx:0.75, by:0.4 - 0.15 * k}); }
+    while (S.bats.length < lv('vast')){ const k = S.bats.length; S.bats.push({x:0.18 + 0.16 * k, y:nearY(H * 0.25), a:0}); }
+    while (S.portals.length < lv('portal')){ const k = S.portals.length; S.portals.push({ax:0.25, ay:nearY(H * (0.3 + 0.15 * k)), bx:0.75, by:nearY(H * (0.3 + 0.15 * k))}); }
     clampItems(); syncBalls();
     Object.values(upEls).forEach(el => el.key = '');
     save(); renderPanel();
@@ -4570,9 +4573,10 @@
     ['neg',     'Bad luck',         'Get a negative power from the roulette',    () => META.flags.neg],
     ['dizzy',   'Seeing stars',     'Get hit by a boss attack',                  () => META.flags.dizzy],
     ['f1',      'Going up',         'Build your first floor',                    () => S.etage >= 1],
-    ['f5',      'Skyscraper',       'Build floor 3',                             () => S.etage >= 3],
-    ['f10',     'Top floor',        'Build floor 6',                             () => S.etage >= 6],
-    ['boss1',   'Boss slayer',      'Defeat a boss',                             () => Object.keys(S.bossDown || {}).length > 0],
+    ['f5',      'Skyscraper',       'Build floor 3, halfway to the top',          () => S.etage >= 3],
+    ['f10',     'Top floor',        'Build floor 6, the top floor',              () => S.etage >= ETAGE_MAX],
+    ['moth',    'Moth hunter',      'Defeat the Mega Moth in the hall',          () => !!(S.bossDown && S.bossDown[0]) || !!META.flags.boss0],
+    ['boss1',   'Boss slayer',      'Defeat a boss on a floor',                  () => [1,2,3,4,5,6].some(k => S.bossDown && S.bossDown[k]) || [1,2,3,4,5,6].some(k => META.flags['boss' + k])],
     ['bossall', 'Exterminator',     'Defeat all 7 bosses',                       () => [0,1,2,3,4,5,6].every(k => S.bossDown && S.bossDown[k])],
     ['space',   'Houston',          'Hit a ball into space (100 km)',            () => S.high >= 100000],
     ['pan',     'Chef',             'Hit the ball with the frying pan',          () => META.flags.pan],
@@ -4589,7 +4593,9 @@
     ['leghat',  'Legendary!',       'Get a legendary hat',                       () => HATS.some(h => h.r === 'legendary' && META.hats[h.id])],
     ['hattower','Hat tower',        'Wear 25 hats at the same time',             () => META.hatOn.length >= 25],
     ['allhats', 'Hat collector',    'Collect all 100 hats',                      () => HATS.every(h => META.hats[h.id])],
-    ['roster',  'Full team',        'Unlock all 10 floor and boss players',      () => !S.dev && CHARS.every(c => c.won || unlocked(c))],
+    ['roster',  'Full team',        'Unlock all 10 players from floors and bosses', () => !S.dev && CHARS.every(c => c.won || unlocked(c))],
+    ['allpads', 'Paddle collector', 'Unlock every paddle',                       () => !S.dev && PADDLES.every(p => unlocked(p))],
+    ['dual4',   'Party of four',    'Play with 3 Dual wield buddies at once',    () => POW.dual > 0 && BUDDIES.length >= 3],
     ['sun',     'Solar eclipse',    'Secret: find the hidden ending',             () => META.flags.sunEnd],
   ];
   let toastQ = [], toastBusy = false;
