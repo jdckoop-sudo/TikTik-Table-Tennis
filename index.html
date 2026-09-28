@@ -566,12 +566,17 @@
   .stage > .lift button.all{font-size:6px;padding:8px 0}
   .keysbox{margin-top:10px;background:#070b33;border:2px solid var(--ps-line);padding:8px}
   .keysbox h2{margin:0 0 6px;font-family:var(--px);font-size:9px;color:var(--ps-yellow)}
+  /* ghost cursor: laat zien waar je muis is als hij buiten het speelveld zit (ook boven het menu) */
+  .ghost{position:fixed;left:0;top:0;width:32px;height:32px;margin:-16px 0 0 -16px;z-index:60;pointer-events:none;opacity:.9}
+  .ghost svg{display:block}
+  .ghost[hidden]{display:none}
 </style>
 <style>html,body{margin:0}</style>
 </head>
 <body>
 
 
+<div class="ghost" id="ghost" hidden aria-hidden="true"><svg viewBox="0 0 32 32" width="32" height="32"><path d="M22 16a6 6 0 1 1-12 0a6 6 0 1 1 12 0M4 16h9M19 16h9M16 4v9M16 19v9" fill="none" stroke="#141018" stroke-width="4" stroke-linecap="butt"/><path d="M22 16a6 6 0 1 1-12 0a6 6 0 1 1 12 0M4 16h9M19 16h9M16 4v9M16 19v9" fill="none" stroke="#ff3b3b" stroke-width="2"/><rect x="14.5" y="14.5" width="3" height="3" fill="#ff3b3b"/></svg></div>
 <div class="app">
   <div class="stage" id="stage">
     <canvas id="cv" aria-label="Playing field: keep the ping pong ball up with your paddle"></canvas>
@@ -1456,6 +1461,23 @@
       ptr.sx = sx; ptr.sy = sy; setTarget(s2w(sx, sy), {x:0, y:0});
     }
     ptr.on = false; hoverBat = -1; hoverHandle = false; hoverPortal = null; updateCursor(); });
+  // Ghost cursor: buiten het speelveld (menu, rand van het scherm, voorbij de zijlijnen) zie je een tweede cursor,
+  // en het batje blijft je muis volgen (vastgezet aan de rand van het veld)
+  const ghost = $('ghost');
+  addEventListener('pointermove', e => {
+    if (e.pointerType === 'touch') return;
+    const r = cv.getBoundingClientRect();
+    const inside = e.clientX >= r.left && e.clientX <= r.right && e.clientY >= r.top && e.clientY <= r.bottom;
+    const sx = clamp(e.clientX - r.left, 0, r.width), sy = clamp(e.clientY - r.top, 0, r.height), p = s2w(sx, sy);
+    const busy = paused || menuOpen || !!choice || endMode || !!carry || !!rotHold;
+    // ook boven popups (ster-roulette, unlocks, knoppen in het veld) waar het gewone vizier niet te zien is
+    const out = !inside || p.x < 0 || p.x > W || (e.target !== cv && e.target !== $('lc'));
+    if (out && !menuOpen && !carry && !rotHold){ ghost.hidden = false; ghost.style.transform = `translate(${e.clientX}px,${e.clientY}px)`; }
+    else ghost.hidden = true;
+    if (!inside && !busy && e.buttons === 0 && !balls.some(b => b.moonshot && !b.hidden)){ ptr.sx = sx; ptr.sy = sy; setTarget(p, {x:0, y:0}); }
+  }, {passive:true});
+  document.addEventListener('pointerleave', () => { ghost.hidden = true; });
+  addEventListener('blur', () => { ghost.hidden = true; });
   // muisknop buiten het veld losgelaten (menu, taakbalk, ander venster): draaien/slepen netjes stoppen
   function releaseStuck(){
     rotHold = null;
@@ -1791,6 +1813,7 @@
   const starLife = () => 9 + 2 * lv('stervanger');
   const starR = () => 20 * (1 + 0.15 * lv('stervanger'));
   let star = null, starTimer = 8, paused = false, choice = null;
+  let FLY = [];      // vliegende sterren in een bossfight (meerdere tegelijk)
   const nextStar = () => (15 + Math.random() * 20) * Math.pow(0.85, lv('sterregen')) * Math.pow(0.92, legLv('stars'));
   // Elke verdieping een nieuwe kleur bal
   const FLOOR_HUES = [28, 355, 130, 210, 275, 320, 185, 52, 95, 0, 45];
@@ -1832,7 +1855,7 @@
       else { a = {x:rx(), y:top - m}; b = {x:rx(), y:bot + H * 0.1}; }
       const kind = pick(['line', 'arc', 'arc', 'loop']);
       const path = {a, b, kind, amp:(Math.random() < .5 ? -1 : 1) * H * (0.12 + Math.random() * 0.15), R:H * (0.06 + Math.random() * 0.05)};
-      star = {x:a.x, y:a.y, life:1e9, max:1e9, rot:0, fly:path, u:-0.3, dur:4.2 + Math.random() * 1.2};
+      FLY.push({x:a.x, y:a.y, life:1e9, max:1e9, rot:0, fly:path, u:-0.3, dur:4.2 + Math.random() * 1.2});
       blip(1500, .1, .05, 'sine'); return;
     }
     star = {x:fieldL() + (fieldR() - fieldL()) * (0.1 + Math.random() * 0.8), y:(() => { const lo = Math.max(fieldTop() + 20, cam.top + 60), hi = Math.min(tableY() - 60, cam.cb - 120); return hi > lo ? lo + (hi - lo) * (0.1 + Math.random() * 0.7) : Math.max(fieldTop() + 20, (cam.top + cam.cb) / 2); })(), life:starLife(), max:starLife(), rot:0};
@@ -2013,11 +2036,12 @@
   const SHOWER = {on:false, t:0, spawn:0};
   let RAIN = [];
   function showerProgress(){
-    if (SHOWER.on) return;
+    if (SHOWER.on || ARENA.on) return;      // geen sterrenregen tijdens bossfights
     S.showerHits++;
     if (S.showerHits >= showerNeed()) startShower();
   }
   function startShower(){
+    if (ARENA.on) return;
     flag('shower');
     Object.assign(SHOWER, {on:true, t:7, spawn:0});
     S.showerHits = 0;
@@ -2025,6 +2049,7 @@
     blip(1200, .15, .1, 'sine'); setTimeout(() => blip(1500, .15, .1, 'sine'), 120); setTimeout(() => blip(1800, .25, .1, 'sine'), 240);
   }
   function showerUpdate(dt){
+    if (ARENA.on && (SHOWER.on || RAIN.length)){ SHOWER.on = false; RAIN = []; }
     if (SHOWER.on){
       SHOWER.t -= dt; SHOWER.spawn -= dt;
       if (SHOWER.t > 0 && SHOWER.spawn <= 0){
@@ -2062,7 +2087,7 @@
   }
   function renderShowerBar(){
     const el = $('showerbar');
-    el.hidden = false;
+    el.hidden = !!ARENA.on;
     el.classList.toggle('on', SHOWER.on);
     if (!$('sbIc').firstChild) $('sbIc').innerHTML = svg('star');
     if (SHOWER.on){
@@ -2763,7 +2788,7 @@
     MAN.oops = performance.now();
     S.runFalls = (S.runFalls || 0) + 1; META.totFalls = (META.totFalls || 0) + 1;
     maybeVoice('miss');
-    if (!SHOWER.on) S.showerHits = Math.floor(S.showerHits / 2);   // mis = de helft van je sterrenregen-voortgang kwijt
+    if (!SHOWER.on && !ARENA.on) S.showerHits = Math.floor(S.showerHits / 2);   // mis = de helft van je sterrenregen-voortgang kwijt
     if (streak >= 3) floaters.push({x:b.x, y:tableY() - 24, txt:'Miss! Streak ' + streak, age:0, big:true});
     hype *= 0.3;
     streak = 0;
@@ -2917,6 +2942,10 @@
     if (star && !paused && !(star.fly && star.u < 0) && Math.hypot(b.x - star.x, b.y - star.y) < r + starR()){
       star = null; starTimer = nextStar(); openChoice(b);
     }
+    if (!paused && !choice) for (let i = 0; i < FLY.length; i++){
+      const st = FLY[i];
+      if (st.u >= 0 && Math.hypot(b.x - st.x, b.y - st.y) < r + starR()){ FLY.splice(i, 1); openChoice(b); break; }
+    }
 
     if (ARENA.on && BOSS.on && b.y + r >= ARENA.bottom){
       // bossfight: de bodem is ook een muur, de bal stuitert terug (maar je streak is wel weg)
@@ -2978,13 +3007,25 @@
 
     // Ster
     // tijdens een bossfight komen sterren twee keer zo snel
-    if (!star){ starTimer -= dt * (ARENA.on ? 2 : 1); if (starTimer <= 0) spawnStar(); }
-    else if (star.fly){
-      star.u += dt / star.dur; star.rot += dt * 3;
-      const q = flyPos(star.fly, clamp(star.u, 0, 1)); star.x = q.x; star.y = q.y;
-      if (star.u >= 1 || !ARENA.on){ star = null; starTimer = nextStar(); }
+    if (ARENA.on){
+      // bossfight: sterren vliegen over het scherm, er kunnen er (max 3) tegelijk zijn
+      if (star) star = null;
+      if (!FLY.length){ starTimer -= dt * 2; if (starTimer <= 0){
+        // een zwerm van 1 tot 3 sterren, elk met een eigen baan, kort na elkaar
+        const n = pick([1, 2, 2, 3]); for (let i = 0; i < n; i++){ spawnStar(); FLY[FLY.length - 1].u = -0.3 - i * 0.25; }
+        starTimer = nextStar(); } }
+      for (let i = FLY.length - 1; i >= 0; i--){
+        const st = FLY[i]; st.u += dt / st.dur; st.rot += dt * 3;
+        const q = flyPos(st.fly, clamp(st.u, 0, 1)); st.x = q.x; st.y = q.y;
+        if (st.u >= 1) FLY.splice(i, 1);
+      }
     }
-    else { star.life -= dt; star.rot += dt * 1.2; if (star.life <= 0){ star = null; starTimer = nextStar(); } }
+    else {
+      if (FLY.length) FLY = [];
+      if (!star){ starTimer -= dt; if (starTimer <= 0) spawnStar(); }
+      else if (star.fly){ star = null; starTimer = nextStar(); }
+      else { star.life -= dt; star.rot += dt * 1.2; if (star.life <= 0){ star = null; starTimer = nextStar(); } }
+    }
 
     const f = POW.turbo > 0 ? POW.turboF : 1;
     const n = Math.min(balls.length > 40 ? 3 : balls.length > 15 ? 5 : 12, Math.max(POW.heavy > 0 ? 2 : 1, Math.ceil(f)));
@@ -3159,6 +3200,40 @@
     }
   }
 
+  function drawStarObj(star, cb){
+    if (star.fly){
+      // de baan: vooraf helder, tijdens de vlucht vaag
+      const pre = star.u < 0, a0 = pre ? 0.75 : 0.25;
+      ctx.save(); ctx.strokeStyle = `rgba(255,225,74,${a0})`; ctx.lineWidth = 3; ctx.setLineDash([8, 8]); ctx.lineDashOffset = -performance.now() / 40;
+      ctx.beginPath();
+      for (let i = 0; i <= 60; i++){ const q = flyPos(star.fly, i / 60); if (i) ctx.lineTo(q.x, q.y - cb); else ctx.moveTo(q.x, q.y - cb); }
+      ctx.stroke(); ctx.setLineDash([]);
+      if (pre){ const q = flyPos(star.fly, 0.03); ctx.fillStyle = '#ffe14a'; ctx.font = '20px "Press Start 2P", monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        if (Math.sin(performance.now() / 90) > 0) ctx.fillText('!', clamp(q.x, 20, W - 20), q.y - cb); }
+      ctx.restore();
+    }
+    if (!(star.fly && star.u < 0)){
+      const sty = star.y - cb;
+      const blink = star.life < 3 ? (Math.sin(star.life * 18) > 0 ? 1 : 0.35) : 1;
+      ctx.save(); ctx.globalAlpha = blink;
+      const gl = ctx.createRadialGradient(star.x, sty, 2, star.x, sty, 46);
+      gl.addColorStop(0, 'rgba(255,215,80,.45)'); gl.addColorStop(1, 'rgba(255,215,80,0)');
+      ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(star.x, sty, 46, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = 'rgba(255,215,80,.7)'; ctx.lineWidth = 2;
+      if (!star.fly){ ctx.beginPath(); ctx.arc(star.x, sty, starR() * 1.5, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (star.life / star.max)); ctx.stroke(); }
+      ctx.translate(star.x, sty); ctx.rotate(star.rot);
+      ctx.beginPath();
+      for (let k = 0; k < 10; k++){
+        const SR = starR(), rr = k % 2 ? SR * 0.45 : SR, an = -Math.PI / 2 + k * Math.PI / 5;
+        ctx.lineTo(Math.cos(an) * rr, Math.sin(an) * rr);
+      }
+      ctx.closePath();
+      ctx.fillStyle = '#ffd23f'; ctx.fill();
+      ctx.strokeStyle = '#fff6c9'; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.restore();
+    }
+
+  }
   function draw(){
     LBL = [];
     const ty = tableY();
@@ -3384,38 +3459,7 @@
     drawHatStack(cb, z);
     drawRain(cb);
     // ster
-    if (star && star.fly){
-      // de baan: vooraf helder, tijdens de vlucht vaag
-      const pre = star.u < 0, a0 = pre ? 0.75 : 0.25;
-      ctx.save(); ctx.strokeStyle = `rgba(255,225,74,${a0})`; ctx.lineWidth = 3; ctx.setLineDash([8, 8]); ctx.lineDashOffset = -performance.now() / 40;
-      ctx.beginPath();
-      for (let i = 0; i <= 60; i++){ const q = flyPos(star.fly, i / 60); if (i) ctx.lineTo(q.x, q.y - cb); else ctx.moveTo(q.x, q.y - cb); }
-      ctx.stroke(); ctx.setLineDash([]);
-      if (pre){ const q = flyPos(star.fly, 0.03); ctx.fillStyle = '#ffe14a'; ctx.font = '20px "Press Start 2P", monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-        if (Math.sin(performance.now() / 90) > 0) ctx.fillText('!', clamp(q.x, 20, W - 20), q.y - cb); }
-      ctx.restore();
-    }
-    if (star && !(star.fly && star.u < 0)){
-      const sty = star.y - cb;
-      const blink = star.life < 3 ? (Math.sin(star.life * 18) > 0 ? 1 : 0.35) : 1;
-      ctx.save(); ctx.globalAlpha = blink;
-      const gl = ctx.createRadialGradient(star.x, sty, 2, star.x, sty, 46);
-      gl.addColorStop(0, 'rgba(255,215,80,.45)'); gl.addColorStop(1, 'rgba(255,215,80,0)');
-      ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(star.x, sty, 46, 0, Math.PI * 2); ctx.fill();
-      ctx.strokeStyle = 'rgba(255,215,80,.7)'; ctx.lineWidth = 2;
-      if (!star.fly){ ctx.beginPath(); ctx.arc(star.x, sty, starR() * 1.5, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (star.life / star.max)); ctx.stroke(); }
-      ctx.translate(star.x, sty); ctx.rotate(star.rot);
-      ctx.beginPath();
-      for (let k = 0; k < 10; k++){
-        const SR = starR(), rr = k % 2 ? SR * 0.45 : SR, an = -Math.PI / 2 + k * Math.PI / 5;
-        ctx.lineTo(Math.cos(an) * rr, Math.sin(an) * rr);
-      }
-      ctx.closePath();
-      ctx.fillStyle = '#ffd23f'; ctx.fill();
-      ctx.strokeStyle = '#fff6c9'; ctx.lineWidth = 1.5; ctx.stroke();
-      ctx.restore();
-    }
-
+    for (const st of (ARENA.on ? FLY : star ? [star] : [])) drawStarObj(st, cb);
     // ballen
     const offs = [];
     balls.forEach(b => {
