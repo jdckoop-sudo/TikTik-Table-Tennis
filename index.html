@@ -2210,8 +2210,10 @@
       for (const pr of S.portals) for (const end of ['a', 'b']){ const e = endPos(pr, end); if (near(e.x, e.y) || (hoverPortal && hoverPortal.portal === pr && hoverPortal.end === end)) grip(e.x, e.y, !!(hoverPortal && hoverPortal.portal === pr && hoverPortal.end === end)); }
     }
     // vizier op de plek van je muis
+    // gewoon spelen: het vizier zit vast op het midden van je batje; plaatsen of iets vastpakken: op je muis
     const hot = placing || hoverBat >= 0 || !!hoverPortal;
-    const r = (hot ? 10 : 6) * sc, x = q.x, y = q.y - cb;
+    const onPad = !hot && !carry;
+    const r = (hot ? 10 : 6) * sc, x = onPad ? P.x : q.x, y = (onPad ? P.y : q.y) - cb;
     ctx.strokeStyle = '#141018'; ctx.lineWidth = 4 * sc;
     ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.moveTo(x - r - 6 * sc, y); ctx.lineTo(x - r + 3 * sc, y); ctx.moveTo(x + r - 3 * sc, y); ctx.lineTo(x + r + 6 * sc, y);
     ctx.moveTo(x, y - r - 6 * sc); ctx.lineTo(x, y - r + 3 * sc); ctx.moveTo(x, y + r - 3 * sc); ctx.lineTo(x, y + r + 6 * sc); ctx.stroke();
