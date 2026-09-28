@@ -1537,7 +1537,8 @@
   // De maan is haalbaar zodra je alle 9 bazen hebt verslagen
   const BOSS_FLOORS = [0, 1, 2, 3, 4, 5, 6];
   const bossesBeaten = () => BOSS_FLOORS.filter(k => S.bossDown && S.bossDown[k]).length;
-  const allMaxed = () => bossesBeaten() >= BOSS_FLOORS.length;
+  // de maan kan pas als je op de bovenste verdieping staat en alle bazen hebt verslagen
+  const allMaxed = () => S.etage >= ETAGE_MAX && bossesBeaten() >= BOSS_FLOORS.length;
   const MOONSHOT = {name:'Moonshot', icon:'moon', short:'Moon',
     tag:() => S.finale ? 'moon launch' : allMaxed() ? 'final goal' : 'test flight',
     desc:() => S.finale ? 'Your next hit launches the Moon itself sky-high, for big bonus points. Catch it when it falls back!' : allMaxed()
@@ -1673,7 +1674,8 @@
     const mp = moonPos(), R = MOON_R();
     const dx = b.x - mp.x, dy = b.y - mp.y, d = Math.hypot(dx, dy);
     if (d > R + r || d === 0) return;
-    if (b.moonshot){ hitMoon(b); return 'end'; }
+    if (b.moonshot && allMaxed()){ hitMoon(b); return 'end'; }
+    if (b.moonshot) b.moonshot = false;      // te vroeg: de bal kaatst gewoon af
     // zonder Maanschot kaatst de bal er gewoon af
     const nx = dx / d, ny = dy / d, vn = b.vx * nx + b.vy * ny;
     if (vn < 0){ b.vx -= 1.6 * vn * nx; b.vy -= 1.6 * vn * ny; }
@@ -2000,7 +2002,7 @@
   const bossReady = () => hasBoss(S.etage) && !bossDown(S.etage) && !BOSS.on && !S.finale && bossProg() >= VELD_MAX && !(S.bossRecharge > 0);
   // levens per baas: de mot kost al een paar minuten, elke volgende baas flink meer
   // (x(1 + 0.25 k) compenseert de extra schade die je per verdieping doet)
-  const BOSS_HP = [1200, 1800, 2700, 3900, 5500, 7800, 11500];
+  const BOSS_HP = [550, 900, 1400, 2100, 3100, 4600, 7000];
   const bossMaxHp = k => Math.round((BOSS_HP[Math.min(6, k)] || 11000) * (1 + 0.25 * k) * (1 + 0.8 * ASC()));
   const bossDown = k => !hasBoss(k) || !!S.bossDown[k];
   const BOSS = {on:false, k:0, hp:0, max:0, x:0, y:0, t:0, flash:0, hurt:0, dead:0, cds:{}, dive:0, shield:0, vis:1, tp:0, face:1};
