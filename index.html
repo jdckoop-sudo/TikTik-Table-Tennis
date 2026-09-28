@@ -256,6 +256,7 @@
     padding:6px 14px;background:rgba(10,0,5,.65);border:3px solid #ff3d4d;box-shadow:3px 3px 0 #000}
   .lifebar[hidden]{display:none}
   .lifebar .lb-k{font-family:var(--px);font-size:9px;color:#fff;text-shadow:2px 2px 0 #000;margin-right:4px}
+  .lifebar .hrt:nth-of-type(n+5){color:#ff6fb5}
   .lifebar .hrt{font-size:40px;line-height:1;color:#ff2a45;text-shadow:3px 3px 0 #000,0 0 12px rgba(255,40,70,.8)}
   .lifebar .hrt.lost{color:#3a3a4a;text-shadow:3px 3px 0 #000;transform:scale(.8)}
   .lifebar .hrt.pop{animation:hrtPop .6s ease-out}
@@ -386,6 +387,8 @@
   .cell.neg{background:#5a1022}
   .cell.moon{background:linear-gradient(#fff08a,#ffc21a 55%,#c98a00);color:#2a1300}
   .cell.moon .cell-n{color:#2a1300}
+  .cell.life,.mcell.life{background:linear-gradient(#ffb3dd,#ff5fae 55%,#c2187a);color:#3a0022}
+  .cell.life .cell-n{color:#3a0022}
   @keyframes rbw{from{filter:hue-rotate(0deg)}to{filter:hue-rotate(360deg)}}
   @keyframes rbg{from{background-position:0 0}to{background-position:400% 0}}
   .rainbow-bg{background:linear-gradient(90deg,#ff3d6e,#ffb43d,#fff23d,#3dff6a,#3dc8ff,#8a4fd6,#ff3d6e);background-size:400% 100%;animation:rbg 2.4s linear infinite}
@@ -665,7 +668,7 @@
         <div id="choiceResult" hidden>
           <div class="choice-kicker" id="resKicker">Gambling</div>
           <div class="reel" id="reel"><div class="reel-track" id="reelTrack"></div><div class="reel-marker"></div></div>
-          <div class="reel-legend"><span><i style="background:#1c2a9c"></i>Power</span><span><i style="background:#5a1022"></i>Negative power</span><span><i style="background:#ffc21a"></i>Moonshot</span><span><i class="rainbow-bg"></i>Hat</span></div>
+          <div class="reel-legend"><span><i style="background:#1c2a9c"></i>Power</span><span><i style="background:#5a1022"></i>Negative power</span><span><i style="background:#ffc21a"></i>Moonshot</span><span><i class="rainbow-bg"></i>Hat</span><span id="lgLife" hidden><i style="background:#ff5fae"></i>Extra life</span></div>
           <div class="res-body" id="resBody" hidden>
             <div class="res-head"><span class="opt-ic" id="resIc"></span><h3 id="resName"></h3><span class="opt-tag" id="resTag"></span></div>
             <p class="res-desc" id="resDesc"></p>
@@ -841,6 +844,7 @@
     feather:'<path d="M20 4C11 4 5 10 5 20"/><path d="M8 13h6M11 9h6"/>',
     bat:'<path d="M3 12h13"/><path d="M3 15h13" opacity=".45"/><path d="M16 13.5l5 3.5"/>',
     spring:'<path d="M12 2v3"/><path d="M7 5.5l10 2-10 2 10 2-10 2 10 2"/><path d="M12 17.5V22"/>',
+    heart:'<path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.3a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/>',
     moon:'<path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5z"/>',
     shirt:'<path d="M8 3 4 6l2 4 2-1v12h8V9l2 1 2-4-4-3a4 4 0 0 1-8 0z"/>',
     tower:'<path d="M4 21h16M6 21V9l6-5 6 5v12M10 21v-5h4v5M9.5 11h5"/>',
@@ -1885,18 +1889,18 @@
     $('stage').appendChild(el);
     // één vakje dat steeds langzamer door de powers heen klikt en dan stopt
     const cell = el.querySelector('.mcell');
-    const show = it => { cell.className = 'mcell' + (it.neg ? ' neg' : '') + (it.moon ? ' moon' : '') + (it.hat ? ' hat' : ''); cell.innerHTML = svg(it.def.icon); };
+    const show = it => { cell.className = 'mcell' + (it.neg ? ' neg' : '') + (it.moon ? ' moon' : '') + (it.hat ? ' hat' : '') + (it.life ? ' life' : ''); cell.innerHTML = svg(it.def.icon); };
     const steps = reduceMotion ? 3 : 14;
     let k = 0;
     const flip = () => {
       if (k < steps){ show(drawOutcome()); blip(900 + (k % 2) * 150, .015, .03, 'square'); k++; setTimeout(flip, 45 + k * k * 1.6); return; }
       show(out); cell.classList.add('win');
       const d = out.def;
-      if (out.neg || out.moon || out.hat) d.apply(); else d.apply(out.v, b, !!out.dbl);
+      if (out.neg || out.moon || out.hat || out.life) d.apply(); else d.apply(out.v, b, !!out.dbl);
       markSeen('pow', out.id); if (out.neg) flag('neg');
       if (out.hat) HS.pending = (HS.pending || 0) + 1;
       const res = el.querySelector('.mini-res');
-      res.textContent = out.hat ? 'Hat after shower!' : d.name + (out.neg || out.moon || out.hat ? '' : ' ' + d.tag(out.v, !!out.dbl));
+      res.textContent = out.hat ? 'Hat after shower!' : d.name + (out.neg || out.moon || out.hat || out.life ? '' : ' ' + d.tag(out.v, !!out.dbl));
       el.classList.add(out.neg ? 'bad' : out.moon || out.hat ? 'gold' : 'good');
       blip(out.neg ? 160 : 1200, .15, .08, out.neg ? 'sawtooth' : 'triangle');
       setTimeout(() => { el.classList.add('out'); setTimeout(() => { el.remove(); MINI.slots[slot] = false; }, 350); }, 1700);
@@ -1909,6 +1913,7 @@
     paused = true;
     choice = {ball:b};
     $('choicePick').hidden = true;
+    $('lgLife').hidden = !lifeChance();
     $('choice').hidden = false;
     blip(990, .2, .1, 'triangle');
     gamble();
@@ -1916,7 +1921,13 @@
   function choose(){}
   // hoe hoger je komt, hoe vaker het Maanschot; niet tijdens de finale
   const moonChance = () => S.sunMode ? 0 : S.finale ? 0.3 : allMaxed() ? 0.6 : 0.1 + 0.07 * S.etage;
+  // Extra leven: alleen in een bossfight, en hoe minder levens je hebt hoe groter de kans
+  const LIFEPOW = {name:'Extra life', short:'LIFE', icon:'heart', apply(){ BOSS.lives = (BOSS.lives || 0) + 1; lastLives = -1;
+      floaters.push({x:P.x, y:P.y - 50, txt:'+1 LIFE! ' + '♥'.repeat(Math.min(8, BOSS.lives)), age:0, big:true, col:'#ff6fb5'}); [784, 988, 1319].forEach((f, i) => tone(f, 0.14, 0.08, 'triangle', i * 0.08)); },
+    tag:() => '+1 heart', desc:() => 'One extra life for this boss fight. You now have ' + (BOSS.lives || 0) + ' lives.'};
+  const lifeChance = () => (ARENA.on && BOSS.on && !(BOSS.dead > 0) && !(BOSS.escape > 0)) ? ([0.4, 0.4, 0.28, 0.16, 0.09][BOSS.lives || 0] ?? 0.05) : 0;
   function drawOutcome(){
+    if (Math.random() < lifeChance()) return {neg:false, id:'life', def:LIFEPOW, life:true};
     if (Math.random() < negChance()){ const id = pick(Object.keys(CURSES)); return {neg:true, id, def:CURSES[id]}; }
     if (Math.random() < moonChance()) return {neg:false, id:'moon', def:MOONSHOT, moon:true};
     if (Math.random() < HAT_CHANCE) return {neg:false, id:'hat', def:HATPOW, hat:true};
@@ -1932,7 +1943,7 @@
     const N = 44, WIN = 36, STEP = 86, CELL = 78;
     const items = []; for (let k = 0; k < N; k++) items.push(k === WIN ? out : drawOutcome());
     const track = $('reelTrack');
-    track.innerHTML = items.map((it, k) => `<div class="cell${it.neg ? ' neg' : ''}${it.moon ? ' moon' : ''}${it.hat ? ' hat' : ''}" id="cell-${k}">${svg(it.def.icon)}<span class="cell-n">${it.def.short}</span></div>`).join('');
+    track.innerHTML = items.map((it, k) => `<div class="cell${it.neg ? ' neg' : ''}${it.moon ? ' moon' : ''}${it.hat ? ' hat' : ''}${it.life ? ' life' : ''}" id="cell-${k}">${svg(it.def.icon)}<span class="cell-n">${it.def.short}</span></div>`).join('');
     $('choicePick').hidden = true; $('choiceResult').hidden = false; $('resBody').hidden = true;
     $('choiceResult').classList.remove('bad');
     $('resKicker').textContent = 'Star roulette...';
@@ -1954,13 +1965,13 @@
   function land(out, win){
     if (!choice) return;
     const d = out.def;
-    const plain = out.neg || out.moon || out.hat;
+    const plain = out.neg || out.moon || out.hat || out.life;
     if (plain) d.apply(); else d.apply(out.v, choice.ball, !!out.dbl);
     markSeen('pow', out.id); if (out.neg) flag('neg');
     choice.result.spinning = false;
     const c = $('cell-' + win); if (c) c.classList.add('win');
     $('choiceResult').classList.toggle('bad', out.neg);
-    $('resKicker').textContent = out.neg ? 'Bad luck: negative power' : out.moon ? 'The Moonshot!' : out.hat ? 'A HAT! Time for the hat roulette' : out.dbl ? 'Jackpot: double value' : 'You won a power';
+    $('resKicker').textContent = out.life ? 'Extra life!' : out.neg ? 'Bad luck: negative power' : out.moon ? 'The Moonshot!' : out.hat ? 'A HAT! Time for the hat roulette' : out.dbl ? 'Jackpot: double value' : 'You won a power';
     $('resIc').innerHTML = svg(d.icon);
     $('resName').textContent = d.name;
     $('resTag').textContent = plain ? d.tag() : d.tag(out.v, !!out.dbl);
@@ -2464,7 +2475,7 @@
     DRONES.forEach(dr => dr.p += dt * 1.6);
     // projectielen
     for (let i = BOMBS.length - 1; i >= 0; i--){
-      const bm = BOMBS[i];
+      const bm = BOMBS[i]; if (!bm) continue;      // de lijst kan leeg zijn gemaakt (laatste leven kwijt)
       bm.t += dt; bm.life -= dt;
       if (bm.home){ const dx = P.x - bm.x, dy = P.y - bm.y, dd = Math.hypot(dx, dy) || 1, sp = Math.hypot(bm.vx, bm.vy);
         bm.vx += (dx / dd * sp - bm.vx) * Math.min(1, dt * bm.home); bm.vy += (dy / dd * sp - bm.vy) * Math.min(1, dt * bm.home); }
@@ -2475,7 +2486,7 @@
     }
     // gevaren met waarschuwing: bliksem, straal, laser
     for (let i = HAZ.length - 1; i >= 0; i--){
-      const hz = HAZ[i];
+      const hz = HAZ[i]; if (!hz) continue;
       hz.t += dt;
       const live = hz.t > hz.warn && hz.t < hz.warn + hz.dur;
       if (hz.kind === 'bolt' && live && Math.abs(P.x - hz.x) < padW() * 0.35 + 14) hitPaddle('Zapped!');
@@ -2548,7 +2559,7 @@
     const n = Math.max(0, BOSS.lives || 0);
     if (n === lastLives) return;
     const lostNow = lastLives > n ? n : -1; lastLives = n;
-    lb.innerHTML = '<span class="lb-k">LIVES</span>' + [0, 1, 2].map(i => `<span class="hrt${i >= n ? ' lost' : ''}${i === lostNow ? ' pop' : ''}">♥</span>`).join('');
+    lb.innerHTML = '<span class="lb-k">LIVES</span>' + Array.from({length:Math.max(3, n)}, (_, i) => i).map(i => `<span class="hrt${i >= n ? ' lost' : ''}${i === lostNow ? ' pop' : ''}">♥</span>`).join('');
   }
   function renderBossBar(){
     renderLives();
@@ -5185,7 +5196,14 @@
   // ---------- Lus ----------
   let last = performance.now(), panelT = 0;
   const FX = {ema:16, low:false};
+  let frameErr = 0;
   function frame(now){
+    // de volgende frame altijd eerst inplannen: één fout mag het spel nooit laten bevriezen
+    requestAnimationFrame(frame);
+    try { frameBody(now); }
+    catch (err){ if (frameErr++ < 5) console.error(err); }
+  }
+  function frameBody(now){
     const raw = now - last;
     const dt = Math.min(1 / 30, Math.max(0.001, raw / 1000)); last = now;
     FX.ema += (Math.min(100, raw) - FX.ema) * 0.08;
@@ -5199,7 +5217,6 @@
       draw(); retroFilter(); drawLabels(); renderLift(); renderBossBar(); renderShowerBar(); renderHud(); renderPowers(); renderMoonDist();
       panelT += dt; if (panelT > 0.2){ panelT = 0; renderPanel(); checkAch(); updScrollHint(); }
     }
-    requestAnimationFrame(frame);
   }
   // ---------- Achievements ----------
   const ACH = [
