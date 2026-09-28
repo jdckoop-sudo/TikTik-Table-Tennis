@@ -2080,6 +2080,7 @@
   const BOSS_HP = [550, 900, 1400, 2100, 3100, 4600, 7000];
   const bossMaxHp = k => Math.round((BOSS_HP[Math.min(6, k)] || 11000) * (1 + 0.25 * k) * (1 + 0.8 * ASC()));
   const bossDown = k => !hasBoss(k) || !!S.bossDown[k];
+  const DIVE_T = 2.3, DIVE_SWOOP = 1.5;      // 0.8 s waarschuwing, dan 1.5 s duik heen en terug
   const BOSS = {on:false, k:0, hp:0, max:0, x:0, y:0, t:0, flash:0, hurt:0, dead:0, cds:{}, dive:0, shield:0, vis:1, tp:0, face:1};
   let BOMBS = [], HAZ = [], DRONES = [];
   const bossR = () => BOSS.k === 0 ? H * 0.065 : H * (0.075 + 0.005 * lvlOf(BOSS.k)) * (lvlOf(BOSS.k) === 3 ? 1.25 : 1);
@@ -2337,7 +2338,7 @@
     else if (a === 'bolt') HAZ.push({kind:'bolt', x:P.x, t:0, warn:0.8, dur:0.3});
     else if (a === 'beam') HAZ.push({kind:'beam', x:BOSS.x, t:0, warn:0.7, dur:1.8});
     else if (a === 'sweep') HAZ.push({kind:'sweep', t:0, warn:0.6, dur:2.2, dir:Math.random() < .5 ? 1 : -1});
-    else if (a === 'dive') BOSS.dive = 1.6;
+    else if (a === 'dive'){ BOSS.dive = DIVE_T; BOSS.dvx = P.x; BOSS.dvy = P.y; }
     else if (a === 'shield'){ BOSS.shield = 2.2; floaters.push({x, y:y - R - 20, txt:'Shield!', age:0, big:true}); }
     else if (a === 'drones'){ if (!DRONES.length) DRONES = [0, 2.1, 4.2].map(p => ({p})); }
     bossSfx(a);
@@ -2373,10 +2374,14 @@
     else if (mv === 'orbit'){ x = cx + Math.cos(t * sp * 0.6) * hw; y = A.home + Math.sin(t * sp * 0.6) * H * 0.07; }
     // duikvlucht naar je batje en terug
     if (BOSS.dive > 0){
+      // eerst waarschuwen (doelwit ligt vast), dan duikt hij naar die plek: wegbewegen = ontwijken
       BOSS.dive -= dt;
-      const p = 1 - Math.abs(BOSS.dive / 1.6 - 0.5) * 2;       // 0 -> 1 -> 0
-      x = x + (P.x - x) * p; y = y + (P.y - R - y) * p;
-      if (Math.hypot(P.x - x, P.y - y) < R + 16) hitPaddle('Pecked!');
+      if (BOSS.dive > DIVE_SWOOP){ x += Math.sin(BOSS.t * 60) * R * 0.08; y -= (DIVE_T - BOSS.dive) * R * 0.3; }
+      else {
+        const p = 1 - Math.abs(BOSS.dive / DIVE_SWOOP - 0.5) * 2;       // 0 -> 1 -> 0
+        x = x + (BOSS.dvx - x) * p; y = y + (BOSS.dvy - R * 0.6 - y) * p;
+        if (p > 0.55 && Math.abs(P.x - x) < R * 0.55 + padW() * 0.3 && Math.abs(P.y - (y + R * 0.6)) < R * 0.6 + 10) hitPaddle('Pecked!');
+      }
     }
     if (ARENA.on){ x = clamp(x, R * 1.1, W - R * 1.1); y = clamp(y, ARENA.top + R * 1.1, ARENA.bottom - R * 1.5); }
     BOSS.x = x; BOSS.y = y;
@@ -2525,6 +2530,13 @@
   // ---------- Bazen tekenen (pixel-art) ----------
   function drawBoss(cb, z){
     if (!BOSS.on) return;
+    if (BOSS.dive > 0 && !(BOSS.dead > 0) && !(BOSS.escape > 0)){      // doelwit van de duikvlucht
+      const warn = BOSS.dive > DIVE_SWOOP, a = warn ? (Math.sin(BOSS.t * 25) > 0 ? 1 : .5) : .7, rr = padW() * 0.45 + 10;
+      ctx.save(); ctx.strokeStyle = 'rgba(255,40,40,' + a + ')'; ctx.lineWidth = 7; ctx.setLineDash([10, 7]);
+      ctx.beginPath(); ctx.arc(BOSS.dvx, BOSS.dvy - cb, rr, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(BOSS.dvx - rr * 0.5, BOSS.dvy - cb - rr * 0.5); ctx.lineTo(BOSS.dvx + rr * 0.5, BOSS.dvy - cb + rr * 0.5);
+      ctx.moveTo(BOSS.dvx + rr * 0.5, BOSS.dvy - cb - rr * 0.5); ctx.lineTo(BOSS.dvx - rr * 0.5, BOSS.dvy - cb + rr * 0.5); ctx.stroke(); ctx.restore();
+    }
     const R = bossR(), t = BOSS.t, x = BOSS.x, y = BOSS.y - cb, K = '#141018', lv0 = lvlOf(BOSS.k);
     // gevaren achter de baas
     for (const hz of HAZ){
