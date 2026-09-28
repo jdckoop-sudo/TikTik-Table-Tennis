@@ -1756,11 +1756,32 @@
   const rOf = b => ARENA.on && !(b && (b.isSun || b.miniSun || b.isMoon || b.miniMoon)) ? ballR() : rOfN(b);
   const rOfN = b => (b && (b.isSun || b.miniSun)) ? MOON_R() * 0.5 * bigF() : (b && (b.isMoon || b.miniMoon)) ? MOON_R() * bigF() : Math.min(MOON_R() * 0.9, ballR() * ballScale() * (POW.big > 0 ? 4 : 1));
 
+  // punt op de baan van een vliegende ster (u van 0 tot 1)
+  function flyPos(p, u){
+    const dx = p.b.x - p.a.x, dy = p.b.y - p.a.y, L = Math.hypot(dx, dy) || 1, nx = -dy / L, ny = dx / L;
+    let x = p.a.x + dx * u, y = p.a.y + dy * u;
+    if (p.kind === 'arc'){ const o = Math.sin(Math.PI * u) * p.amp; x += nx * o; y += ny * o; }
+    if (p.kind === 'loop'){
+      const th = clamp((u - 0.38) / 0.24, 0, 1) * Math.PI * 2;
+      x += (Math.sin(th) * p.R) * (dx / L) - (1 - Math.cos(th)) * p.R * nx * Math.sign(p.amp);
+      y += (Math.sin(th) * p.R) * (dy / L) - (1 - Math.cos(th)) * p.R * ny * Math.sign(p.amp);
+      const o = Math.sin(Math.PI * u) * p.amp * 0.35; x += nx * o; y += ny * o;
+    }
+    return {x, y};
+  }
   function spawnStar(){
-    if (ARENA.on){      // in de arena: altijd tussen de muren, niet op de baas zijn plek
-      const lo = ARENA.top + H * 0.08, hi = ARENA.bottom - H * 0.2;
-      star = {x:W * (0.12 + Math.random() * 0.76), y:lo + (hi - lo) * (0.35 + Math.random() * 0.6), life:starLife(), max:starLife(), rot:0};
-      blip(1200, .15, .07, 'sine'); return;
+    if (ARENA.on){      // in de arena: een vliegende ster met een baan die je vooraf ziet
+      const top = ARENA.top + H * 0.08, bot = ARENA.bottom - H * 0.15, m = 30;
+      const side = Math.floor(Math.random() * 3);            // 0 = links, 1 = rechts, 2 = boven
+      const ry = () => top + (bot - top) * (0.25 + Math.random() * 0.7), rx = () => W * (0.15 + Math.random() * 0.7);
+      let a, b;
+      if (side === 0){ a = {x:-m, y:ry()}; b = {x:W + m, y:ry()}; }
+      else if (side === 1){ a = {x:W + m, y:ry()}; b = {x:-m, y:ry()}; }
+      else { a = {x:rx(), y:top - m}; b = {x:rx(), y:bot + H * 0.1}; }
+      const kind = pick(['line', 'arc', 'arc', 'loop']);
+      const path = {a, b, kind, amp:(Math.random() < .5 ? -1 : 1) * H * (0.12 + Math.random() * 0.15), R:H * (0.06 + Math.random() * 0.05)};
+      star = {x:a.x, y:a.y, life:1e9, max:1e9, rot:0, fly:path, u:-0.3, dur:4.2 + Math.random() * 1.2};
+      blip(1500, .1, .05, 'sine'); return;
     }
     star = {x:fieldL() + (fieldR() - fieldL()) * (0.1 + Math.random() * 0.8), y:(() => { const lo = Math.max(fieldTop() + 20, cam.top + 60), hi = Math.min(tableY() - 60, cam.cb - 120); return hi > lo ? lo + (hi - lo) * (0.1 + Math.random() * 0.7) : Math.max(fieldTop() + 20, (cam.top + cam.cb) / 2); })(), life:starLife(), max:starLife(), rot:0};
     blip(1200, .15, .07, 'sine');
@@ -2820,7 +2841,7 @@
     }
 
     rainHit(b, r);
-    if (star && !paused && Math.hypot(b.x - star.x, b.y - star.y) < r + starR()){
+    if (star && !paused && !(star.fly && star.u < 0) && Math.hypot(b.x - star.x, b.y - star.y) < r + starR()){
       star = null; starTimer = nextStar(); openChoice(b);
     }
 
@@ -2885,6 +2906,11 @@
     // Ster
     // tijdens een bossfight komen sterren twee keer zo snel
     if (!star){ starTimer -= dt * (ARENA.on ? 2 : 1); if (starTimer <= 0) spawnStar(); }
+    else if (star.fly){
+      star.u += dt / star.dur; star.rot += dt * 3;
+      const q = flyPos(star.fly, clamp(star.u, 0, 1)); star.x = q.x; star.y = q.y;
+      if (star.u >= 1 || !ARENA.on){ star = null; starTimer = nextStar(); }
+    }
     else { star.life -= dt; star.rot += dt * 1.2; if (star.life <= 0){ star = null; starTimer = nextStar(); } }
 
     const f = POW.turbo > 0 ? POW.turboF : 1;
@@ -3284,7 +3310,18 @@
     drawHatStack(cb, z);
     drawRain(cb);
     // ster
-    if (star){
+    if (star && star.fly){
+      // de baan: vooraf helder, tijdens de vlucht vaag
+      const pre = star.u < 0, a0 = pre ? 0.75 : 0.25;
+      ctx.save(); ctx.strokeStyle = `rgba(255,225,74,${a0})`; ctx.lineWidth = 3; ctx.setLineDash([8, 8]); ctx.lineDashOffset = -performance.now() / 40;
+      ctx.beginPath();
+      for (let i = 0; i <= 60; i++){ const q = flyPos(star.fly, i / 60); if (i) ctx.lineTo(q.x, q.y - cb); else ctx.moveTo(q.x, q.y - cb); }
+      ctx.stroke(); ctx.setLineDash([]);
+      if (pre){ const q = flyPos(star.fly, 0.03); ctx.fillStyle = '#ffe14a'; ctx.font = '20px "Press Start 2P", monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        if (Math.sin(performance.now() / 90) > 0) ctx.fillText('!', clamp(q.x, 20, W - 20), q.y - cb); }
+      ctx.restore();
+    }
+    if (star && !(star.fly && star.u < 0)){
       const sty = star.y - cb;
       const blink = star.life < 3 ? (Math.sin(star.life * 18) > 0 ? 1 : 0.35) : 1;
       ctx.save(); ctx.globalAlpha = blink;
@@ -3292,7 +3329,7 @@
       gl.addColorStop(0, 'rgba(255,215,80,.45)'); gl.addColorStop(1, 'rgba(255,215,80,0)');
       ctx.fillStyle = gl; ctx.beginPath(); ctx.arc(star.x, sty, 46, 0, Math.PI * 2); ctx.fill();
       ctx.strokeStyle = 'rgba(255,215,80,.7)'; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.arc(star.x, sty, starR() * 1.5, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (star.life / star.max)); ctx.stroke();
+      if (!star.fly){ ctx.beginPath(); ctx.arc(star.x, sty, starR() * 1.5, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (star.life / star.max)); ctx.stroke(); }
       ctx.translate(star.x, sty); ctx.rotate(star.rot);
       ctx.beginPath();
       for (let k = 0; k < 10; k++){
