@@ -2170,6 +2170,34 @@
     for (let x = fl + ((t * 60) % 24); x < fr; x += 24){ ctx.fillRect(x, top - 3, 8, 6); ctx.fillRect(x, bot - 3, 8, 6); }
     ctx.restore();
   }
+  // Laat duidelijk zien waar je klikt: een vizier op de muis en grijppunten op batjes en portals
+  function drawPointHints(cb, z){
+    if (!ptr.on || menuOpen) return;
+    const q = s2w(ptr.sx, ptr.sy), sc = 1 / Math.max(z, 0.05), t = performance.now() / 1000;
+    const placing = carry && (carry.mode === 'place' || carry.mode === 'pplace');
+    ctx.save();
+    // grijppunten van kaatsbatjes en portals (alleen in de buurt van je muis)
+    if (!ARENA.on && !placing){
+      const near = (x, y) => Math.hypot(x - q.x, y - q.y) < 220 * sc;
+      const grip = (x, y, hot) => {
+        const r = (hot ? 7 : 5) * sc * (1 + 0.15 * Math.sin(t * 6));
+        ctx.fillStyle = '#141018'; ctx.beginPath(); ctx.arc(x, y - cb, r + 2 * sc, 0, Math.PI * 2); ctx.fill();
+        ctx.fillStyle = hot ? '#ffe14a' : 'rgba(255,225,74,.8)'; ctx.beginPath(); ctx.arc(x, y - cb, r, 0, Math.PI * 2); ctx.fill();
+        if (hot){ ctx.strokeStyle = '#ffe14a'; ctx.lineWidth = 2 * sc; ctx.beginPath(); ctx.arc(x, y - cb, r + 7 * sc, 0, Math.PI * 2); ctx.stroke(); }
+      };
+      S.bats.forEach((bt, i) => { const x = bt.x * W, y = bt.y * H; if (near(x, y) || hoverBat === i) grip(x, y, hoverBat === i); });
+      for (const pr of S.portals) for (const end of ['a', 'b']){ const e = endPos(pr, end); if (near(e.x, e.y) || (hoverPortal && hoverPortal.portal === pr && hoverPortal.end === end)) grip(e.x, e.y, !!(hoverPortal && hoverPortal.portal === pr && hoverPortal.end === end)); }
+    }
+    // vizier op de plek van je muis
+    const hot = placing || hoverBat >= 0 || !!hoverPortal;
+    const r = (hot ? 10 : 6) * sc, x = q.x, y = q.y - cb;
+    ctx.strokeStyle = '#141018'; ctx.lineWidth = 4 * sc;
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.moveTo(x - r - 6 * sc, y); ctx.lineTo(x - r + 3 * sc, y); ctx.moveTo(x + r - 3 * sc, y); ctx.lineTo(x + r + 6 * sc, y);
+    ctx.moveTo(x, y - r - 6 * sc); ctx.lineTo(x, y - r + 3 * sc); ctx.moveTo(x, y + r - 3 * sc); ctx.lineTo(x, y + r + 6 * sc); ctx.stroke();
+    ctx.strokeStyle = hot ? '#ffe14a' : 'rgba(255,255,255,.85)'; ctx.lineWidth = 2 * sc; ctx.stroke();
+    ctx.fillStyle = hot ? '#ffe14a' : '#ffffff'; ctx.fillRect(x - 1.5 * sc, y - 1.5 * sc, 3 * sc, 3 * sc);
+    ctx.restore();
+  }
   function drawBossPortrait(cnv, k){
     const saved = ctx, keep = Object.assign({}, BOSS), keepH = [HAZ, BOMBS, DRONES];
     const g2 = cnv.getContext('2d'); g2.setTransform(1, 0, 0, 1, 0, 0); g2.clearRect(0, 0, cnv.width, cnv.height);
@@ -3374,6 +3402,7 @@
     // batje (en tweede batje bij Dual wield)
     drawPaddle(P.x, P.y - cb, P.rot + P.tilt, false);
     for (const m of mates()) drawPaddle(mateX(m), P.y - cb, mateTilt(m), m.mirror, m.who);
+    drawPointHints(cb, z);
 
     // zwevende punten
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
