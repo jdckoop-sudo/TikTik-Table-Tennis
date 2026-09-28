@@ -654,6 +654,7 @@
         <div><dt>Wheel</dt><dd>out: whole building · in: pick a floor</dd></div>
         <div><dt>W / S</dt><dd>floor up / down</dd></div>
         <div><dt>N</dt><dd>new ball</dd></div>
+        <div><dt>A / D</dt><dd>walk your player left / right, on top of the mouse</dd></div>
       </dl>
     </div>
     <div class="stats">
@@ -1133,7 +1134,7 @@
   const etageCost = () => 2000 * Math.pow(3, S.etage) * Math.pow(2, ASC());
   const fieldTop = () => H * (0.45 - 0.05 * Math.min(8, lv('veld'))) - Math.min(S.etage, ETAGE_MAX) * ETAGE_PX();
   const gravity = () => 2.3 * H * Math.pow(0.93, lv('lucht')) * (POW.heavy > 0 ? 3 : 1);
-  const padW = () => ARENA.on ? Math.max(80, Math.min(170, W * 0.15)) * Math.pow(1.12, lv('blad')) : Math.max(S.lv && lv('balgroot') ? ballR() * ballScale() * 2.4 : 0, (S.finale ? 1.6 : 1) * Math.min((fieldR() - fieldL()) * 0.7, Math.max(80, Math.min(170, W * 0.15)) * Math.pow(1.12, lv('blad'))) * (POW.half > 0 ? 0.5 : 1));
+  const padW = () => ARENA.on ? Math.max(80, Math.min(170, W * 0.15)) : Math.max(S.lv && lv('balgroot') ? ballR() * ballScale() * 2.4 : 0, (S.finale ? 1.6 : 1) * Math.min((fieldR() - fieldL()) * 0.7, Math.max(80, Math.min(170, W * 0.15)) * Math.pow(1.12, lv('blad'))) * (POW.half > 0 ? 0.5 : 1));
   const ballR = () => Math.max(8, Math.min(13, Math.min(W, H) * 0.022));
 
   const P = {x:0, y:0, px:0, py:0, tx:0, ty:0, vx:0, vy:0, tilt:0, rot:0, gx:0, gy:0, held:true, locked:false, hover:false};
@@ -1205,6 +1206,25 @@
   }
   const ptr = {sx:0, sy:0, on:false, mid:false};
   // Elke frame opnieuw: muis stil aan de rand = camera schuift door en het batje/voorwerp gaat mee
+  // lopen met A en D (naast de muis): even geen muis-sturing zolang je de toetsen gebruikt
+  const KEYS = {a:false, d:false, t:-1e9, off:0};
+  addEventListener('keydown', e => {
+    if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
+    const k = e.key.toLowerCase();
+    if (k === 'a' || k === 'arrowleft'){ KEYS.a = true; KEYS.t = performance.now(); if (k === 'arrowleft') e.preventDefault(); }
+    if (k === 'd' || k === 'arrowright'){ KEYS.d = true; KEYS.t = performance.now(); if (k === 'arrowright') e.preventDefault(); }
+  });
+  addEventListener('keyup', e => { const k = e.key.toLowerCase(); if (k === 'a' || k === 'arrowleft') KEYS.a = false; if (k === 'd' || k === 'arrowright') KEYS.d = false; });
+  addEventListener('blur', () => { KEYS.a = KEYS.d = false; });
+  // A/D laat je mannetje lopen: hij neemt het batje mee, bovenop wat je met de muis doet.
+  // Zo kun je met muis + lopen samen sneller opzij.
+  function keyWalk(dt){
+    if (!(KEYS.a || KEYS.d) || carry) return;
+    const dir = ((KEYS.d ? 1 : 0) - (KEYS.a ? 1 : 0)) * (POW.flip > 0 ? -1 : 1), d = dir * W * 0.9 * dt;
+    KEYS.off += d; P.tx += d;
+    if (P.tx > W){ KEYS.off -= P.tx - W; P.tx = W; } if (P.tx < 0){ KEYS.off -= P.tx; P.tx = 0; }
+    MAN.walk += dt * 14;
+  }
   function applyPointer(){
     if (!ptr.on || balls.some(b => b.moonshot && !b.hidden)) return;
     const p = s2w(ptr.sx, ptr.sy);
@@ -1215,7 +1235,11 @@
     else if (carry.mode === 'drag' && carry.moved) placeAt(carry.bat, {x:p.x + carry.off.x, y:p.y + carry.off.y});
   }
   function nearPaddle(p){ return Math.abs(p.x - P.x) < padW() / 2 + 34 && Math.abs(p.y - P.y) < 46; }
-  function setTarget(p, off){ P.tx = p.x + off.x; P.ty = p.y + off.y; }
+  function setTarget(p, off){
+    P.tx = p.x + off.x + KEYS.off; P.ty = p.y + off.y;
+    // lopen houdt het batje binnen het veld
+    if (P.tx > W){ KEYS.off -= P.tx - W; P.tx = W; } if (P.tx < 0){ KEYS.off -= P.tx; P.tx = 0; }
+  }
 
   function batAt(p){
     if (ARENA.on) return -1;
@@ -1733,6 +1757,11 @@
   const rOfN = b => (b && (b.isSun || b.miniSun)) ? MOON_R() * 0.5 * bigF() : (b && (b.isMoon || b.miniMoon)) ? MOON_R() * bigF() : Math.min(MOON_R() * 0.9, ballR() * ballScale() * (POW.big > 0 ? 4 : 1));
 
   function spawnStar(){
+    if (ARENA.on){      // in de arena: altijd tussen de muren, niet op de baas zijn plek
+      const lo = ARENA.top + H * 0.08, hi = ARENA.bottom - H * 0.2;
+      star = {x:W * (0.12 + Math.random() * 0.76), y:lo + (hi - lo) * (0.35 + Math.random() * 0.6), life:starLife(), max:starLife(), rot:0};
+      blip(1200, .15, .07, 'sine'); return;
+    }
     star = {x:fieldL() + (fieldR() - fieldL()) * (0.1 + Math.random() * 0.8), y:(() => { const lo = Math.max(fieldTop() + 20, cam.top + 60), hi = Math.min(tableY() - 60, cam.cb - 120); return hi > lo ? lo + (hi - lo) * (0.1 + Math.random() * 0.7) : Math.max(fieldTop() + 20, (cam.top + cam.cb) / 2); })(), life:starLife(), max:starLife(), rot:0};
     blip(1200, .15, .07, 'sine');
   }
@@ -2782,6 +2811,7 @@
 
   function step(dt){
     S.runTime = (S.runTime || 0) + dt;
+    keyWalk(dt);
     MATES = mates();
     // Batje volgt de muis
     P.px = P.x; P.py = P.y;
@@ -2825,7 +2855,8 @@
     }
 
     // Ster
-    if (!star){ if (!ARENA.on){ starTimer -= dt; if (starTimer <= 0) spawnStar(); } }
+    // tijdens een bossfight komen sterren twee keer zo snel
+    if (!star){ starTimer -= dt * (ARENA.on ? 2 : 1); if (starTimer <= 0) spawnStar(); }
     else { star.life -= dt; star.rot += dt * 1.2; if (star.life <= 0){ star = null; starTimer = nextStar(); } }
 
     const f = POW.turbo > 0 ? POW.turboF : 1;
