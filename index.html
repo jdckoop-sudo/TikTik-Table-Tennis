@@ -243,6 +243,15 @@
   .bossgo{all:unset;position:absolute;top:92px;left:50%;transform:translateX(-50%);z-index:7;cursor:pointer;font-family:var(--px);font-size:10px;padding:10px 14px;color:#fff;
     background:linear-gradient(#ff5a5a,#d8262b 55%,#8a1015);border:3px solid #000;box-shadow:inset 2px 2px 0 #ff9a9a,3px 3px 0 rgba(0,0,0,.5);text-shadow:2px 2px 0 #000;animation:bossPulse .8s ease-in-out infinite;white-space:nowrap}
   .bossgo[hidden]{display:none}
+  .presthud{all:unset;position:absolute;right:14px;top:132px;z-index:7;cursor:pointer;display:flex;align-items:center;gap:8px;padding:8px 10px;
+    font-family:var(--px);font-size:8px;line-height:1.5;color:#fff;background:rgba(7,11,51,.85);border:2px solid var(--ps-line);box-shadow:3px 3px 0 rgba(0,0,0,.5);max-width:220px}
+  .presthud[hidden]{display:none}
+  .presthud svg{width:22px;height:22px;flex:none;color:var(--ps-yellow)}
+  .presthud .ph-bar{display:block;height:6px;background:#1a1f4a;border:1px solid #000;margin-top:4px}
+  .presthud .ph-bar i{display:block;height:100%;background:#ffc21a}
+  .presthud.ready{background:linear-gradient(#fff08a,#ffc21a 55%,#f08a0c);color:#2a1300;border-color:#000;font-size:10px;animation:bossPulse2 .8s ease-in-out infinite;text-shadow:none}
+  .presthud.ready svg{color:#2a1300}
+  .presthud.armed{background:#d8262b;color:#fff}
   .lifebar{position:absolute;left:50%;bottom:72px;transform:translateX(-50%);z-index:7;display:flex;gap:10px;align-items:center;pointer-events:none;
     padding:6px 14px;background:rgba(10,0,5,.65);border:3px solid #ff3d4d;box-shadow:3px 3px 0 #000}
   .lifebar[hidden]{display:none}
@@ -571,6 +580,7 @@
       <div class="bb-track"><div class="bb-fill" id="bbFill"></div></div>
     </div>
     <button class="bossgo" id="bossGo" type="button" hidden>FIGHT</button>
+    <button class="presthud" id="prestHud" type="button" hidden></button>
     <div class="lifebar" id="lifeBar" hidden aria-label="Lives"></div>
     <div class="bossintro" id="bossIntro" hidden>
       <div class="bi-stripes"></div>
@@ -1221,8 +1231,8 @@
   function keyWalk(dt){
     if (!(KEYS.a || KEYS.d) || carry) return;
     const dir = ((KEYS.d ? 1 : 0) - (KEYS.a ? 1 : 0)) * (POW.flip > 0 ? -1 : 1), d = dir * W * 0.9 * dt;
-    KEYS.off += d; P.tx += d;
-    if (P.tx > W){ KEYS.off -= P.tx - W; P.tx = W; } if (P.tx < 0){ KEYS.off -= P.tx; P.tx = 0; }
+    const before = P.tx; P.tx = clamp(P.tx + d, 0, W);
+    KEYS.off = clamp(KEYS.off + (P.tx - before), -W, W);
     MAN.walk += dt * 14;
   }
   function applyPointer(){
@@ -1236,9 +1246,8 @@
   }
   function nearPaddle(p){ return Math.abs(p.x - P.x) < padW() / 2 + 34 && Math.abs(p.y - P.y) < 46; }
   function setTarget(p, off){
-    P.tx = p.x + off.x + KEYS.off; P.ty = p.y + off.y;
-    // lopen houdt het batje binnen het veld
-    if (P.tx > W){ KEYS.off -= P.tx - W; P.tx = W; } if (P.tx < 0){ KEYS.off -= P.tx; P.tx = 0; }
+    // de muis verandert het loop-stuk (A/D) nooit, ook niet als hij buiten het veld komt
+    P.tx = clamp(p.x + off.x + KEYS.off, 0, W); P.ty = p.y + off.y;
   }
 
   function batAt(p){
@@ -1360,6 +1369,7 @@
     updateHint();
   });
   cv.addEventListener('pointermove', e => {
+    if (e.buttons === 0 && (rotHold || (carry && carry.mode !== 'place' && carry.mode !== 'pplace'))) releaseStuck();
     const p = pos(e);
     if (carry){
       if (carry.mode === 'place') placeAt(carry.bat, p);
@@ -1412,7 +1422,22 @@
   }
   cv.addEventListener('pointerup', endPointer);
   cv.addEventListener('pointercancel', endPointer);
-  cv.addEventListener('pointerleave', () => { ptr.on = false; hoverBat = -1; hoverHandle = false; hoverPortal = null; updateCursor(); });
+  cv.addEventListener('pointerleave', e => {
+    // snel het scherm uit? zet het batje op de rand waar je muis eruit ging (niet halverwege blijven hangen)
+    if (!carry && !rotHold && !balls.some(b => b.moonshot && !b.hidden)){
+      const r = cv.getBoundingClientRect(), sx = clamp(e.clientX - r.left, 0, r.width), sy = clamp(e.clientY - r.top, 0, r.height);
+      ptr.sx = sx; ptr.sy = sy; setTarget(s2w(sx, sy), {x:0, y:0});
+    }
+    ptr.on = false; hoverBat = -1; hoverHandle = false; hoverPortal = null; updateCursor(); });
+  // muisknop buiten het veld losgelaten (menu, taakbalk, ander venster): draaien/slepen netjes stoppen
+  function releaseStuck(){
+    rotHold = null;
+    if (carry && carry.mode !== 'place' && carry.mode !== 'pplace'){ carry = null; updateCursor(); updateHint(); }
+  }
+  addEventListener('pointerup', e => { if (e.target !== cv) releaseStuck(); });
+  addEventListener('blur', releaseStuck);
+  cv.addEventListener('lostpointercapture', () => { if (carry && carry.mode === 'mrot') releaseStuck(); });
+  cv.addEventListener('pointerenter', e => { if (e.buttons === 0) releaseStuck(); });
 
   function rotateTarget(){ return carry ? (carry.bat || null) : (hoverBat >= 0 ? S.bats[hoverBat] : (sel >= 0 ? S.bats[sel] || null : null)); }
   function rotateStep(bt, deg){ bt.flip = false; rotateBat(bt, deg); }
@@ -2836,7 +2861,12 @@
 
     if (b.bossCd > 0) b.bossCd -= h;
     bossHit(b, r);
-    if (!S.finale && moonCollide(b, r) === 'end') return;
+    // voor de bovenste verdieping kan een bal de maan niet bereiken: er zit een onzichtbaar plafond ver eronder
+    if (!S.finale && S.etage < ETAGE_MAX && !b.isMoon && !b.isSun){
+      const cy = moonPos().y + MOON_R() + H * 3;
+      if (b.y - r < cy){ b.y = cy + r; b.vy = Math.abs(b.vy) * 0.4; b.moonshot = false; }
+    }
+    if (!S.finale && S.etage >= ETAGE_MAX && moonCollide(b, r) === 'end') return;
     if (b.isMoon && b.toSun){
       const sp = sunPos();
       if (Math.hypot(b.x - sp.x, b.y - sp.y) < r + SUN_R()){ startSunFall(b); return; }
@@ -2885,7 +2915,7 @@
     const tiltTarget = clamp(P.vx / (H * 12), -0.12, 0.12);
     P.tilt += (tiltTarget - P.tilt) * Math.min(1, dt * 14);
     // arm: schouder loopt achter je batje aan, en snel bewegen laat de arm wiebelen
-    ARM.sx += (P.x - ARM.sx) * Math.min(1, dt * 2.5);
+    ARM.sx += (P.x - ARM.sx) * Math.min(1, dt * 4);
     MAN.walk += Math.abs(ARM.sx - MAN.lastX) / (H * 0.025); MAN.lastX = ARM.sx;
     const aspd = Math.hypot(P.vx, P.vy) / H;
     ARM.amp = Math.max(ARM.amp * Math.exp(-dt * 4), Math.min(0.6, aspd * 0.2));
@@ -3800,7 +3830,7 @@
     return {x:x + lx * Math.cos(tilt) - ly * Math.sin(tilt), y:y + lx * Math.sin(tilt) + ly * Math.cos(tilt)};
   }
   // Het mannetje: staat vóór de tafel (je ziet hem op de rug) en houdt de arm vast
-  function manPos(x){ return {x:clamp(x, W * 0.08, W * 0.92), feet:H * 1.04}; }
+  function manPos(x){ return {x:clamp(x, W * 0.03, W * 0.97), feet:H * 1.04}; }
   // Bij Dual wield staan jij en je maatje naast elkaar in plaats van over elkaar heen.
   // Zijn de batjes dicht bij elkaar, dan schuiven de mannetjes uit elkaar; ze wisselen pas van kant
   // als de batjes duidelijk gekruist zijn, en ze lopen er soepel heen.
@@ -4607,7 +4637,34 @@
     $('prestToggle').setAttribute('aria-expanded', c ? 'false' : 'true');
     $('prestArrow').textContent = c ? '▼' : '▲';
   });
+  // Knop in beeld: laat zien hoe ver je bent met de volgende verdieping, en wordt een grote gouden knop als je kunt bouwen
+  let prestHudArm = null;
+  function renderPrestHud(){
+    const el = $('prestHud');
+    const top = S.etage >= ETAGE_MAX, asc = top && S.won;
+    if (BOSS.on || S.finale || (top && !asc)){ el.hidden = true; return; }
+    el.hidden = false;
+    const reqs = [lv('veld') >= veldNeed(), bossDown(S.etage), S.pts >= etageCost()];
+    const done = reqs.filter(Boolean).length, ready = asc || prestReady();
+    el.className = 'presthud' + (prestHudArm ? ' armed' : ready ? ' ready' : '');
+    const label = asc ? `ASCEND TO NEW GAME+ ${ASC() + 1}` : ready ? `BUILD FLOOR ${S.etage + 1}! +${trophyGain()} trophies` : `Next: floor ${S.etage + 1}<span class="ph-bar"><i style="width:${Math.round(100 * done / 3)}%"></i></span>${done}/3 done · tap for details`;
+    const html = svg('tower') + '<span>' + (prestHudArm ? 'SURE? CLICK AGAIN' : label) + '</span>';
+    if (el._h !== html){ el._h = html; el.innerHTML = html; }
+  }
+  $('prestHud').addEventListener('click', () => {
+    const asc = S.etage >= ETAGE_MAX && S.won;
+    if (!(asc || prestReady())){
+      // nog niet klaar: open de uitleg in het paneel
+      $('prest').classList.remove('collapsed'); $('prestToggle').setAttribute('aria-expanded', 'true'); $('prestArrow').textContent = '▲';
+      $('prest').scrollIntoView({behavior:'smooth', block:'nearest'}); return;
+    }
+    if (!prestHudArm){ prestHudArm = setTimeout(() => { prestHudArm = null; renderPrestHud(); }, 3000); renderPrestHud(); return; }
+    clearTimeout(prestHudArm); prestHudArm = null;
+    if (asc) doAscend(); else doPrestige();
+    renderPrestHud();
+  });
   function renderPrest(){
+    renderPrestHud();
     const hallM = altAt(fieldTop());
     $('prestNow').textContent = `Floor ${S.etage} · points x${fmtX(presMult())} · upgrades cost x${fmtX(costScale(S.etage))} · ${S.trophies} trophies`;
     const nextX = fmtX(presMultAt(S.etage + 1) * (1 + 0.2 * legLv('pts'))), gain = trophyGain();
