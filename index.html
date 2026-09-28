@@ -486,14 +486,16 @@
   .mcell.win{border-color:#fff;box-shadow:0 0 10px #fff}
   .mini-mark{position:absolute;left:50%;top:0;bottom:0;width:2px;margin-left:-1px;background:#ffd23f}
   .mini-res{font-family:var(--vt);font-size:18px;color:#fff;margin-top:4px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-shadow:1px 1px 0 #000}
-  .unlock{position:absolute;left:50%;top:34%;transform:translateX(-50%);z-index:9;display:flex;align-items:center;gap:12px;padding:12px 18px 12px 12px;pointer-events:none;
-    background:linear-gradient(180deg,#2536b8,#0d1560);border:4px solid #ffe14a;box-shadow:5px 5px 0 #000,0 0 30px rgba(255,225,74,.5);animation:unlIn .45s cubic-bezier(.2,1.6,.4,1)}
+  .unlock{position:absolute;left:8px;top:176px;z-index:9;display:flex;align-items:center;gap:8px;padding:6px 10px 6px 6px;pointer-events:none;max-width:260px;opacity:.93;
+    background:linear-gradient(180deg,#2536b8,#0d1560);border:3px solid #ffe14a;box-shadow:3px 3px 0 #000;animation:unlIn .35s cubic-bezier(.2,1.4,.4,1)}
   .unlock[hidden]{display:none}
-  .unlock canvas{width:84px;height:84px;image-rendering:pixelated;background:#0a0f3c;border:2px solid #000;flex:none}
-  .u-k{font-family:var(--px);font-size:9px;color:#ffe14a;text-shadow:2px 2px 0 #000}
-  .u-n{font-family:var(--px);font-size:15px;color:#fff;margin:8px 0 6px;text-shadow:3px 3px 0 #000}
-  .u-s{font-family:var(--vt);font-size:19px;color:#cfd6ff}
-  @keyframes unlIn{from{transform:translateX(-50%) scale(.3) rotate(-6deg);opacity:0}to{transform:translateX(-50%) scale(1) rotate(0);opacity:1}}
+  .unlock canvas{width:46px;height:46px;image-rendering:pixelated;background:#0a0f3c;border:2px solid #000;flex:none}
+  .u-k{font-family:var(--px);font-size:7px;color:#ffe14a;text-shadow:2px 2px 0 #000}
+  .u-n{font-family:var(--px);font-size:10px;color:#fff;margin:4px 0 3px;text-shadow:2px 2px 0 #000;overflow-wrap:anywhere}
+  .u-s{font-family:var(--vt);font-size:15px;color:#cfd6ff;line-height:1.05}
+  .u-w{pointer-events:auto;margin-top:5px;font-family:var(--px);font-size:8px;padding:5px 8px;background:#ffe14a;color:#1a0a2a;border:2px solid #000;box-shadow:2px 2px 0 #000;cursor:pointer}
+  .u-w[hidden]{display:none}
+  @keyframes unlIn{from{transform:translateX(-120%);opacity:0}to{transform:translateX(0);opacity:.93}}
   .viewbar{display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:#070b33;border:2px solid var(--ps-line);padding:6px}
   .vb-l{font-family:var(--px);font-size:8px;color:var(--ps-yellow);margin-right:2px}
   .viewbar .lift{position:static;flex-direction:row;flex-wrap:wrap;gap:4px;overflow:visible;flex:1;min-width:0}
@@ -545,6 +547,25 @@
     .stage{height:64vh;min-height:360px}
     .panel{overflow:visible}
   }
+  /* voortgang (maan, baas, sterregen) links onder de punten: bovenin blijft vrij om je bal te volgen */
+  .leftcol{position:absolute;left:14px;top:128px;width:230px;display:flex;flex-direction:column;align-items:flex-start;gap:7px;z-index:6;pointer-events:none}
+  .leftcol > *{position:static !important;left:auto !important;right:auto !important;top:auto !important;bottom:auto !important}
+  .leftcol .moondist,.leftcol .bossbar{transform:none}
+  .leftcol .showerbar{width:190px}
+  .leftcol .bossbar{width:230px}
+  .leftcol .bb-top{flex-wrap:wrap;gap:2px 8px}
+  .leftcol .bb-info{font-size:15px}
+  .leftcol .unlock{animation:unlIn .35s cubic-bezier(.2,1.4,.4,1);max-width:230px;box-sizing:border-box}
+  .leftcol .moondist{white-space:normal;font-size:16px;line-height:1.05;max-width:230px;padding:2px 8px;box-sizing:border-box}
+  .leftcol .bossgo{pointer-events:auto;font-size:9px;padding:8px 10px;animation:bossPulse2 .8s ease-in-out infinite;transform-origin:left center}
+  .leftcol .powers{width:230px}
+  .leftcol [hidden]{display:none}
+  /* verdiepingen als liftknoppen rechts in beeld, klein zodat je batje er zo min mogelijk last van heeft */
+  .stage > .lift{position:absolute;right:10px;top:auto;bottom:70px;max-height:calc(100% - 330px);width:auto;gap:3px;z-index:7;opacity:.85}
+  .stage > .lift button{width:34px;padding:6px 0;font-size:8px}
+  .stage > .lift button.all{font-size:6px;padding:8px 0}
+  .keysbox{margin-top:10px;background:#070b33;border:2px solid var(--ps-line);padding:8px}
+  .keysbox h2{margin:0 0 6px;font-family:var(--px);font-size:9px;color:var(--ps-yellow)}
 </style>
 <style>html,body{margin:0}</style>
 </head>
@@ -553,7 +574,6 @@
 
 <div class="app">
   <div class="stage" id="stage">
-    <div class="unlock" id="unlockBox" hidden><canvas id="unlockCv" width="84" height="84"></canvas><div><div class="u-k" id="unlockK">UNLOCKED!</div><div class="u-n" id="unlockN"></div><div class="u-s" id="unlockS"></div></div></div>
     <canvas id="cv" aria-label="Playing field: keep the ping pong ball up with your paddle"></canvas>
     <canvas id="lc" aria-hidden="true"></canvas>
     <div class="hud">
@@ -570,7 +590,7 @@
     </div>
     <div class="hint" id="hint"></div>
     <div class="hcbadge" id="hcBadge" hidden>HARDCORE</div>
-    <div class="moondist" id="moondist" aria-live="off"></div>
+    <div class="leftcol" id="leftcol">
     <div class="showerbar" id="showerbar">
       <span class="sb-ic" id="sbIc"></span>
       <div class="sb-main"><div class="sb-lbl" id="sbLbl"></div><div class="sb-track"><div class="sb-fill" id="sbFill"></div></div></div>
@@ -579,8 +599,13 @@
       <div class="bb-top"><span class="bb-name" id="bbName"></span><span class="bb-info" id="bbInfo"></span></div>
       <div class="bb-track"><div class="bb-fill" id="bbFill"></div></div>
     </div>
+    <div class="moondist" id="moondist" aria-live="off"></div>
     <button class="bossgo" id="bossGo" type="button" hidden>FIGHT</button>
+    <div class="powers" id="powers" aria-live="polite"></div>
+    <div class="unlock" id="unlockBox" hidden><canvas id="unlockCv" width="84" height="84"></canvas><div><div class="u-k" id="unlockK">UNLOCKED!</div><div class="u-n" id="unlockN"></div><div class="u-s" id="unlockS"></div><button type="button" class="u-w" id="unlockWear" hidden>WEAR NOW</button></div></div>
+    </div>
     <button class="presthud" id="prestHud" type="button" hidden></button>
+    <div class="lift" id="lift" aria-label="Floors"></div>
     <div class="lifebar" id="lifeBar" hidden aria-label="Lives"></div>
     <div class="bossintro" id="bossIntro" hidden>
       <div class="bi-stripes"></div>
@@ -593,7 +618,6 @@
         <div class="bi-btns"><button class="btn res-go" id="biGo" type="button">FIGHT!</button><button class="btn" id="biLater" type="button">Not yet</button></div>
       </div>
     </div>
-    <div class="powers" id="powers" aria-live="polite"></div>
     <div class="choice" id="ending" hidden>
       <div class="choice-box end-box" role="dialog" aria-labelledby="endTitle">
         <span class="end-ic" id="endIc"></span>
@@ -650,22 +674,11 @@
   <aside class="panel">
     <!-- verdiepingknoppen en nieuwe bal staan hier, zodat ze je batje in het veld niet in de weg zitten -->
     <div class="viewbar">
-      <span class="vb-l">View</span>
-      <div class="lift" id="lift" aria-label="Floors"></div>
       <button class="newball" id="newBall" type="button" title="Remove all balls and drop a fresh one (N)">New ball (N)</button>
     </div>
     <div class="panel-head">
       <h1>Tik Tik Table Tennis</h1>
       <p class="sub">Keep the ball in the air. Every hit scores points, and a long streak makes each hit worth more. Hit golden stars with the ball to get a power.</p>
-      <dl class="keys">
-        <div><dt>Mouse</dt><dd>move paddle</dd></div>
-        <div><dt>Left / right click</dt><dd>tilt paddle</dd></div>
-        <div><dt>R</dt><dd>level paddle</dd></div>
-        <div><dt>Wheel</dt><dd>out: whole building · in: pick a floor</dd></div>
-        <div><dt>W / S</dt><dd>floor up / down</dd></div>
-        <div><dt>N</dt><dd>new ball</dd></div>
-        <div><dt>A / D</dt><dd>walk your player left / right, on top of the mouse</dd></div>
-      </dl>
     </div>
     <div class="stats">
       <div class="stat"><div class="k">Record</div><div class="v" id="best">0</div></div>
@@ -729,6 +742,17 @@
         <button class="btn" id="devUnlock" type="button">Unlock all progress</button>
         <button class="btn danger" id="devWipe" type="button">Wipe all progress</button>
       </div>
+    </div>
+    <div class="keysbox"><h2>Controls</h2>
+      <dl class="keys">
+        <div><dt>Mouse</dt><dd>move paddle</dd></div>
+        <div><dt>Left / right click</dt><dd>tilt paddle</dd></div>
+        <div><dt>R</dt><dd>level paddle</dd></div>
+        <div><dt>Wheel</dt><dd>out: whole building · in: pick a floor</dd></div>
+        <div><dt>W / S</dt><dd>floor up / down</dd></div>
+        <div><dt>N</dt><dd>new ball</dd></div>
+        <div><dt>A / D</dt><dd>walk your player left / right, on top of the mouse</dd></div>
+      </dl>
     </div>
     <div class="foot">
       <button class="btn" id="openMenu" type="button">Menu (Esc)</button>
@@ -1106,10 +1130,13 @@
   // ongeveer x3, zodat de maan (384.400 km) op zo'n 18 schermen boven de tafel staat.
   const ETAGE_MAX = 6, SPACE_M = 100000, MOON_M = 384400e3;
   const HALL_PX = () => H * 0.9;
-  const altAt = y => { const u = tableY() - y; return u <= HALL_PX() ? u / (HALL_PX() / 2.5) : 2.5 * Math.exp((u - HALL_PX()) / HALL_PX()); };
-  const yAt = m => tableY() - (m <= 2.5 ? m * HALL_PX() / 2.5 : HALL_PX() + HALL_PX() * Math.log(m / 2.5));
+  // boven de hal groeit de hoogte exponentieel; SKY_PX zo gekozen dat de maan ~1 scherm boven de bovenste verdieping staat
+  const SKY_PX = () => HALL_PX() * 0.351;
+  const altAt = y => { const u = tableY() - y; return u <= HALL_PX() ? u / (HALL_PX() / 2.5) : 2.5 * Math.exp((u - HALL_PX()) / SKY_PX()); };
+  const yAt = m => tableY() - (m <= 2.5 ? m * HALL_PX() / 2.5 : HALL_PX() + SKY_PX() * Math.log(m / 2.5));
   // Elke verdieping tilt het plafond ~1,08 scherm omhoog: 8 m, 900 m, 370 km ... verdieping 15 = 150.000 km
-  const ETAGE_PX = () => (H * 17.0 - H * 0.85) / ETAGE_MAX;
+  // elke verdieping is net zo hoog als de hal (zelfde vorm in beeld)
+  const ETAGE_PX = () => H * 0.85;
   // puntenvermenigvuldiger per verdieping groeit steeds sneller: x3.4, x6.6, x10.6 ... x27 op verdieping 6
   const presMultAt = e => Math.round((1 + 2 * e + 0.4 * e * e) * 10) / 10;
   const ASC = () => S.asc || 0;
@@ -1501,10 +1528,10 @@
   const curView = () => S.view === 'all' ? 'all' : clamp(S.view == null ? S.etage : S.view | 0, 0, S.etage);
   function viewTarget(){
     const v = curView();
-    if (v === 'all') return {z:Math.min(1, H / (H - fieldTop() + H * 0.1)), cb:H};
+    if (v === 'all') return {z:Math.min(1, H / (H - fieldTop() + H * 0.3)), cb:H};
     if (v === 0) return {z:1, cb:H};
-    const E = ETAGE_PX(), z = H / (E + H * 0.14);
-    return {z, cb:floorBottom(v) + H * 0.07 / z};
+    const E = ETAGE_PX(), z = H / (E + H * 0.34);      // ~een kwart scherm lucht boven de gouden streep
+    return {z, cb:floorBottom(v) + H * 0.08 / z};
   }
   function floorAt(y){
     if (y >= hallTop()) return 0;
@@ -1552,7 +1579,7 @@
     if (cam.wasShot){ cam.wasShot = false; cam.recover = true; }
     const t = viewTarget();
     // Hoge bal boven je verdieping: uitzoomen (onderkant blijft staan) tot de bal weer in beeld is
-    if (curView() !== 'all'){
+    {      // ook in het overzicht (ALL): gaat de bal boven het gebouw uit, dan zoomt de camera verder uit
       const top = t.cb - H / t.z;
       let minY = Infinity;
       for (const b of balls) if (!b.hidden && !b.temp && b.y < top + 30) minY = Math.min(minY, b.y - rOf(b) - 50);
@@ -2473,7 +2500,7 @@
     BOSS.hp = 0; BOSS.dead = 1.2; BOMBS = []; HAZ = []; DRONES = [];
     S.bossDown[k] = true; endArena();
     HS.pending = (HS.pending || 0) + 1;     // elke verslagen baas = gratis hoedjes-spin
-    { const bh = HAT['boss' + k]; if (bh && !META.hats[bh.id]){ META.hats[bh.id] = 1; saveMeta(); setTimeout(() => showUnlock('hat', bh, 'Boss hat! Wear it in the Style tab'), 1200); } }
+    { const bh = HAT['boss' + k]; if (bh && !META.hats[bh.id]){ META.hats[bh.id] = 1; saveMeta(); setTimeout(() => showUnlock('hat', bh, 'Boss hat!'), 1200); } }
     setTimeout(() => floaters.push({x:W / 2, y:H * 0.3, txt:'Free hat spin!', age:-0.3, big:true, col:'#ffe14a'}), 900);
     [523, 659, 784, 1047, 1319].forEach((f, i) => tone(f, 0.2, 0.09, 'square', 0.3 + i * 0.1));
     if (!S.dev && !META.flags['boss' + k]){
@@ -2694,13 +2721,15 @@
   // Hoogtebonus: hoe hoger de bal komt, hoe meer punten op het hoogste punt (nieuw record = x3)
   const HB = [[1.6, 'High!', '#ffbe5a'], [5, 'Very high!', '#ffe14a'], [40, 'SKY HIGH!', '#7dffb0'], [1000, 'INTO THE CLOUDS!', '#7dd3ff'], [1e5, 'SPACE SHOT!', '#c9a0ff'], [1e7, 'MOON LEVEL!', '#ffffff']];
   // alleen als de bal boven het deel komt waar je batje kan komen (de bovenkant van je vrijgespeelde veld)
+  // bonus rekent met de oude (tragere) hoogteschaal, zodat hij per pixel even groot blijft als vroeger
+  function altOld(m){ const u = tableY() - yAt(m); return u <= HALL_PX() ? u / (HALL_PX() / 2.5) : 2.5 * Math.exp((u - HALL_PX()) / HALL_PX()); }
   function heightBonus(b, m, r, rec){
     if (S.sunMode && b.isSun && SUN.crash > 0) return;
     if (b.y + r >= fieldTop()) return;
     const top = Math.max(0.5, altAt(fieldTop()));
     if (m <= top) return;
     let tier = 0; for (let k = 0; k < HB.length; k++) if (m >= HB[k][0]) tier = k;
-    const f = 2.5 * Math.pow(m / top, 0.7) * (1 + 0.4 * lv('hoogte')) * (1 + 0.5 * legLv('sky')) * (rec ? 3 : 1);
+    const f = 2.5 * Math.pow(altOld(m) / altOld(top), 0.7) * (1 + 0.4 * lv('hoogte')) * (1 + 0.5 * legLv('sky')) * (rec ? 3 : 1);
     const v = hitValue() * mult() * presMult() * f * (POW.gold > 0 ? POW.goldF : 1);
     S.pts += v; S.total += v;
     floaters.push({x:b.x, y:b.y + r + 45 / Math.max(cam.z, 0.05), txt:HB[tier][1] + ' +' + fmt(v) + (rec ? ' RECORD x3' : ''), age:-0.3, big:true, col:HB[tier][2]});
@@ -2875,7 +2904,7 @@
     bossHit(b, r);
     // voor de bovenste verdieping kan een bal de maan niet bereiken: er zit een onzichtbaar plafond ver eronder
     if (!S.finale && S.etage < ETAGE_MAX && !b.isMoon && !b.isSun){
-      const cy = moonPos().y + MOON_R() + H * 3;
+      const cy = moonPos().y + MOON_R() + H * 0.5;
       if (b.y - r < cy){ b.y = cy + r; b.vy = Math.abs(b.vy) * 0.4; b.moonshot = false; }
     }
     if (!S.finale && S.etage >= ETAGE_MAX && moonCollide(b, r) === 'end') return;
@@ -3220,9 +3249,10 @@
     // hoogtestrepen als de camera uitzoomt
     // In het overzicht (hele gebouw) laten we alle strepen en bordjes weg: alleen verdiepingen en je record
     const overview = curView() === 'all';
-    if ((z < 0.98 || cb < H - 5) && !overview){
-      ctx.fillStyle = `rgba(234,242,252,${Math.min(0.12, (1 - z))})`;
-      ctx.fillRect(-1 / z, camTop, 1 / z, ty - camTop); ctx.fillRect(W, camTop, 1 / z, ty - camTop);
+    if (z < 0.98 || cb < H - 5){      // zijlijnen: tot hier kan je batje links en rechts
+      const lw = (overview ? 2 : 1.5) / z;
+      ctx.fillStyle = `rgba(234,242,252,${overview ? 0.35 : Math.min(0.25, (1 - z) * 2)})`;
+      ctx.fillRect(-lw, camTop, lw, ty - camTop); ctx.fillRect(W, camTop, lw, ty - camTop);
     }
     if (z < 0.98 || cb < H - 5){
       const a = Math.max(0.6, Math.min(1, (1 - z) * 5));
@@ -3233,7 +3263,7 @@
         if (y < camTop || y > cb) continue;
         ctx.fillStyle = `rgba(234,242,252,${0.12 * a})`; ctx.fillRect(0, y, W, 1 / z);
         ctx.fillStyle = `rgba(234,242,252,${0.55 * a})`;
-        { const q = toS(0, y); lbl(m >= 1000 ? (m / 1000).toLocaleString('en-US') + ' km' : m + ' m', Math.max(12, q.x + 8), q.y - 3); }
+        { const q = toS(0, y); lbl(m >= 1000 ? (m / 1000).toLocaleString('en-US') + ' km' : m + ' m', Math.max(Math.min(258, W * 0.35), q.x + 8), q.y - 3); }
       }
       // bekende hoogtes
       if (!overview) for (const [m, label, col] of LANDMARKS){
@@ -4553,6 +4583,7 @@
       $('unlockK').textContent = k === 'hat' ? 'BOSS HAT UNLOCKED!' : k === 'pending' ? 'NEW PLAYER FOUND!' : k === 'player' ? 'NEW PLAYER UNLOCKED!' : k === 'paddle' ? 'NEW PADDLE UNLOCKED!' : k === 'ball' ? 'NEW BALL UNLOCKED!' : 'UNLOCKED!';
       $('unlockN').textContent = k === 'pending' ? '???' : x.name;
       $('unlockS').textContent = sb || 'Pick it in the Style tab';
+      const wb = $('unlockWear'); UNL.hat = k === 'hat' && !(META.hatOn || []).includes(x.id) ? x.id : null; wb.hidden = !UNL.hat; wb.textContent = 'WEAR NOW';
       const box = $('unlockBox'); box.hidden = true; void box.offsetWidth; box.hidden = false;
       if (k === 'hat') hatThumb($('unlockCv'), x, 84); else preview($('unlockCv'), () => {
         if (k === 'player' || k === 'pending'){ const keep = S.skin.char, d = S.dev; S.skin.char = x.id; S.dev = true;
@@ -4563,10 +4594,16 @@
         else if (x.icon){ ctx.save(); ctx.translate(18, 18); ctx.scale(2, 2); ctx.strokeStyle = '#ff6b6b'; ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.stroke(new Path2D(x.icon)); ctx.restore(); }
       });
       [659, 784, 988, 1319].forEach((f, i) => tone(f, 0.16, 0.08, 'square', i * 0.08)); tone(1319, 0.5, 0.06, 'triangle', 0.34);
-      setTimeout(next, 3000);
+      setTimeout(next, UNL.hat ? 7000 : 3000);
     };
     next();
   }
+  $('unlockWear').addEventListener('pointerdown', e => e.stopPropagation());
+  $('unlockWear').addEventListener('click', e => {
+    e.stopPropagation(); if (!UNL.hat) return;
+    wearHat(UNL.hat, true); UNL.hat = null; const wb = $('unlockWear'); wb.textContent = 'WEARING IT!'; setTimeout(() => { wb.hidden = true; }, 700);
+    blip(1200, .1, .08, 'square'); if (S.tab === 'style') renderSkins();
+  });
   // ---------- Legacy-tab ----------
   let legKey = '';
   function renderLegacy(){
@@ -4896,7 +4933,12 @@
     S.bossDown[S.etage] = true; S.etage = Math.min(ETAGE_MAX, S.etage + 1); S.view = S.etage; setView(S.etage); devMsg('Floor ' + S.etage); save(); renderPanel();
   });
   $('devShower').addEventListener('click', () => { startShower(); devMsg('Star shower!'); });
-  function fightBoss(){ if (!bossReady() || paused) return; audioInit(); openBossIntro(); }
+  function fightBoss(){
+    if (!bossReady() || paused) return; audioInit();
+    // kijk je naar een andere verdieping? eerst rustig daarheen, dan pas de intro
+    if (curView() !== S.etage){ setView(S.etage); setTimeout(openBossIntro, 700); return; }
+    openBossIntro();
+  }
   $('biGo').addEventListener('click', () => { if (!bossReady()) { closeBossIntro(); return; } startBossFight(); });
   $('biLater').addEventListener('click', closeBossIntro);
   addEventListener('keydown', e => { if (!$('bossIntro').hidden){ if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); $('biGo').click(); } else if (e.key === 'Escape'){ e.stopImmediatePropagation(); closeBossIntro(); } } }, true);
