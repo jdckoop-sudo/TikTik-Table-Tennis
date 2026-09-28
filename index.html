@@ -899,8 +899,11 @@
   const lv = id => S.lv[id] || 0;
   // op hogere verdiepingen worden upgrades duurder (x2.2 per verdieping), zodat het tempo niet te hoog wordt
   const costScale = e => Math.pow(2.2, e) * Math.pow(1.6, ASC());
-  const cost = u => Math.ceil(u.base * Math.pow(u.mul, lv(u.id)) * costScale(S.etage));
-  const hitValue = () => 1 + lv('rubber');
+  // na een paar niveaus wordt elke upgrade steeds sneller duurder
+  const lateF = l => Math.pow(1.2, Math.max(0, l - 4)) * (1 + Math.max(0, l - 12) * 0.25);
+  const costAt = (u, l) => Math.ceil(u.base * 0.8 * Math.pow(u.mul, l) * lateF(l) * costScale(S.etage));
+  const cost = u => costAt(u, lv(u.id));
+  const hitValue = () => 2 + lv('rubber');
   const comboStep = () => 0.1 + 0.08 * lv('spin');
   const mult = () => 1 + comboStep() * Math.min(streak, 60);
   const pps = () => lv('robot') * 0.6 * hitValue() * presMult();
@@ -1724,7 +1727,8 @@
   const ballScale = () => Math.pow(Math.max(1, MOON_R() * 0.5 / ballR()), lv('balgroot') / 10);
   // Big ball maakt ook de maan en de zon groter; split-stukken zijn even groot als het origineel
   const bigF = () => POW.big > 0 ? 1.6 : 1;
-  const rOf = b => (b && (b.isSun || b.miniSun)) ? MOON_R() * 0.5 * bigF() : (b && (b.isMoon || b.miniMoon)) ? MOON_R() * bigF() : Math.min(MOON_R() * 0.9, ballR() * ballScale() * (POW.big > 0 ? 4 : 1));
+  const rOf = b => ARENA.on && !(b && (b.isSun || b.miniSun || b.isMoon || b.miniMoon)) ? ballR() : rOfN(b);
+  const rOfN = b => (b && (b.isSun || b.miniSun)) ? MOON_R() * 0.5 * bigF() : (b && (b.isMoon || b.miniMoon)) ? MOON_R() * bigF() : Math.min(MOON_R() * 0.9, ballR() * ballScale() * (POW.big > 0 ? 4 : 1));
 
   function spawnStar(){
     star = {x:fieldL() + (fieldR() - fieldL()) * (0.1 + Math.random() * 0.8), y:(() => { const lo = Math.max(fieldTop() + 20, cam.top + 60), hi = Math.min(tableY() - 60, cam.cb - 120); return hi > lo ? lo + (hi - lo) * (0.1 + Math.random() * 0.7) : Math.max(fieldTop() + 20, (cam.top + cam.cb) / 2); })(), life:starLife(), max:starLife(), rot:0};
@@ -2115,7 +2119,7 @@
   }
   function closeBossIntro(){ $('bossIntro').hidden = true; if (!choice && !endMode && !HS.open) paused = false; last = performance.now(); }
   function drawArena(cb){
-    const t = performance.now() / 1000, top = ARENA.top - cb, bot = tableY() - cb, fl = fieldL(), fr = fieldR();
+    const t = performance.now() / 1000, top = ARENA.top - cb, bot = ARENA.bottom - cb, fl = fieldL(), fr = fieldR();
     const pulse = 0.55 + 0.45 * Math.sin(t * 6);
     ctx.save();
     // rode gloed van de muren
@@ -2151,13 +2155,17 @@
     closeBossIntro();
     spawnBoss();
     BOSS.lives = 3;
-    ARENA.on = true; ARENA.top = bossArea(S.etage).top;
+    ARENA.on = true; ARENA.top = bossArea(S.etage).top; ARENA.bottom = Math.min(tableY(), bossArea(S.etage).bottom);
+    // één kleine gewone bal, zonder boosts
+    Object.assign(POW, POW0); BUDDIES = []; balls = []; HC.spawn = true;
+    { const b0 = newBall(0); b0.x = W / 2; P.y = clamp(P.y, ARENA.top + 30, ARENA.bottom - 26); P.ty = P.y; b0.y = clamp(P.y - H * 0.5, ARENA.top + H * 0.1, ARENA.bottom - H * 0.3); b0.hidden = false; b0.wait = 0; b0.vx = 0; b0.vy = 0; balls.push(b0); }
+    star = null;
     setView(S.etage);
     musStart(lvlOf(S.etage));
     const st = $('stage'); st.classList.remove('shake'); void st.offsetWidth; st.classList.add('shake');
     floaters.push({x:W / 2, y:bossArea(S.etage).home + H * 0.25, txt:'The walls close in!', age:-0.5, big:true, col:'#ff6b6b'});
   }
-  function endArena(){ ARENA.on = false; musStop(); }
+  function endArena(){ const was = ARENA.on; ARENA.on = false; musStop(); if (was){ HC.spawn = true; syncBalls(); } }
   // 3x geraakt: de baas ontsnapt en moet opnieuw worden opgeladen
   function bossFail(){
     const k = BOSS.k;
@@ -2241,8 +2249,9 @@
     else if (mv === 'drift'){ x += clamp(P.x - x, -1, 1) * W * 0.12 * sp * dt; y = A.home + Math.sin(t * 0.8) * H * 0.02; }
     else if (mv === 'flyby'){
       const f = BOSS.fly;
-      if (f.wait > 0){ f.wait -= dt; x = f.dir > 0 ? -R * 3 : W + R * 3; }
-      else { x = (Number.isFinite(x) ? x : -R * 3) + f.dir * W * 0.55 * sp * dt; if ((f.dir > 0 && x > W + R * 3) || (f.dir < 0 && x < -R * 3)){ f.dir *= -1; f.wait = 1.2; } }
+      const lo = ARENA.on ? R * 1.2 : -R * 3, hi = ARENA.on ? W - R * 1.2 : W + R * 3;
+      if (f.wait > 0){ f.wait -= dt; x = Number.isFinite(x) ? clamp(x, lo, hi) : lo; }
+      else { x = (Number.isFinite(x) ? x : lo) + f.dir * W * 0.55 * sp * dt; if ((f.dir > 0 && x > hi) || (f.dir < 0 && x < lo)){ x = clamp(x, lo, hi); f.dir *= -1; f.wait = ARENA.on ? 0.5 : 1.2; } }
       BOSS.face = f.dir; y = A.home - H * 0.02;
     }
     else if (mv === 'bob'){ x += (P.x - x) * Math.min(1, dt * 0.5); y = A.home + Math.sin(t * sp * 1.4) * H * 0.12; }
@@ -2262,6 +2271,7 @@
       x = x + (P.x - x) * p; y = y + (P.y - R - y) * p;
       if (Math.hypot(P.x - x, P.y - y) < R + 16) hitPaddle('Pecked!');
     }
+    if (ARENA.on){ x = clamp(x, R * 1.1, W - R * 1.1); y = clamp(y, ARENA.top + R * 1.1, ARENA.bottom - R * 1.5); }
     BOSS.x = x; BOSS.y = y;
   }
   function bossUpdate(dt){
@@ -2755,9 +2765,9 @@
       star = null; starTimer = nextStar(); openChoice(b);
     }
 
-    if (ARENA.on && BOSS.on && b.y + r >= tableY()){
+    if (ARENA.on && BOSS.on && b.y + r >= ARENA.bottom){
       // bossfight: de bodem is ook een muur, de bal stuitert terug (maar je streak is wel weg)
-      b.y = tableY() - r; b.vy = -Math.max(Math.abs(b.vy) * 0.8, H * 1.1);
+      b.y = ARENA.bottom - r; b.vy = -Math.max(Math.abs(b.vy) * 0.8, H * 1.1);
       if (!b.temp && streak){ streak = 0; floaters.push({x:b.x, y:tableY() - 40, txt:'Bounce! Streak lost', age:0, big:true, col:'#ff9a9a'}); }
       blip(200, .08, .1, 'square');
     } else if (b.y + r >= tableY()){
@@ -2774,7 +2784,8 @@
     // Batje volgt de muis
     P.px = P.x; P.py = P.y;
     const pw = padW();
-    const yMin = fieldTop() + 12, yMax = tableY() - 26, fl = fieldL(), fr = fieldR();
+    let yMin = fieldTop() + 12, yMax = tableY() - 26; const fl = fieldL(), fr = fieldR();
+    if (ARENA.on && BOSS.on){ yMin = Math.max(yMin, ARENA.top + 30); yMax = Math.min(yMax, ARENA.bottom - 26); }
     let tx = P.tx, ty = P.ty;
     if (POW.flip > 0){ tx = fl + fr - tx; ty = yMin + yMax - ty; }
     const k = Math.exp(-dt * 6); P.gx *= k; P.gy *= k;
@@ -2812,7 +2823,7 @@
     }
 
     // Ster
-    if (!star){ starTimer -= dt; if (starTimer <= 0) spawnStar(); }
+    if (!star){ if (!ARENA.on){ starTimer -= dt; if (starTimer <= 0) spawnStar(); } }
     else { star.life -= dt; star.rot += dt * 1.2; if (star.life <= 0){ star = null; starTimer = nextStar(); } }
 
     const f = POW.turbo > 0 ? POW.turboF : 1;
@@ -3017,8 +3028,9 @@
     const lg = ctx.createRadialGradient(W / 2, -H * 0.1, 10, W / 2, -H * 0.1, H * 1.1);
     lg.addColorStop(0, 'rgba(255,250,220,.22)'); lg.addColorStop(1, 'rgba(234,242,252,0)');
     ctx.fillStyle = lg; ctx.fillRect(XL, 0, XW, H);
-    // tribune met publiek
-    drawCrowd(XL, XW);
+    // tribune met publiek: alleen rond de hal, en niet als die piepklein is (scheelt duizenden poppetjes per beeld)
+    const cXL = XL, cXR = XL + XW;
+    if (z >= 0.03 && cb > -10) drawCrowd(cXL, cXR - cXL);
     // boarding achter de tafel
     const bh = H * 0.07;
     // reclameborden zoals langs een PlayStation-atletiekbaan
@@ -3026,7 +3038,8 @@
     const ADS = [['#d8262b', '#ffe14a', 'TIK TIK'], ['#ffe14a', '#1c2a9c', 'SMASH'], ['#f4f5fa', '#d8262b', 'TOPSPIN'], ['#1c2a9c', '#ffffff', 'ACE 2000']];
     ctx.font = `${Math.round(bh * 0.36)}px "Press Start 2P", monospace`;
     ctx.textBaseline = 'middle'; ctx.textAlign = 'center';
-    for (let k = Math.floor(XL / pw0); k * pw0 < XL + XW; k++){
+    if (z < 0.25){ const gA = ctx.createLinearGradient(0, 0, pw0 * 4, 0); ['#d8262b', '#ffe14a', '#f4f5fa', '#1c2a9c'].forEach((c, i) => { gA.addColorStop(i / 4, c); gA.addColorStop((i + 1) / 4 - 0.001, c); }); ctx.fillStyle = gA; ctx.fillRect(cXL, by, cXR - cXL, bh); }
+    else for (let k = Math.floor(cXL / pw0); k * pw0 < cXR; k++){
       const ad = ADS[((k % 4) + 4) % 4], x = k * pw0;
       ctx.fillStyle = ad[0]; ctx.fillRect(x, by, pw0 - 3, bh);
       ctx.fillStyle = 'rgba(255,255,255,.25)'; ctx.fillRect(x, by, pw0 - 3, 3);
@@ -3423,6 +3436,17 @@
   const hsh = (a, b) => { const x = Math.sin(a * 127.1 + b * 311.7) * 43758.5453; return x - Math.floor(x); };
   const SHIRTS = ['#c0392b', '#e67e22', '#f1c40f', '#27ae60', '#2980b9', '#8e44ad', '#ecf0f1', '#34495e', '#d35400', '#16a085', '#e84393', '#7f8c8d'];
   const SKIN = ['#f1c27d', '#e0ac69', '#c68642', '#8d5524', '#ffdbac', '#a0673d'];
+  let CROWD_PAT = null;
+  function crowdPattern(){
+    if (CROWD_PAT) return CROWD_PAT;
+    const c = document.createElement('canvas'); c.width = 210; c.height = 14; const g = c.getContext('2d');
+    for (let k = 0; k < 10; k++){
+      if (hsh(k, 3) < 0.13) continue;
+      g.fillStyle = SHIRTS[Math.floor(hsh(k + 7.3, 9) * SHIRTS.length)]; g.fillRect(k * 21 + 4, 7, 12, 7);
+      g.fillStyle = SKIN[Math.floor(hsh(k * 1.7, 5) * SKIN.length)]; g.fillRect(k * 21 + 6, 1, 8, 7);
+    }
+    return CROWD_PAT = ctx.createPattern(c, 'repeat-x');
+  }
   function drawCrowd(XL, XW){
     const t = performance.now() / 1000, rows = 7, top = H * 0.30, rowH = H * 0.07;
     for (let r = 0; r < rows; r++){
@@ -3431,6 +3455,8 @@
       ctx.fillStyle = isDay() ? (r % 2 ? '#5c80c4' : '#5475b8') : (r % 2 ? '#2b3f86' : '#24387a');
       ctx.fillRect(XL, seatY, XW, rowH * 0.42);
       ctx.fillStyle = 'rgba(234,242,252,.05)'; ctx.fillRect(XL, seatY, XW, 2);
+      // ver uitgezoomd: publiek als een goedkoop gekleurd patroon in plaats van losse poppetjes
+      if (cam.z < 0.6){ ctx.fillStyle = crowdPattern(); ctx.save(); ctx.translate(0, seatY - 14 * sc); ctx.fillRect(XL, 0, XW, 14 * sc); ctx.restore(); continue; }
       const k0 = Math.floor(XL / sp), k1 = Math.ceil((XL + XW) / sp);
       for (let k = k0; k <= k1; k++){
         const h1 = hsh(k, r), h2 = hsh(k + 7.3, r * 3.1), h3 = hsh(k * 1.7, r + 11);
@@ -4577,7 +4603,7 @@
   function bulk(u){
     let n = 0, total = 0, l = lv(u.id); const lim = buyN(u), wantMax = S.buyN === 'max';
     while (n < lim && l + n < u.max){
-      const c = Math.ceil(u.base * Math.pow(u.mul, l + n) * costScale(S.etage));
+      const c = costAt(u, l + n);
       if (wantMax && total + c > S.pts && n > 0) break;
       total += c; n++;
       if (wantMax && total > S.pts) break;
